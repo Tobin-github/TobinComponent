@@ -8,7 +8,7 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.Function;
 
 /**
- * 加入了对错误处理，已经比较完整了
+ * 加入了对错误处理
  */
 public class ErrorTransformer<T> implements ObservableTransformer<BaseModel<T>, T> {
 
@@ -21,9 +21,6 @@ public class ErrorTransformer<T> implements ObservableTransformer<BaseModel<T>, 
     private ErrorTransformer() {
     }
 
-    /**
-     * 双重校验锁单例(线程安全)
-     */
     public static <T> ErrorTransformer<T> getInstance() {
         if (instance == null) {
             synchronized (ErrorTransformer.class) {

@@ -1,3 +1,4 @@
+include ':module_recipe'
 include ':app'
 include ':lib_resource'
 include ':lib_core'
