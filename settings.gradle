@@ -1,3 +1,4 @@
+include ':lib_navigation'
 include ':module_recipe'
 include ':app'
 include ':lib_resource'

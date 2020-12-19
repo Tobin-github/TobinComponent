@@ -1,5 +1,12 @@
 <resources>
 
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="background">@android:color/transparent</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@android:color/black</item>
+    </style>
+
     <style name="fragment_dialog_style">
         <!--设置dialog的背景-->
         <item name="android:windowBackground">@android:color/transparent</item>

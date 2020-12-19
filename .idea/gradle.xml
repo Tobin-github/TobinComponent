@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/lib_core" />
+            <option value="$PROJECT_DIR$/lib_navigation" />
             <option value="$PROJECT_DIR$/lib_resource" />
             <option value="$PROJECT_DIR$/module_recipe" />
           </set>

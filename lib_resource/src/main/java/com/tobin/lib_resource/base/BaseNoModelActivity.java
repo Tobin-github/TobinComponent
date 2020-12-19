@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.gyf.immersionbar.ImmersionBar;
+import com.tobin.lib_resource.R;
 
 /**
  * 不需要ViewModel的页面基类
@@ -36,7 +37,7 @@ public abstract class BaseNoModelActivity<DB extends ViewDataBinding> extends Ap
      * Init immersion bar.
      */
     protected void initImmersionBar() {
-        ImmersionBar.with(this).init();
+        ImmersionBar.with(this).titleBar(R.id.toolbar).statusBarDarkFont(true).init();
     }
 
     /**

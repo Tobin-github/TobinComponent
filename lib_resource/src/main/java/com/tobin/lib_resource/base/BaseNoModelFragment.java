@@ -14,6 +14,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
+import com.gyf.immersionbar.ImmersionBar;
+import com.tobin.lib_resource.R;
+
 public abstract class BaseNoModelFragment<DB extends ViewDataBinding> extends Fragment {
     protected DB dataBinding;
     protected Activity activity;
@@ -42,6 +45,7 @@ public abstract class BaseNoModelFragment<DB extends ViewDataBinding> extends Fr
         super.onViewCreated(view, savedInstanceState);
         initView();
         initData();
+        initImmersionBar();
     }
 
     /**
@@ -56,6 +60,13 @@ public abstract class BaseNoModelFragment<DB extends ViewDataBinding> extends Fr
      */
     protected abstract int onCreate();
 
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected void initImmersionBar() {
+        ImmersionBar.with(this).titleBar(R.id.toolbar).statusBarDarkFont(true).init();
+    }
 
     /**
      * 初始化视图

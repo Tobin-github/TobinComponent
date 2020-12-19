@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.tobin.lib_core.utils.ActivityUtils;
@@ -21,13 +22,13 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         }
         activityLifecycle.onCreate(savedInstanceState);
 
-//        if (activity instanceof FragmentActivity) {
-//            fm = ((FragmentActivity) activity).getSupportFragmentManager();
-//            if (fragmentLifecycleCallbacks == null) {
-//                fragmentLifecycleCallbacks = new FragmentLifecycleCallbacks();
-//            }
-//            fm.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false);
-//        }
+        if (activity instanceof FragmentActivity) {
+            fm = ((FragmentActivity) activity).getSupportFragmentManager();
+            if (fragmentLifecycleCallbacks == null) {
+                fragmentLifecycleCallbacks = new FragmentLifecycleCallbacks();
+            }
+            fm.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
+        }
 
         //管理所有创建的Activity
         ActivityUtils.addActivity(activity);
