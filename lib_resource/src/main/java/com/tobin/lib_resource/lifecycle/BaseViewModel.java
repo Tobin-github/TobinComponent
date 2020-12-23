@@ -9,7 +9,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * ViewModel基类，管理rxJava发出的请求，ViewModel销毁同时也取消请求
+ * Created by Tobin on 2020/11/11
+ * Email: 616041023@qq.com
+ * Description: ViewModel基类，管理rxJava发出的请求，ViewModel销毁同时也取消请求
  */
 public abstract class BaseViewModel extends ViewModel {
 

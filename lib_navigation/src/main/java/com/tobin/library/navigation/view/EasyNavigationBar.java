@@ -924,7 +924,7 @@ public class EasyNavigationBar extends LinearLayout {
         } else if (mode == NavigationMode.MODE_ADD_VIEW) {
             params.width = getWidth() / (tabCount + 1);
         }
-        itemView.setTag(R.id.tag_view_position, position);
+//        itemView.setTag(R.id.tag_view_position, position);
         itemView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

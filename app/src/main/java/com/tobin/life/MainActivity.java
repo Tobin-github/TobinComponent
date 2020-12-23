@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.tobin.lib_resource.base.BaseNoModelActivity;
+import com.tobin.lib_resource.base.BaseDBActivity;
 import com.tobin.library.navigation.view.EasyNavigationBar;
 import com.tobin.life.databinding.ActivityMainBinding;
 import com.tobin.life.ui.dashboard.DashboardFragment;
@@ -15,7 +15,7 @@ import com.tobin.life.ui.notifications.NotificationsFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseNoModelActivity<ActivityMainBinding> {
+public class MainActivity extends BaseDBActivity<ActivityMainBinding> {
     private EasyNavigationBar navigationBar;
     private List<Fragment> fragments = new ArrayList<>();
 

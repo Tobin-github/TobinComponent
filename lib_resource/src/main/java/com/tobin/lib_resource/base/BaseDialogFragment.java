@@ -12,8 +12,9 @@ import java.util.Objects;
 import timber.log.Timber;
 
 /**
- * @author Tobin
- * @description DialogFragment基类
+ * Created by Tobin on 2020/12/22
+ * Email: 616041023@qq.com
+ * Description: DialogFragment基类
  */
 public class BaseDialogFragment extends DialogFragment {
 

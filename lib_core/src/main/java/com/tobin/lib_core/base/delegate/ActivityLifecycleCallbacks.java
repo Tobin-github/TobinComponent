@@ -30,6 +30,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
             fm.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
         }
 
+
         //管理所有创建的Activity
         ActivityUtils.addActivity(activity);
     }

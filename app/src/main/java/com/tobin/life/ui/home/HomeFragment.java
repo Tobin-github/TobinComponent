@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tobin.life.R;
+import com.tobin.webview.WebActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -20,8 +21,7 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -30,6 +30,14 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        root.findViewById(R.id.test_webview).setOnClickListener(v -> {
+//            startActivity(new Intent(getContext(), WebActivity.class));
+
+            WebActivity.startCommonWeb(getActivity(),"js native","file:///android_asset/TestWebView.html");
+//            WebActivity.startCommonWeb(getActivity(),"js native","https://blog.csdn.net/jinmie0193/article/details/80723724");
+        });
+
         return root;
     }
 }

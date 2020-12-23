@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+<!--    ifRoom 表示在屏幕空间足够的情况下显示在Toolbar中，不够的话就显示在菜单中-->
+<!--    never 表示永远不显示在Toolbar中，而是一直显示在菜单中-->
+<!--    always 表示永远显示在Toolbar中，如果屏幕空间不够则不显示-->
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_action_share"
+        android:title="分享"
+        app:showAsAction="ifRoom"/>
+</menu>

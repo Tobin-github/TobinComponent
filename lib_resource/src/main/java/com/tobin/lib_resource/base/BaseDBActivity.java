@@ -3,7 +3,6 @@ package com.tobin.lib_resource.base;
 import android.content.Context;
 
 import androidx.annotation.LayoutRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
@@ -11,9 +10,11 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.tobin.lib_resource.R;
 
 /**
- * 不需要ViewModel的页面基类
+ * Created by Tobin on 2020/12/22
+ * Email: 616041023@qq.com
+ * Description: 不需要ViewModel的页面基类
  */
-public abstract class BaseNoModelActivity<DB extends ViewDataBinding> extends AppCompatActivity {
+public abstract class BaseDBActivity<DB extends ViewDataBinding> extends BaseActivity {
 
     protected Context context;
     protected DB dataBinding;
@@ -37,7 +38,7 @@ public abstract class BaseNoModelActivity<DB extends ViewDataBinding> extends Ap
      * Init immersion bar.
      */
     protected void initImmersionBar() {
-        ImmersionBar.with(this).titleBar(R.id.toolbar).statusBarDarkFont(true).init();
+        ImmersionBar.with(this).titleBar(R.id.toolbar_layout).statusBarDarkFont(true).init();
     }
 
     /**

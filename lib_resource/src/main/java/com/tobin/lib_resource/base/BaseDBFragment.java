@@ -12,12 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.tobin.lib_resource.R;
 
-public abstract class BaseNoModelFragment<DB extends ViewDataBinding> extends Fragment {
+/**
+ * Created by Tobin on 2020/12/22
+ * Email: 616041023@qq.com
+ * Description:
+ */
+public abstract class BaseDBFragment<DB extends ViewDataBinding> extends BaseFragment {
     protected DB dataBinding;
     protected Activity activity;
 
@@ -65,7 +69,7 @@ public abstract class BaseNoModelFragment<DB extends ViewDataBinding> extends Fr
      * Init immersion bar.
      */
     protected void initImmersionBar() {
-        ImmersionBar.with(this).titleBar(R.id.toolbar).statusBarDarkFont(true).init();
+        ImmersionBar.with(this).titleBar(R.id.toolbar_layout).statusBarDarkFont(true).init();
     }
 
     /**

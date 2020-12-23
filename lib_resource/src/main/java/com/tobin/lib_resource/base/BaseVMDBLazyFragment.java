@@ -6,10 +6,11 @@ import androidx.lifecycle.LifecycleObserver;
 import com.tobin.lib_resource.lifecycle.BaseViewModel;
 
 /**
- * 懒加载Fragment基类，适用于一个页面多个Tab页面
+ * Created by Tobin on 2020/12/22
+ * Email: 616041023@qq.com
+ * Description: 懒加载Fragment基类，适用于一个页面多个Tab页面
  */
-
-public abstract class BaseLazyFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends BaseFragment<VM, DB> implements LifecycleObserver {
+public abstract class BaseVMDBLazyFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends BaseVMDBFragment<VM, DB> implements LifecycleObserver {
 
     private boolean visibleToUser;
 

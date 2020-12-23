@@ -33,7 +33,7 @@ public class GlobalConfiguration implements GlobalModule {
                 //全局BaseUrl
 //                .baseurl(BuildConfig.SERVER_ADDRESS)
                 //Room数据库的名字
-                .roomName("ABC")
+                .roomName("Tobin")
                 //设计图的宽 单位：px
                 .designWidth(720)
                 //设计图的高 单位：px
