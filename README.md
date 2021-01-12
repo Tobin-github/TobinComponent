@@ -1,5 +1,7 @@
 # 组件化开发
 
+MVVM 架构 （Rxjava2 + Retrofit2 + Okhttp3 + Room + ARouter + dataBinding）
+
 ## 网络
 
 项目统一使用Retrofit作为基础网络框架，基本使用如下：
