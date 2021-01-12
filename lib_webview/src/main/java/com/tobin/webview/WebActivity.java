@@ -114,7 +114,7 @@ public class WebActivity extends BaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.web_view_fragment, webViewFragment).commit();
 
-        WebViewProcessCommandsManager.getInstance().registerCommand(WebConstants.LEVEL_LOCAL, titleUpdateCommand);
+//        WebViewProcessCommandsManager.getInstance().registerCommand(WebConstants.LEVEL_LOCAL, titleUpdateCommand);
     }
 
     @Override
@@ -154,14 +154,14 @@ public class WebActivity extends BaseActivity {
     /**
      * 页面路由
      */
-    private final Command titleUpdateCommand = new Command() {
+    private Command titleUpdateCommand = new Command() {
         @Override
         public String name() {
             return Command.COMMAND_UPDATE_TITLE;
         }
 
         @Override
-        public void exec(Context context, Map params, ResultBack resultBack) {
+        public void exec(Context context, Map<String, Object> params, ResultBack resultBack) {
             if (params.containsKey(Command.COMMAND_UPDATE_TITLE_PARAMS)) {
                 toolbar.setTitle((String) params.get(Command.COMMAND_UPDATE_TITLE_PARAMS));
             }
@@ -173,5 +173,6 @@ public class WebActivity extends BaseActivity {
         super.onDestroy();
         webViewFragment.onDestroy();
         webViewFragment = null;
+        titleUpdateCommand = null;
     }
 }

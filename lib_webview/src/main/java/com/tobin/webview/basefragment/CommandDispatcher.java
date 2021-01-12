@@ -6,6 +6,7 @@ import android.os.RemoteException;
 import android.text.TextUtils;
 import android.webkit.WebView;
 
+import com.google.gson.reflect.TypeToken;
 import com.tobin.webview.IWebAidlCallback;
 import com.tobin.webview.IWebAidlInterface;
 import com.tobin.webview.command.webviewprocess.WebViewProcessCommandsManager;
@@ -48,15 +49,12 @@ public class CommandDispatcher {
         if (webAidlInterface != null) {
             return;
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Timber.tag("AIDL").i("Begin to connect with main process");
-                RemoteWebBinderPool binderPool = RemoteWebBinderPool.getInstance(context);
-                IBinder iBinder = binderPool.queryBinder(RemoteWebBinderPool.BINDER_WEB_AIDL);
-                webAidlInterface = IWebAidlInterface.Stub.asInterface(iBinder);
-                Timber.tag("AIDL").i("Connect success with main process");
-            }
+        new Thread(() -> {
+            Timber.tag("AIDL").i("Begin to connect with main process");
+            RemoteWebBinderPool binderPool = RemoteWebBinderPool.getInstance(context);
+            IBinder iBinder = binderPool.queryBinder(RemoteWebBinderPool.BINDER_WEB_AIDL);
+            webAidlInterface = IWebAidlInterface.Stub.asInterface(iBinder);
+            Timber.tag("AIDL").i("Connect success with main process");
         }).start();
     }
 
@@ -114,7 +112,9 @@ public class CommandDispatcher {
                 dispatcherCallBack.preHandleBeforeCallback(responseCode, actionName, response);
             }
 
-            Map params = new Gson().fromJson(response, Map.class);
+            Map<String, Object> params = new Gson().fromJson(response, new TypeToken<Map<String, Object>>() {}.getType());
+
+//            Map<String, Object> params = new Gson().fromJson(response, Map.class);
             if (params.get(WebConstants.NATIVE2WEB_CALLBACK) != null && !TextUtils.isEmpty(params.get(WebConstants.NATIVE2WEB_CALLBACK).toString())) {
                 if (webView instanceof BaseWebView) {
                     Timber.tag("CommandDispatcher").d(String.format("handleCallback response= %s", response));

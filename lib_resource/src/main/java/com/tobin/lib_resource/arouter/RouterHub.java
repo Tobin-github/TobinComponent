@@ -32,7 +32,8 @@ public interface RouterHub {
      * 菜谱分组
      */
     String RECIPE_SERVICE_INFO = RECIPE + SERVICE + "/RecipeInfoService";
-    String RECIPE_HOME_ACTIVITY = RECIPE + "/HomeActivity";
+    String RECIPE_RECIPE_ACTIVITY = RECIPE + "/RecipeActivity";
+    String RECIPE_RECIPE_FRAGMENT = RECIPE + "/RecipeFragment";
     String RECIPE_DETAIL_ACTIVITY = RECIPE + "/DetailActivity";
 
 

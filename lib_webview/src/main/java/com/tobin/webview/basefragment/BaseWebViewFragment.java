@@ -172,7 +172,7 @@ public abstract class BaseWebViewFragment extends BaseFragment implements WebVie
         if (webView == null) return;
         if (Looper.myLooper() != Looper.getMainLooper()) return;
 
-        Timber.tag("clearWebView").w("%s", Looper.myLooper() );
+        Timber.tag("Tobin").w("clearWebView %s", Looper.myLooper());
         webView.stopLoading();
         if (webView.getHandler() != null) {
             webView.getHandler().removeCallbacksAndMessages(null);

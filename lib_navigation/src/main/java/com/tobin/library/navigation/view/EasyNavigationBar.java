@@ -32,12 +32,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Jue on 2018/6/1.
- */
-
 public class EasyNavigationBar extends LinearLayout {
-
 
     private RelativeLayout AddContainerLayout;
 
@@ -69,7 +64,6 @@ public class EasyNavigationBar extends LinearLayout {
     //private GestureDetector detector;
 
     private ViewGroup addViewLayout;
-
 
     //文字集合
     private String[] titleItems = new String[]{};
@@ -1431,7 +1425,6 @@ public class EasyNavigationBar extends LinearLayout {
         return this;
     }
 
-
     public EasyNavigationBar hintPointSize(float hintPointSize) {
         this.hintPointSize = NavigationUtil.dip2px(getContext(), hintPointSize);
         return this;
@@ -1589,7 +1582,6 @@ public class EasyNavigationBar extends LinearLayout {
         return iconSize;
     }
 
-
     public float getHintPointSize() {
         return hintPointSize;
     }
@@ -1601,7 +1593,6 @@ public class EasyNavigationBar extends LinearLayout {
     public float getHintPointTop() {
         return hintPointTop;
     }
-
 
     public float getMsgPointTextSize() {
         return msgPointTextSize;

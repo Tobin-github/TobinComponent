@@ -23,6 +23,10 @@ android {
             }
         }
 
+        // 京东万象接口
+        buildConfigField("String", "API_WX_JDCLOUD", "\"https://way.jd.com/\"")
+        // base URL
+        buildConfigField("String", "SERVER_ADDRESS", "\"http://tobin.top/\"")
     }
 
     dataBinding {
@@ -42,7 +46,6 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':lib_core')
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -63,5 +66,11 @@ dependencies {
     // loadSir 加载反馈页管理框架
     api 'com.kingja.loadsir:loadsir:1.3.8'
 
+    // Pandora 是一款无需ROOT、可以直接在应用内查看和修改包括网络、数据库、UI等的工具箱
+    debugImplementation 'com.github.whataa:pandora:v2.1.0'
+    releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
+
+    // lib_core 模块
+    api project(path: ':lib_core')
 
 }

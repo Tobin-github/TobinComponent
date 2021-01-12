@@ -9,7 +9,6 @@ import com.tobin.lib_core.utils.NetworkUtils;
 import io.reactivex.observers.DefaultObserver;
 import timber.log.Timber;
 
-
 public abstract class BaseObserver<T> extends DefaultObserver<T> {
     private static final String TAG = "BaseObserver";
 

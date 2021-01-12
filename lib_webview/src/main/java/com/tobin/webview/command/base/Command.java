@@ -10,5 +10,5 @@ public interface Command {
 
     String name();
 
-    void exec(Context context, Map params, ResultBack resultBack);
+    void exec(Context context, Map<String, Object> params, ResultBack resultBack);
 }

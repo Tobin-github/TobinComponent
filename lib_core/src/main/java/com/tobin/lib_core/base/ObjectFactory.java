@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -74,7 +75,8 @@ enum ObjectFactory {
             okhttpBuilder.addInterceptor(new RoomCacheInterceptor());
         }
         //添加动态变更BaseUrl的能力
-//        RetrofitUrlManager.getInstance().with(okhttpBuilder).build();
+        RetrofitUrlManager.getInstance().with(okhttpBuilder).build();
+
         return okhttpBuilder.build();
     }
 

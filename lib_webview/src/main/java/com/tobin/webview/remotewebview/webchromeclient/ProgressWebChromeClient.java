@@ -18,8 +18,6 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 
-import static com.tobin.webview.command.base.Command.COMMAND_UPDATE_TITLE_PARAMS;
-
 public class ProgressWebChromeClient extends WebChromeClient {
 
     private final Handler progressHandler;
@@ -34,7 +32,7 @@ public class ProgressWebChromeClient extends WebChromeClient {
         if (view instanceof ProgressWebView) {
             if (!TextUtils.isEmpty(title)) {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(COMMAND_UPDATE_TITLE_PARAMS, title);
+                params.put(Command.COMMAND_UPDATE_TITLE_PARAMS, title);
                 if (((ProgressWebView) view).getWebViewCallBack() != null) {
                     ((ProgressWebView) view).getWebViewCallBack().exec(
                             view.getContext(),

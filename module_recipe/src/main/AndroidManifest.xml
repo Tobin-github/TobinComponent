@@ -5,7 +5,7 @@
     <application>
 
         
-        <activity android:name=".RecipeActivity"/>
+        <activity android:name=".ui.RecipeActivity"/>
     </application>
 
 </manifest>

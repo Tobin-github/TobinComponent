@@ -12,6 +12,7 @@ import com.tobin.lib_core.base.delegate.AppLifecycle;
 import com.tobin.lib_core.base.delegate.GlobalModule;
 import com.tobin.lib_core.base.delegate.MetaValue;
 import com.tobin.lib_core.log.CrashReportingTree;
+import com.tobin.lib_core.utils.DataStoreUtils;
 import com.tobin.lib_core.utils.KVUtils;
 import com.tobin.lib_core.utils.ManifestParser;
 
@@ -50,6 +51,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        // 初始化全局配置
         initGlobalConfig();
 
         //初始化屏幕适配器
@@ -57,6 +60,7 @@ public class App extends Application {
 
         //初始化KVUtil
         KVUtils.init(this);
+        DataStoreUtils.INSTANCE.init(this);
 
         //用户信息管理器
         ObjectFactory.INSTANCE.initSessionManager(this, getGlobalConfig());
@@ -71,7 +75,7 @@ public class App extends Application {
     }
 
     private void initGlobalConfig() {
-        //先初始化全局配置，然后进行生命周期的分发
+        // 先初始化全局配置，然后进行生命周期的分发
         List<GlobalModule> globalModules = new ManifestParser<GlobalModule>(instance, MetaValue.GLOBAL_CONFIG).parse();
         if (globalModules == null) {
             throw new IllegalArgumentException("Please config global");

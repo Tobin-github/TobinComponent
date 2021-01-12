@@ -8,7 +8,10 @@ import androidx.annotation.Nullable;
 import com.google.gson.Gson;
 import com.tobin.lib_core.base.Box;
 import com.tobin.lib_core.constant.Constants;
+import com.tobin.lib_core.utils.DataStoreUtils;
 import com.tobin.lib_core.utils.KVUtils;
+
+import kotlinx.coroutines.flow.Flow;
 
 /**
  * 使用腾讯{@link com.tencent.mmkv.MMKV}进行保存，工具类{@link KVUtils}
@@ -67,6 +70,8 @@ public class MmkvSessionManager extends SessionManager {
         if (mGson == null) mGson = new Gson();
         String json = mGson.toJson(user);
         KVUtils.put(Constants.KEY_SESSION_USER, json);
+        DataStoreUtils.INSTANCE.putSyncData(Constants.KEY_SESSION_USER,json);
+        String ee = DataStoreUtils.INSTANCE.getSyncData(Constants.KEY_SESSION_USER,"");
         mUserInfo = user;
         notifyUserInfoChanged();
     }
