@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.tobin.lib_resource.arouter.RouterHub;
 import com.tobin.life.R;
 import com.tobin.webview.WebActivity;
 
@@ -36,6 +38,12 @@ public class HomeFragment extends Fragment {
 
             WebActivity.startCommonWeb(getActivity(),"js native","file:///android_asset/TestWebView.html");
 //            WebActivity.startCommonWeb(getActivity(),"js native","https://blog.csdn.net/jinmie0193/article/details/80723724");
+        });
+
+        root.findViewById(R.id.recipe_activity).setOnClickListener(v -> {
+            ARouter.getInstance()
+                    .build(RouterHub.RECIPE_RECIPE_ACTIVITY)
+                    .navigation(getActivity());
         });
 
         return root;

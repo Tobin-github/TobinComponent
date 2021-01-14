@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import timber.log.Timber;
 
 public abstract class CommonObserver<T> extends BaseObserver<T> {
+    private static final String TAG = "CommonObserver";
     private int emptyCode;
 
     public CommonObserver() {
@@ -18,7 +19,7 @@ public abstract class CommonObserver<T> extends BaseObserver<T> {
 
     @Override
     protected void onError(ApiException ex) {
-        Timber.e(ex.message + ":" + ex.code);
+        Timber.tag(TAG).e(ex.message + ":" + ex.code);
         if (emptyCode != 0 && ex.code == emptyCode) {
             onEmptyData();
         }
@@ -26,7 +27,7 @@ public abstract class CommonObserver<T> extends BaseObserver<T> {
 
     @Override
     protected void onNetError() {
-        Timber.w("当前无网络，请检查网络情况");
+        Timber.tag(TAG).w("当前无网络，请检查网络情况");
     }
 
     @Override

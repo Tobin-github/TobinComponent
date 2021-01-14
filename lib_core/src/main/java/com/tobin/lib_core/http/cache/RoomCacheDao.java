@@ -32,7 +32,7 @@ public interface RoomCacheDao {
      * @param key String
      * @return
      */
-    @Query("SELECT * FROM RoomCache WHERE `key`=:key")
+    @Query("SELECT * FROM RoomCache WHERE `key` = :key")
     RoomCacheEntity queryByKey(String key);
 
     /**
@@ -40,7 +40,7 @@ public interface RoomCacheDao {
      *
      * @param key String
      */
-    @Query("DELETE FROM RoomCache WHERE `key`=:key")
+    @Query("DELETE FROM RoomCache WHERE `key` = :key")
     void deleteByKey(String key);
 
 }

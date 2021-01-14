@@ -4,8 +4,12 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
+import retrofit2.http.QueryName;
 
 import com.tobin.lib_core.http.model.HttpResult;
 import com.tobin.recipe.bean.RecipesBean;
@@ -18,22 +22,32 @@ import com.tobin.recipe.bean.RecipesClassBean;
  */
 public interface RecipeApi {
 
-    String BASE_URL_DEVELOP = "https://way.jd.com";  // 开发环境
-    String appKey = "2a5f3669118e8a082a1697c6b6f73f9a";
-    
+    String appkey = "2a5f3669118e8a082a1697c6b6f73f9a";
+
     // 菜谱查询
-    @GET("/jisuapi/search")
-    Flowable<HttpResult<RecipesBean>> recipesSearch(@QueryMap Map<String, Object> body);
+//    @Headers({"Domain-Name:wxjdcloud"})
+//    @GET("/jisuapi/search")
+//    Observable<HttpResult<RecipesBean>> recipesSearch(@QueryMap Map<String, Object> body);
+
+    @Headers({"Domain-Name:wxjdcloud"})
+    @GET("/jisuapi/search?appkey=" + appkey)
+    Observable<HttpResult<RecipesBean>> recipesSearch(@Query("keyword") String keyword, @Query("num") String number);
 
     // 菜谱分类
-    @GET("/jisuapi/recipe_class")
-    Observable<HttpResult<RecipesClassBean>> recipesClass(@QueryMap Map<String, Object> body);
+    @Headers({"Domain-Name:wxjdcloud"})
+    @GET("/jisuapi/recipe_class?appkey=" + appkey)
+    Observable<HttpResult<RecipesClassBean>> recipesClass();
 
     // 按分类检索
+    @Headers({"Domain-Name:wxjdcloud"})
     @GET("/jisuapi/byclass")
     Flowable<HttpResult<RecipesBean>> byRecipesClass(@QueryMap Map<String, Object> body);
 
     // 根据ID查询详情
+    @Headers({"Domain-Name:wxjdcloud"})
     @GET("/jisuapi/detail")
     Flowable<HttpResult<RecipesClassBean>> recipesDetail(@QueryMap Map<String, Object> body);
+
+    @GET
+    Flowable<String> test(@QueryMap Map<String, Object> body);
 }

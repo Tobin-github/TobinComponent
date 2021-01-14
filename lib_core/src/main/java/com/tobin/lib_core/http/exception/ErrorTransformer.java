@@ -38,9 +38,9 @@ public class ErrorTransformer<T> implements ObservableTransformer<BaseModel<T>, 
             @Override
             public T apply(BaseModel<T> httpResult) throws Exception {
                 // 通过对返回码进行业务判断决定是返回错误还是正常取数据
-                if (httpResult.getCode() != ErrorType.SUCCESS) {
-                    throw new ServerException(httpResult.getMessage(), httpResult.getCode());
-                }
+//                if (httpResult.getCode() != ErrorType.SUCCESS) {
+//                    throw new ServerException(httpResult.getMessage(), httpResult.getCode());
+//                }
                 return httpResult.getData();
             }
         }).onErrorResumeNext(new Function<Throwable, ObservableSource<? extends T>>() {

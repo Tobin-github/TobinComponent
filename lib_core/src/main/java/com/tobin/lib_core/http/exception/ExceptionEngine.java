@@ -11,6 +11,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
@@ -90,13 +91,14 @@ public class ExceptionEngine {
             return ex;
         } else if (e instanceof ConnectException
                 || e instanceof SocketTimeoutException
-                || e instanceof ConnectTimeoutException) {
+                || e instanceof ConnectTimeoutException
+                || e instanceof UnknownHostException) {
             //均视为网络错误
             ex = new ApiException(e, ErrorType.NETWORD_ERROR);
             ex.message = "连接失败";
             return ex;
         } else {
-            //未知错误
+            // \未知错误
             ex = new ApiException(e, ErrorType.UNKNOWN);
             ex.message = "未知错误";
             return ex;

@@ -8,8 +8,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Observer;
 
+import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
+import com.tobin.lib_core.http.exception.ApiException;
+import com.tobin.lib_core.http.exception.ErrorType;
 import com.tobin.lib_resource.lifecycle.BaseViewModel;
+import com.tobin.lib_resource.loadsir.LottieLoadingCallback;
+import com.tobin.lib_resource.loadsir.TimeoutCallback;
 
 import timber.log.Timber;
 
@@ -21,12 +29,20 @@ import timber.log.Timber;
 public abstract class BaseVMDBFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends BaseDBFragment<DB> {
     protected VM viewModel;
 
+    protected LoadService loadService;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = initViewModel();
         initObserve();
         Timber.tag("libCore").i("BaseFragment onViewCreated");
+
+        loadService = LoadSir.getDefault().register(view, (Callback.OnReloadListener) v -> {
+            Timber.tag("BaseVMDBFragment").w("loadService register");
+//            loadService.showCallback(LottieLoadingCallback.class);
+            initData();
+        });
     }
 
     @Override
@@ -50,10 +66,20 @@ public abstract class BaseVMDBFragment<VM extends BaseViewModel, DB extends View
      */
     private void initObserve() {
         if (viewModel == null) return;
-        viewModel.getError(this, new androidx.lifecycle.Observer<Object>() {
+        viewModel.getError(this, new Observer<Throwable>() {
             @Override
-            public void onChanged(Object obj) {
-                showError(obj);
+            public void onChanged(Throwable throwable) {
+                if (throwable instanceof ApiException) {
+                    ApiException exception = (ApiException) throwable;
+                    Timber.tag("Tobin").i("message" + exception.message + "code: " + exception.code);
+                    if (exception.code == ErrorType.NETWORD_ERROR){
+                        loadService.showCallback(TimeoutCallback.class);
+                    }else {
+                        showError(exception.getMessage());
+                    }
+                } else {
+                    Timber.tag("Tobin").e("throwable message: %s", throwable.getMessage());
+                }
             }
         });
     }

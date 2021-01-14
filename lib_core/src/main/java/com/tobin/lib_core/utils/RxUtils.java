@@ -13,6 +13,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class RxUtils {
     static {
@@ -20,15 +21,13 @@ public class RxUtils {
             @Override
             public void accept(Throwable throwable) {
                 throwable.printStackTrace();
+                Timber.tag("RxUtils").d("RxJavaPlugins throwable: %s", throwable.getMessage());
             }
         });
     }
 
     /**
      * 默认回调到主线程
-     *
-     * @param <T>
-     * @return
      */
     public static <T> ObservableTransformer<BaseModel<T>, T> httpResponseTransformer() {
         return new ObservableTransformer<BaseModel<T>, T>() {
@@ -45,9 +44,9 @@ public class RxUtils {
     /**
      * 自己决定是否回调到主线程
      *
-     * @param isObserveOnMain
-     * @param <T>
-     * @return
+     * @param isObserveOnMain boolean
+     * @param <T>             T
+     * @return <R>Observable<T>
      */
     public static <T> ObservableTransformer<BaseModel<T>, T> httpResponseTransformer(final boolean isObserveOnMain) {
         return new ObservableTransformer<BaseModel<T>, T>() {
@@ -76,4 +75,5 @@ public class RxUtils {
                 })
                 .take(times + 1);
     }
+
 }

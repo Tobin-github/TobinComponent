@@ -34,7 +34,7 @@ public class RoomCacheInterceptor implements Interceptor {
         String roomHeader = request.header("Room-Cache");
         long roomCacheTime = TextUtils.isEmpty(roomHeader) ? globalConfig.getGlobalCacheSecond() * 1000 : Integer.parseInt(roomHeader) * 1000;
         String okhttpHeader = request.header("OkHttp-Cache");
-        int okhttpCacheTime = TextUtils.isEmpty(okhttpHeader) ? globalConfig.getGlobalCacheSecond() : Integer.parseInt(okhttpHeader);
+        long okhttpCacheTime = TextUtils.isEmpty(okhttpHeader) ? globalConfig.getGlobalCacheSecond() : Integer.parseInt(okhttpHeader);
         String cacheMode = request.header("Cache-Mode");
         String globalCacheMode = TextUtils.isEmpty(cacheMode) ? globalConfig.getCacheMode() : cacheMode;
         boolean isRoomCache = globalConfig.isRoomCache();
@@ -54,8 +54,10 @@ public class RoomCacheInterceptor implements Interceptor {
                 //REQUEST_FAILED_READ_CACHE模式
                 Response response = chain.proceed(request);
                 if (response.code() != 200) {
+                    Timber.tag("Tobin").d("readRoomCacheWithRequestFailedReadCache response: %s", response.toString());
                     return readRoomCacheWithRequestFailedReadCache(true, response, roomCacheTime);
                 } else {
+                    Timber.tag("Tobin").d("writeRoomCache response: %s", response.toString());
                     //请求成功写入数据库
                     return writeRoomCache(response, true);
                 }
@@ -99,10 +101,11 @@ public class RoomCacheInterceptor implements Interceptor {
             }
             //room缓存
             if (globalCacheMode.equals(CacheMode.REQUEST_FAILED_READ_CACHE)) {
+                Timber.tag("Tobin").d("无网模式 CacheMode REQUEST_FAILED_READ_CACHE");
                 //REQUEST_FAILED_READ_CACHE模式
                 Response response = readRoomCacheWithRequestFailedReadCacheNotNet(request, roomCacheTime);
                 return response == null
-                        ? get400Response(request, null, CacheMode.REQUEST_FAILED_READ_CACHE, "http/1/1")
+                        ? get400Response(request, null, CacheMode.REQUEST_FAILED_READ_CACHE, Protocol.HTTP_1_1.toString())
                         : response;
             }
             if (globalCacheMode.equals(CacheMode.IF_NONE_CACHE_REQUEST)) {
@@ -118,7 +121,7 @@ public class RoomCacheInterceptor implements Interceptor {
         return chain.proceed(request);
     }
 
-    private Response readOkhttpCache(Response response, int maxAge) {
+    private Response readOkhttpCache(Response response, long maxAge) {
         return response.newBuilder()
                 .removeHeader("Pragma")
                 .removeHeader("Cache-Control")
@@ -145,14 +148,16 @@ public class RoomCacheInterceptor implements Interceptor {
     private Response readRoomCacheWithRequestFailedReadCache(boolean isNetOk, Response response, long time) throws IOException {
         Request request = response.request();
         String key = request.url().url().toString() + ">" + request.method();
-        Timber.i("RoomCache-Key(get):" + key);
+        Timber.tag("Tobin").i("readRoomCacheWithRequestFailedReadCache RoomCache-Key(get):%s", key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
         roomCacheDB.close();
-        if (roomCacheEntity == null)
+        if (roomCacheEntity == null) {
+            Timber.tag("Tobin").i("roomCacheEntity is null");
             return response;
+        }
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.REQUEST_FAILED_READ_CACHE, time, System.currentTimeMillis());
-        Timber.i(key + ">>>>>isExpire(" + isExpire + ")");
+        Timber.tag("Tobin").i(key + ">>>>>isExpire(" + isExpire + ")");
         if (isExpire) {
             if (isNetOk)
                 return response;
@@ -165,14 +170,17 @@ public class RoomCacheInterceptor implements Interceptor {
 
     private Response readRoomCacheWithRequestFailedReadCacheNotNet(Request request, long time) throws IOException {
         String key = request.url().url().toString() + ">" + request.method();
-        Timber.i("RoomCache-Key(get):" + key);
+        Timber.tag("Tobin").i("readRoomCacheWithRequestFailedReadCacheNotNet RoomCache-Key(get):%s", key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
         roomCacheDB.close();
-        if (roomCacheEntity == null)
+        if (roomCacheEntity == null){
+            Timber.tag("Tobin").d("roomCacheEntity is null");
             return null;
+        }
+
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.REQUEST_FAILED_READ_CACHE, time, System.currentTimeMillis());
-        Timber.i(key + ">>>>>isExpire(" + isExpire + ")");
+        Timber.tag("Tobin").i(key + ">>>>>isExpire(" + isExpire + ")");
         if (isExpire) {
             return null;
         } else {
@@ -182,12 +190,16 @@ public class RoomCacheInterceptor implements Interceptor {
 
     private Response readRoomCacheWithIfNoneCacheRequest(boolean isNetOk, Chain chain, Request request, long time) throws IOException {
         String key = request.url().url().toString() + ">" + request.method();
-        Timber.i("RoomCache-Key(get):" + key);
+//        https://way.jd.com/jisuapi/recipe_class?appkey=2a5f3669118e8a082a1697c6b6f73f9a>GET
+//        https://tobin.top/jisuapi/recipe_class?appkey=2a5f3669118e8a082a1697c6b6f73f9a>GET
+        Timber.tag("Tobin").i("readRoomCacheWithIfNoneCacheRequest RoomCache-Key(get):%s", key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
         roomCacheDB.close();
-        if (roomCacheEntity == null)
+        if (roomCacheEntity == null) {
+            Timber.tag("Tobin").i("roomCacheEntity is null");
             return writeRoomCache(chain.proceed(request), true);
+        }
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.IF_NONE_CACHE_REQUEST, time, System.currentTimeMillis());
         Timber.i(key + ">>>>>isExpire(" + isExpire + ")");
         if (isExpire) {
@@ -244,9 +256,10 @@ public class RoomCacheInterceptor implements Interceptor {
             @Override
             public void run() {
                 String key = response.request().url().url().toString() + ">" + response.request().method();
-                Timber.i("RoomCache-Key(put):" + key);
+                Timber.tag("Tobin").i("writeRoomCache RoomCache-Key(put):%s", key);
                 String protocol = response.protocol().toString();
                 RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
+
                 RoomCacheEntity roomCacheEntity = new RoomCacheEntity();
                 roomCacheEntity.setLocalExpire(System.currentTimeMillis());
                 roomCacheEntity.setExpire(false);
@@ -254,6 +267,8 @@ public class RoomCacheInterceptor implements Interceptor {
                 roomCacheEntity.setData(content);
                 roomCacheEntity.setResponseHeaders(response.headers());
                 roomCacheEntity.setProtocol(protocol);
+
+                Timber.tag("Tobin").i("roomCacheEntity start insertCache");
                 roomCacheDB.roomCacheDao().insertCache(roomCacheEntity);
                 roomCacheDB.close();
             }
@@ -286,10 +301,10 @@ public class RoomCacheInterceptor implements Interceptor {
                 .request(request)
                 .addHeader("Room-Cache-Control", cacheMode)
                 .sentRequestAtMillis(System.currentTimeMillis())
-                .receivedResponseAtMillis(System.currentTimeMillis() + 20)
+                .receivedResponseAtMillis(System.currentTimeMillis() + 50)
                 .protocol(Protocol.get(protocol))
-                .message("")
-                .body(ResponseBody.create(MEDIA_TYPE, ""));
+                .message("网络错误")
+                .body(ResponseBody.create(MEDIA_TYPE,"网络错误"));
         if (oldHeaders == null) return body.build();
         return body.headers(oldHeaders).build();
     }

@@ -1,8 +1,12 @@
 package com.tobin.lib_resource.base;
 
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Observer;
 
+import com.tobin.lib_core.http.exception.ApiException;
 import com.tobin.lib_resource.lifecycle.BaseViewModel;
+
+import timber.log.Timber;
 
 /**
  * Created by Tobin on 2020/12/22
@@ -30,7 +34,17 @@ public abstract class BaseVMDBActivity<VM extends BaseViewModel, DB extends View
      */
     private void initObserve() {
         if (viewModel == null) return;
-        viewModel.getError(this, this::showError);
+        viewModel.getError(this, new Observer<Throwable>() {
+            @Override
+            public void onChanged(Throwable throwable) {
+                if (throwable instanceof ApiException) {
+                    ApiException exception = (ApiException) throwable;
+                    showError(exception.getMessage());
+                } else {
+                    Timber.tag("BaseVMDBActivity").e("throwable message: %s", throwable.getMessage());
+                }
+            }
+        });
     }
 
     /**

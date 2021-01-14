@@ -23,7 +23,7 @@ public abstract class BaseViewModel extends ViewModel {
     /**
      * 当ViewModel层出现错误需要通知到Activity／Fragment
      */
-    protected MutableLiveData<Object> error = new MutableLiveData<>();
+    protected MutableLiveData<Throwable> error = new MutableLiveData<>();
 
     /**
      * 添加 rxJava 发出的请求
@@ -35,7 +35,7 @@ public abstract class BaseViewModel extends ViewModel {
         compositeDisposable.add(disposable);
     }
 
-    public void getError(LifecycleOwner owner, Observer<Object> observer) {
+    public void getError(LifecycleOwner owner, Observer<Throwable> observer) {
         error.observe(owner, observer);
     }
 

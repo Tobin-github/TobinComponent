@@ -27,7 +27,7 @@ public final class GlobalConfig {
      */
     private boolean isRoomCache;
     private String cacheMode;
-    private int cacheSecond;
+    private long cacheSecond;
     private GsonConfig gsonConfig;
     private OkhttpConfig okhttpConfig;
     private RetrofitConfig retrofitConfig;
@@ -75,7 +75,7 @@ public final class GlobalConfig {
         return cacheMode;
     }
 
-    public int getGlobalCacheSecond() {
+    public long getGlobalCacheSecond() {
         return cacheSecond;
     }
 
@@ -138,7 +138,7 @@ public final class GlobalConfig {
         private Subunits subunits;
         private boolean isRoomCache;
         private String cacheMode = CacheMode.NO_CACHE;
-        private int cacheSecond = -1;
+        private long cacheSecond = -1L;
         private GsonConfig gsonConfig;
         private OkhttpConfig okhttpConfig;
         private RetrofitConfig retrofitConfig;
@@ -188,7 +188,7 @@ public final class GlobalConfig {
             return this;
         }
 
-        public Builder roomCache(boolean isRoomCache, String cacheMode, int cacheSecond) {
+        public Builder roomCache(boolean isRoomCache, String cacheMode, long cacheSecond) {
             this.cacheSecond = cacheSecond;
             if (isRoomCache) {
                 this.isRoomCache = true;

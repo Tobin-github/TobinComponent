@@ -23,6 +23,8 @@ import com.tobin.lib_core.session.MmkvSessionManager;
 import com.tobin.lib_core.session.SessionConfig;
 import com.tobin.lib_core.session.SessionManager;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cat.ereza.customactivityoncrash.config.CaocConfig;
@@ -34,6 +36,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 enum ObjectFactory {
     INSTANCE;
@@ -41,11 +44,10 @@ enum ObjectFactory {
     private GsonBuilder gsonBuilder = new GsonBuilder();
     private OkHttpClient.Builder okhttpBuilder = new OkHttpClient.Builder();
     private Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
-    private ArrayMap<String, RoomDatabase.Builder> roomBuilders = new ArrayMap<>();
-    private ArrayMap<String, RoomDatabase.Builder> roomCacheBuilders = new ArrayMap<>();
+    private Map<String, RoomDatabase.Builder> roomBuilders = new ArrayMap<>();
+    private Map<String, RoomDatabase.Builder> roomCacheBuilders;
     private final SessionConfig.Builder sessionBuilder = new SessionConfig.Builder();
     private final CaocConfig.Builder crashBuilder = CaocConfig.Builder.create();
-
 
     public Gson getGson(Context context, GlobalConfig globalConfig) {
         GsonConfig gsonConfig = globalConfig.getGsonConfig();
@@ -71,11 +73,13 @@ enum ObjectFactory {
             okhttpBuilder.addInterceptor(getLoggingInterceptor());
         }
 
+        // 添加动态变更BaseUrl的能力
+        RetrofitUrlManager.getInstance().with(okhttpBuilder).build();
+
+        // Room 缓存，放在RetrofitUrlManager后面才可以获取替换后的URL
         if (globalConfig.isRoomCache()) {
             okhttpBuilder.addInterceptor(new RoomCacheInterceptor());
         }
-        //添加动态变更BaseUrl的能力
-        RetrofitUrlManager.getInstance().with(okhttpBuilder).build();
 
         return okhttpBuilder.build();
     }
@@ -113,6 +117,7 @@ enum ObjectFactory {
             roomName = Constants.NAME_ROOM_DATABASE;
         }
         String keyRoomBuilder = clazz.getSimpleName() + "-" + roomName;
+        Timber.tag("Tobin").d("getRoomDatabase keyRoomBuilder: %s", keyRoomBuilder);
         if (roomBuilders.containsKey(keyRoomBuilder)) {
             return (DB) roomBuilders.get(keyRoomBuilder).build();
         }
@@ -130,14 +135,20 @@ enum ObjectFactory {
      * 获取缓存数据库
      */
     public <DB extends RoomDatabase> DB getCacheRoomDatabase(Context context, Class clazz) {
+        if (roomCacheBuilders == null) {
+            roomCacheBuilders = new HashMap<>();
+        }
         String keyRoomBuilder = clazz.getSimpleName() + "-" + Constants.ROOM_CACHE_NAME;
+        Timber.tag("Tobin").d("getCacheRoomDatabase keyRoomBuilder: %s", keyRoomBuilder);
         if (roomCacheBuilders.containsKey(keyRoomBuilder)) {
             return (DB) roomCacheBuilders.get(keyRoomBuilder).build();
         }
-
-        RoomDatabase.Builder roomBuilder = Room.databaseBuilder(context, clazz, Constants.ROOM_CACHE_NAME);
+        RoomDatabase.Builder roomBuilder = Room.databaseBuilder(context, clazz, Constants.ROOM_CACHE_NAME)
+                .fallbackToDestructiveMigration(); // 升级异常时，重新创建数据库表, 数据丢失;
+        if (roomBuilder == null) {
+            throw new NullPointerException("create room fail");
+        }
         roomCacheBuilders.put(keyRoomBuilder, roomBuilder);
-
         return (DB) roomBuilder.build();
     }
 
@@ -172,13 +183,6 @@ enum ObjectFactory {
                 .minTimeBetweenCrashesMs(2000) //default: 3000
                 .errorDrawable(R.mipmap.error); //default: bug image
 
-                // <action android:name="cat.ereza.customactivityoncrash.RESTART" />
-//                .restartActivity(YourCustomActivity.class) // 重新启动后的页面 default: null
-        // you can also use the following intent-filter to specify the error activity
-        // <action android:name="cat.ereza.customactivityoncrash.ERROR" />
-//                .errorActivity(YourCustomErrorActivity.class)  // 程序崩溃后显示的页面 default: null
-//                .eventListener(new YourCustomEventListener()) // 设置监听 default: null
-
         CrashManagerConfig crashManagerConfig = globalConfig.getCrashManagerConfig();
         if (crashManagerConfig != null) {
             crashManagerConfig.crash(context, crashBuilder);
@@ -189,7 +193,7 @@ enum ObjectFactory {
 
     public HttpLoggingInterceptor getLoggingInterceptor() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.level(HttpLoggingInterceptor.Level.BODY);
+        logging.level(HttpLoggingInterceptor.Level.BASIC);
         return logging;
     }
 

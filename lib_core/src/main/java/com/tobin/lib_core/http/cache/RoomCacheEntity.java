@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 import okhttp3.Headers;
+import timber.log.Timber;
 
 @Entity(tableName = "RoomCache")
 public class RoomCacheEntity implements Serializable {
@@ -96,6 +97,20 @@ public class RoomCacheEntity implements Serializable {
         //304的默认缓存模式,设置缓存时间无效,需要依靠服务端的响应头控制
         if (cacheMode.equals(CacheMode.DEFAULT)) return getLocalExpire() < baseTime;
         if (cacheTime == CACHE_NEVER_EXPIRE) return false;
+        Timber.tag("Tobin").d("LocalExpire: " + getLocalExpire() + "\ncacheTime: "
+                + cacheTime + "\nbaseTime: " + baseTime);
         return getLocalExpire() + cacheTime < baseTime;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomCacheEntity{" +
+                "key='" + key + '\'' +
+                ", localExpire=" + localExpire +
+                ", protocol='" + protocol + '\'' +
+                ", data='" + data + '\'' +
+                ", isExpire=" + isExpire +
+                ", responseHeaders=" + responseHeaders +
+                '}';
     }
 }

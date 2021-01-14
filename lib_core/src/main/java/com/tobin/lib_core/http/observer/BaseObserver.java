@@ -18,13 +18,14 @@ public abstract class BaseObserver<T> extends DefaultObserver<T> {
         super.onStart();
         Timber.d("onStart: ");
         if (!NetworkUtils.isNetworkAvailable()) {
+            Timber.tag(TAG).d("network not available");
             onNetError();
             onComplete();
             // 无网络执行complete后取消注册防调用onError
             // 但是会导致doOnTerminate和doAfterTerminate都不会执行
             cancel();
         } else {
-            Timber.d("network available");
+            Timber.tag(TAG).d("network available");
         }
     }
 
