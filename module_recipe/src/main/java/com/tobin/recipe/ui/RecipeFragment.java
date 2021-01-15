@@ -12,7 +12,7 @@ import com.tobin.recipe.databinding.RecipeFragmentBinding;
 
 import timber.log.Timber;
 
-@Route(path = RouterHub.RECIPE_RECIPE_FRAGMENT)
+//@Route(path = RouterHub.RECIPE_RECIPE_FRAGMENT)
 public class RecipeFragment extends BaseVMDBFragment<RecipeViewModel, RecipeFragmentBinding> {
 
     @Override

@@ -22,7 +22,6 @@ import retrofit2.Retrofit;
 import timber.log.Timber;
 
 public class Box implements AppLifecycle {
-    private static final String TAG = "Box";
     private static Application mApplication;
     private static Gson gson;
     private static Retrofit retrofit;
@@ -37,7 +36,7 @@ public class Box implements AppLifecycle {
     @Override
     public void onCreate(@NonNull Application application) {
         mApplication = application;
-        Timber.tag(TAG).i("onCreate");
+        Timber.i("onCreate");
     }
 
     @Override
@@ -45,7 +44,7 @@ public class Box implements AppLifecycle {
         mApplication = null;
         gson = null;
         retrofit = null;
-        Timber.tag(TAG).i("onTerminate");
+        Timber.i("onTerminate");
     }
 
     @Override

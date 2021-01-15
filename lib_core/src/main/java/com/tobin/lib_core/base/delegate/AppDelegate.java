@@ -45,7 +45,7 @@ public class AppDelegate implements AppLifecycle {
         if (activityDelegate == null) {
             activityDelegate = new ActivityLifecycleCallbacks();
         }
-        //注册所有Activity生命周期的监听
+        // 注册所有Activity生命周期的监听
         mApplication.registerActivityLifecycleCallbacks(activityDelegate);
     }
 

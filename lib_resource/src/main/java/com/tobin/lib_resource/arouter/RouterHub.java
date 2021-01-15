@@ -16,6 +16,8 @@ public interface RouterHub {
      */
     String APP = "/app";    //宿主 App 组件
     String RECIPE = "/recipe";  //菜谱组件
+    String HOME = "/home";  //首页组件
+    String MINE = "/mine";  //我的组件
 
     /**
      * 服务组件, 用于给每个组件暴露特有的服务
@@ -27,6 +29,18 @@ public interface RouterHub {
      */
     String APP_SPLASH_ACTIVITY = APP + "/SplashActivity";
     String APP_MAIN_ACTIVITY = APP + "/MainActivity";
+
+    /**
+     * 主页
+     */
+    String APP_HOME_ACTIVITY = HOME + "/HomeActivity";
+    String APP_HOME_FRAGMENT = HOME + "/HomeFragment";
+
+    /**
+     * 我的
+     */
+    String APP_MINE_ACTIVITY = MINE + "/MineActivity";
+    String APP_MINE_FRAGMENT = MINE + "/MineFragment";
 
     /**
      * 菜谱分组

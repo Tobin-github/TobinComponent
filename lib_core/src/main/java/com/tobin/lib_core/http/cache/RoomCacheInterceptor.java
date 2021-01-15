@@ -1,5 +1,6 @@
 package com.tobin.lib_core.http.cache;
 
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.tobin.lib_core.base.App;
@@ -190,8 +191,6 @@ public class RoomCacheInterceptor implements Interceptor {
 
     private Response readRoomCacheWithIfNoneCacheRequest(boolean isNetOk, Chain chain, Request request, long time) throws IOException {
         String key = request.url().url().toString() + ">" + request.method();
-//        https://way.jd.com/jisuapi/recipe_class?appkey=2a5f3669118e8a082a1697c6b6f73f9a>GET
-//        https://tobin.top/jisuapi/recipe_class?appkey=2a5f3669118e8a082a1697c6b6f73f9a>GET
         Timber.tag("Tobin").i("readRoomCacheWithIfNoneCacheRequest RoomCache-Key(get):%s", key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
@@ -214,14 +213,15 @@ public class RoomCacheInterceptor implements Interceptor {
 
     private Response readRoomCacheWithFirstCacheThenRequest(Request request, long time) throws IOException {
         String key = request.url().url().toString() + ">" + request.method();
-        Timber.i("RoomCache-Key(get):" + key);
+        Timber.tag("Tobin").i("readRoomCacheWithFirstCacheThenRequest RoomCache-Key(get):%s", key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
         roomCacheDB.close();
-        if (roomCacheEntity == null)
+        if (roomCacheEntity == null) {
             return null;
+        }
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.FIRST_CACHE_THEN_REQUEST, time, System.currentTimeMillis());
-        Timber.i(key + ">>>>>isExpire(" + isExpire + ")");
+        Timber.tag("Tobin").i(key + ">>>>>isExpire(" + isExpire + ")");
         if (isExpire) {
             return null;
         } else {

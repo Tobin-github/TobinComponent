@@ -59,6 +59,7 @@ enum ObjectFactory {
 
 
     public OkHttpClient getOkHttpClient(Context context, GlobalConfig globalConfig) {
+        Timber.tag("Tobin").d("ObjectFactory getOkHttpClient");
         okhttpBuilder
                 .connectTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -69,12 +70,12 @@ enum ObjectFactory {
             okhttpConfig.okhttp(context, okhttpBuilder);
         }
 
+        // 添加动态变更BaseUrl的能力
+        RetrofitUrlManager.getInstance().with(okhttpBuilder).build();
+
         if (BuildConfig.DEBUG) {
             okhttpBuilder.addInterceptor(getLoggingInterceptor());
         }
-
-        // 添加动态变更BaseUrl的能力
-        RetrofitUrlManager.getInstance().with(okhttpBuilder).build();
 
         // Room 缓存，放在RetrofitUrlManager后面才可以获取替换后的URL
         if (globalConfig.isRoomCache()) {

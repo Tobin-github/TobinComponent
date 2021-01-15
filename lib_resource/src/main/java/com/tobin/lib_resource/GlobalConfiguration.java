@@ -19,13 +19,17 @@ import com.tobin.lib_core.session.SessionUserInfo;
 import com.tobin.lib_resource.utils.DeviceUtils;
 import com.tobin.lib_resource.utils.ProcessUtils;
 
+import java.io.IOException;
+
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 import me.jessyan.autosize.unit.Subunits;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
+import tech.linjiang.pandora.Pandora;
 import timber.log.Timber;
 
 public class GlobalConfiguration implements GlobalModule {
@@ -45,7 +49,7 @@ public class GlobalConfiguration implements GlobalModule {
                 .designHeight(1280)
                 // 设置对副单位的支持
                 .autoSize(false, false, Subunits.PT)
-                //配置是否Room数据库进行网络请求的缓存
+                // 配置是否Room数据库进行网络请求的缓存
                 .roomCache(true, CacheMode.REQUEST_FAILED_READ_CACHE, 60*60*24*30)
                 // OkHttpClient的拓展配置
                 .okhttpConfiguration(new OkhttpConfig() {
@@ -64,9 +68,9 @@ public class GlobalConfiguration implements GlobalModule {
 //                                        return chain.proceed(request);
 //                                    }
 //                                });
-
+                        Timber.tag("Tobin").i("GlobalConfiguration okhttpConfiguration okhttp");
                         if (context.getPackageName().equals(ProcessUtils.getCurProcessName(context))) {
-//                            builder.addInterceptor(Pandora.get().getInterceptor());
+                            builder.addInterceptor(Pandora.get().getInterceptor());
                         }
                     }
                 })
@@ -74,7 +78,7 @@ public class GlobalConfiguration implements GlobalModule {
                 .sessionManagerConfiguration(new SessionManagerConfig() {
                     @Override
                     public void session(Context context, SessionConfig.Builder builder) {
-                        // SessionUserInfo 和 SessionToken 是默认的实体类
+                        // SessionUserInfo 和 SessionToken 是默认的实体类, 可扩展
                         builder.userClass(SessionUserInfo.class).tokenClass(SessionToken.class);
                     }
                 })

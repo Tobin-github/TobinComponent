@@ -55,17 +55,18 @@ public class App extends Application {
         // 初始化全局配置
         initGlobalConfig();
 
-        //初始化屏幕适配器
+        // 初始化屏幕适配器
         ObjectFactory.INSTANCE.initAutoSize(getGlobalConfig());
 
-        //初始化KVUtil
+        // 初始化KVUtil
         KVUtils.init(this);
+        // 初始化 DataStore
         DataStoreUtils.INSTANCE.init(this);
 
-        //用户信息管理器
+        // 用户信息管理器
         ObjectFactory.INSTANCE.initSessionManager(this, getGlobalConfig());
 
-        //崩溃拦截配置
+        // 崩溃拦截配置
         ObjectFactory.INSTANCE.initCrashManager(this, getGlobalConfig());
 
         appLifecycle.onCreate(instance);

@@ -61,7 +61,6 @@ public class EasyNavigationBar extends LinearLayout {
 
     private ViewPager mViewPager;
     private ViewPager2 mViewPager2;
-    //private GestureDetector detector;
 
     private ViewGroup addViewLayout;
 
@@ -76,7 +75,7 @@ public class EasyNavigationBar extends LinearLayout {
 
     private FragmentManager fragmentManager;
 
-    //    //Tab点击动画效果
+    // Tab点击动画效果
 //    private Techniques anim = null;
     //ViewPager切换动画
     private boolean smoothScroll = false;
@@ -381,7 +380,7 @@ public class EasyNavigationBar extends LinearLayout {
         lineView.setBackgroundColor(lineColor);
         lineView.setLayoutParams(lineParams);
 
-//若没有设置中间添加的文字字体大小、颜色、则同其他Tab一样
+        // 若没有设置中间添加的文字字体大小、颜色、则同其他Tab一样
         if (centerTextSize == 0) {
             centerTextSize = tabTextSize;
         }
@@ -480,7 +479,6 @@ public class EasyNavigationBar extends LinearLayout {
         //false  ViewPager和Navigation重叠
         hasPadding = true;
 
-
         //1、普通的Tab 2、中间带按钮（如加号）3、
         mode = NavigationMode.MODE_NORMAL;
 
@@ -504,7 +502,6 @@ public class EasyNavigationBar extends LinearLayout {
         onTabClickListener = null;
         onCenterTabClickListener = null;
         onTabClickListener = null;
-
 
         tabContentRule = 0;
         tabContentBottomMargin = 0;
@@ -532,7 +529,7 @@ public class EasyNavigationBar extends LinearLayout {
     /**
      * 更新导航栏图标
      *
-     * @param position
+     * @param position 位置
      * @param isNormal
      * @param res
      */
@@ -586,6 +583,7 @@ public class EasyNavigationBar extends LinearLayout {
             TextSizeType.TYPE_DP,
             TextSizeType.TYPE_SP,
     })
+
     @Retention(RetentionPolicy.SOURCE)
     public @interface TextSizeType {
         //文字单位：1、DP   2、SP
@@ -598,6 +596,7 @@ public class EasyNavigationBar extends LinearLayout {
             TabContentType.TYPE_ONLY_IMAGE,
             TabContentType.TYPE_ONLY_TEXT,
     })
+
     @Retention(RetentionPolicy.SOURCE)
     public @interface TabContentType {
         //Tab内容类型：0默认（有选中、未选中两种状态）  1仅图片  2仅文字
@@ -606,22 +605,21 @@ public class EasyNavigationBar extends LinearLayout {
         int TYPE_ONLY_TEXT = 2;
     }
 
-
     @IntDef({
             NavigationMode.MODE_NORMAL,
             NavigationMode.MODE_ADD,
             NavigationMode.MODE_ADD_VIEW,
     })
+
     @Retention(RetentionPolicy.SOURCE)
     public @interface NavigationMode {
-        //Tab内容类型：0默认（有选中、未选中两种状态）  1仅图片  2仅文字
+        // Tab内容类型：0默认（有选中、未选中两种状态）  1仅图片  2仅文字
         int MODE_NORMAL = 0;
         int MODE_ADD = 1;
         int MODE_ADD_VIEW = 2;
     }
 
     public void buildNavigation() {
-
         post(new Runnable() {
             @Override
             public void run() {
@@ -633,14 +631,12 @@ public class EasyNavigationBar extends LinearLayout {
                     onTabLoadListener.onTabLoadCompleteEvent();
             }
         });
-
-
     }
 
     /**
      * 验证能否构建
      *
-     * @return
+     * @return boolean
      */
     private boolean checkCanBuild() {
         if (titleItems.length < 1 && normalIconItems.length < 1) {
@@ -648,7 +644,6 @@ public class EasyNavigationBar extends LinearLayout {
             return false;
         }
         buildCommonNavigation();
-
         return true;
     }
 
@@ -686,7 +681,6 @@ public class EasyNavigationBar extends LinearLayout {
         if (selectIconItems == null || selectIconItems.length < 1) {
             selectIconItems = normalIconItems;
         }
-
 
         removeNavigationAllView();
 
@@ -751,8 +745,8 @@ public class EasyNavigationBar extends LinearLayout {
     /**
      * 是否是前面位置
      *
-     * @param position
-     * @return
+     * @param position 位置
+     * @return boolean
      */
     private boolean isBeforeCenter(int position) {
         if (position < (tabCount / 2))
@@ -763,8 +757,8 @@ public class EasyNavigationBar extends LinearLayout {
     /**
      * 是否是中间位置
      *
-     * @param position
-     * @return
+     * @param position 位置
+     * @return boolean
      */
     private boolean isCenterPosition(int position) {
         if (position == tabCount / 2)
@@ -772,14 +766,13 @@ public class EasyNavigationBar extends LinearLayout {
         return false;
     }
 
-    //构建中间带按钮的navigation
+    // 构建中间带按钮的navigation
     public void buildAddNavigation() {
 
         if (centerImageRes == 0) {
             Log.e("EasyNavigation", "MODE_ADD模式下centerImageRes不能为空");
             return;
         }
-
 
         post(new Runnable() {
             @Override
@@ -799,11 +792,8 @@ public class EasyNavigationBar extends LinearLayout {
 
     }
 
-
     /**
      * 添加中间view的布局
-     *
-     * @param index
      */
     private void addCenterTabView(int index) {
         RelativeLayout addItemView = new RelativeLayout(getContext());
@@ -953,7 +943,7 @@ public class EasyNavigationBar extends LinearLayout {
         TextView msgPoint = itemView.findViewById(R.id.msg_point_tv);
         msgPoint.setTextSize(textSizeType, msgPointTextSize);
         RelativeLayout.LayoutParams msgPointParams = (RelativeLayout.LayoutParams) msgPoint.getLayoutParams();
-        msgPointParams.bottomMargin = (int)  msgPointTop;
+        msgPointParams.bottomMargin = (int) msgPointTop;
         msgPointParams.leftMargin = (int) msgPointLeft;
         msgPoint.setLayoutParams(msgPointParams);
 
@@ -969,10 +959,10 @@ public class EasyNavigationBar extends LinearLayout {
                 text.setVisibility(GONE);
 
                 icon.setScaleType(scaleType);
-                    LayoutParams iconParams = (LayoutParams) icon.getLayoutParams();
-                    iconParams.width = (int) iconSize;
-                    iconParams.height = (int) iconSize;
-                    icon.setLayoutParams(iconParams);
+                LayoutParams iconParams = (LayoutParams) icon.getLayoutParams();
+                iconParams.width = (int) iconSize;
+                iconParams.height = (int) iconSize;
+                icon.setLayoutParams(iconParams);
                 imageViewList.add(icon);
                 icon.setVisibility(VISIBLE);
                 break;
@@ -997,10 +987,10 @@ public class EasyNavigationBar extends LinearLayout {
 
 
                 icon.setScaleType(scaleType);
-                    LayoutParams iconParams2 = (LayoutParams) icon.getLayoutParams();
-                    iconParams2.width = (int) iconSize;
-                    iconParams2.height = (int) iconSize;
-                    icon.setLayoutParams(iconParams2);
+                LayoutParams iconParams2 = (LayoutParams) icon.getLayoutParams();
+                iconParams2.width = (int) iconSize;
+                iconParams2.height = (int) iconSize;
+                icon.setLayoutParams(iconParams2);
                 imageViewList.add(icon);
 
                 text.setVisibility(VISIBLE);
@@ -1029,7 +1019,6 @@ public class EasyNavigationBar extends LinearLayout {
                 }
             }
         }
-
         updateNavigation(true);
     }
 
@@ -1042,15 +1031,13 @@ public class EasyNavigationBar extends LinearLayout {
 
     /**
      * 是否有中间局部
-     *
-     * @return
+     * @return boolean
      */
     private boolean isAddPage() {
         if (mode == NavigationMode.MODE_ADD || mode == NavigationMode.MODE_ADD_VIEW)
             return true;
         return false;
     }
-
 
     private void removeNavigationAllView() {
 
@@ -1071,7 +1058,6 @@ public class EasyNavigationBar extends LinearLayout {
 
     //自定义中间按钮
     public void buildAddViewNavigation() {
-
         post(new Runnable() {
             @Override
             public void run() {
@@ -1088,13 +1074,10 @@ public class EasyNavigationBar extends LinearLayout {
                     onTabLoadListener.onTabLoadCompleteEvent();
             }
         });
-
     }
 
     /**
      * 添加自定义view到导航中间布局
-     *
-     * @param i
      */
     private void addCenterTabCustomView(int i) {
         RelativeLayout addItemView = new RelativeLayout(getContext());
@@ -1184,7 +1167,7 @@ public class EasyNavigationBar extends LinearLayout {
     /**
      * 选择普通tab UI变化
      *
-     * @param position
+     * @param position 位置
      */
     private void selectNormalTabUI(int position, boolean showAnim) {
         for (int i = 0; i < tabCount; i++) {
@@ -1276,8 +1259,7 @@ public class EasyNavigationBar extends LinearLayout {
 
     /**
      * 清除数字消息
-     *
-     * @param position
+     * @param position 位置
      */
     public void clearMsgPoint(int position) {
         if (msgPointList == null || msgPointList.size() < (position + 1))
@@ -1287,8 +1269,7 @@ public class EasyNavigationBar extends LinearLayout {
 
     /**
      * 清除提示红点
-     *
-     * @param position
+     * @param position 位置
      */
     public void clearHintPoint(int position) {
         if (hintPointList == null || hintPointList.size() < (position + 1))

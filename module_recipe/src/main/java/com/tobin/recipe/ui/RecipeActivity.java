@@ -67,5 +67,6 @@ public class RecipeActivity extends BaseDBActivity<ActivityRecipeBinding> {
 //
 //                    }
 //                });
+
     }
 }

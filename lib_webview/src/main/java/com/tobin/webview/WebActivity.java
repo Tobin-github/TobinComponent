@@ -9,10 +9,10 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.tobin.lib_resource.base.BaseActivity;
 import com.tobin.webview.basefragment.BaseWebViewFragment;
 import com.tobin.webview.command.base.Command;
 import com.tobin.webview.command.base.ResultBack;
@@ -29,7 +29,7 @@ import timber.log.Timber;
  * Email: 616041023@qq.com
  * Description:
  */
-public class WebActivity extends BaseActivity {
+public class WebActivity extends AppCompatActivity {
     private String title;
     private String url;
 

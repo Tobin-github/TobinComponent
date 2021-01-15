@@ -5,20 +5,23 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.tobin.home.HomeFragment;
+import com.tobin.lib_resource.arouter.RouterHub;
 import com.tobin.lib_resource.base.BaseDBActivity;
 import com.tobin.library.navigation.view.EasyNavigationBar;
 import com.tobin.life.databinding.ActivityMainBinding;
-import com.tobin.life.ui.dashboard.DashboardFragment;
-import com.tobin.life.ui.home.HomeFragment;
-import com.tobin.life.ui.notifications.NotificationsFragment;
+import com.tobin.mine.MineFragment;
+import com.tobin.recipe.ui.RecipeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseDBActivity<ActivityMainBinding> {
     private EasyNavigationBar navigationBar;
-    private List<Fragment> fragments = new ArrayList<>();
 
+    private List<Fragment> fragments = new ArrayList<>();
+    // tab 文字
     private String[] tabText = {"首页", "发现", "我的"};
     //未选中icon
     private int[] normalIcon = {R.drawable.ic_home_black_24dp, R.drawable.ic_dashboard_black_24dp, R.drawable.ic_notifications_black_24dp};
@@ -34,8 +37,12 @@ public class MainActivity extends BaseDBActivity<ActivityMainBinding> {
         navigationBar = findViewById(R.id.navigationBar);
 
         fragments.add(new HomeFragment());
-        fragments.add(new DashboardFragment());
-        fragments.add(new NotificationsFragment());
+        fragments.add(new RecipeFragment());
+        fragments.add(new MineFragment());
+
+//        fragments.add(createFragmentWithRouter(RouterHub.APP_HOME_FRAGMENT));
+//        fragments.add(createFragmentWithRouter(RouterHub.RECIPE_RECIPE_FRAGMENT));
+//        fragments.add(createFragmentWithRouter(RouterHub.APP_MINE_FRAGMENT));
 
         navigationBar.titleItems(tabText)
                 .normalIconItems(normalIcon)
@@ -65,6 +72,15 @@ public class MainActivity extends BaseDBActivity<ActivityMainBinding> {
     @Override
     protected void initData() {
 
+    }
+
+    /**
+     * 创建路由Fragment
+     */
+    public Fragment createFragmentWithRouter(String path) {
+
+        return (Fragment) ARouter.getInstance().build(path)
+                .navigation(this);
     }
 
 }
