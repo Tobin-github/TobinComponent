@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.kingja.loadsir.core.LoadSir;
@@ -22,6 +23,9 @@ import com.tencent.bugly.crashreport.CrashReport;
 public class AppStore implements AppLifecycle {
     private static final String TAG = "AppStore";
     private static final String BUGLY_APPID = "";
+
+    // 我的模块 红点数量
+    public static MutableLiveData<Integer> mine = new MutableLiveData<>();
 
     @Override
     public void attachBaseContext(@NonNull Context base) {

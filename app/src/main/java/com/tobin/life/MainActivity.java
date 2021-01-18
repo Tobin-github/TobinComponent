@@ -1,32 +1,21 @@
 package com.tobin.life;
 
-import android.view.View;
-import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.tobin.home.HomeFragment;
+import com.tobin.lib_resource.app.AppStore;
 import com.tobin.lib_resource.arouter.RouterHub;
-import com.tobin.lib_resource.base.BaseDBActivity;
-import com.tobin.library.navigation.view.EasyNavigationBar;
+import com.tobin.lib_resource.mvvm.base.BaseActivity;
 import com.tobin.life.databinding.ActivityMainBinding;
-import com.tobin.mine.MineFragment;
-import com.tobin.recipe.ui.RecipeFragment;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBinding> {
+    public static final int Tag_Fragment_Home = 0;
+    public static final int Tag_Fragment_Recipe = 1;
+    public static final int Tag_Fragment_Mine = 2;
+    public static final int Tag_Fragment_Service = 3;
 
-public class MainActivity extends BaseDBActivity<ActivityMainBinding> {
-    private EasyNavigationBar navigationBar;
 
-    private List<Fragment> fragments = new ArrayList<>();
-    // tab 文字
-    private String[] tabText = {"首页", "发现", "我的"};
-    //未选中icon
-    private int[] normalIcon = {R.drawable.ic_home_black_24dp, R.drawable.ic_dashboard_black_24dp, R.drawable.ic_notifications_black_24dp};
-    //选中时icon
-    private int[] selectIcon = {R.drawable.ic_home_black_24dp, R.drawable.ic_dashboard_black_24dp, R.drawable.ic_notifications_black_24dp};
     @Override
     protected int onCreate() {
         return R.layout.activity_main;
@@ -34,53 +23,44 @@ public class MainActivity extends BaseDBActivity<ActivityMainBinding> {
 
     @Override
     protected void initView() {
-        navigationBar = findViewById(R.id.navigationBar);
+        dataBinding.navigationTabBar
+                .setIdContainer(R.id.container)
+                .setFragmentManager(getSupportFragmentManager());
 
-        fragments.add(new HomeFragment());
-        fragments.add(new RecipeFragment());
-        fragments.add(new MineFragment());
+        dataBinding.navigationTabBar
+                .addNavigationItem(R.drawable.ic_home_black_24dp, R.drawable.ic_home_black_24dp,
+                        createFragmentWithRouter(RouterHub.APP_HOME_FRAGMENT), Tag_Fragment_Home, "首页")
+                .addNavigationItem(R.drawable.ic_dashboard_black_24dp, R.drawable.ic_dashboard_black_24dp,
+                        createFragmentWithRouter(RouterHub.RECIPE_RECIPE_FRAGMENT), Tag_Fragment_Recipe, "发现")
+                .addNavigationItem(R.drawable.ic_notifications_black_24dp, R.drawable.ic_notifications_black_24dp,
+                        createFragmentWithRouter(RouterHub.APP_MINE_FRAGMENT), Tag_Fragment_Mine, "我的");
 
-//        fragments.add(createFragmentWithRouter(RouterHub.APP_HOME_FRAGMENT));
-//        fragments.add(createFragmentWithRouter(RouterHub.RECIPE_RECIPE_FRAGMENT));
-//        fragments.add(createFragmentWithRouter(RouterHub.APP_MINE_FRAGMENT));
-
-        navigationBar.titleItems(tabText)
-                .normalIconItems(normalIcon)
-                .selectIconItems(selectIcon)
-                .fragmentList(fragments)
-                .fragmentManager(getSupportFragmentManager())
-                .canScroll(true)
-                .build();
-
-        navigationBar.setOnTabClickListener(new EasyNavigationBar.OnTabClickListener() {
-
-            @Override
-            public boolean onTabSelectEvent(View view, int position) {
-//                tv_content.setText("您点击了第"+position+"个Tab，这里面没有Fragment的、只是单纯的点击");
-                return false;
-            }
-
-            @Override
-            public boolean onTabReSelectEvent(View view, int position) {
-                Toast.makeText(MainActivity.this,"重复点击",Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-        });
+        dataBinding.navigationTabBar.init();
     }
 
     @Override
     protected void initData() {
-
+        AppStore.mine.observe(this, integer -> {
+            dataBinding.navigationTabBar.getNavigationItem(Tag_Fragment_Mine).setRedpotViewVisible(true);
+        });
+        dataBinding.navigationTabBar.getNavigationItem(Tag_Fragment_Mine).setRedpotViewVisible(true);
     }
 
     /**
      * 创建路由Fragment
      */
     public Fragment createFragmentWithRouter(String path) {
-
-        return (Fragment) ARouter.getInstance().build(path)
-                .navigation(this);
+        Fragment fragment =  (Fragment) ARouter.getInstance().build(path).navigation();
+        return fragment;
     }
 
+    @Override
+    protected MainViewModel initViewModel() {
+        return new ViewModelProvider(this).get(MainViewModel.class);
+    }
+
+    @Override
+    protected void showError(Object obj) {
+
+    }
 }

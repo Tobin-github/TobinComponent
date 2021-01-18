@@ -1,6 +1,5 @@
 include ':module_home'
 include ':module_mine'
-include ':lib_navigation'
 include ':module_recipe'
 include ':app'
 include ':lib_resource'

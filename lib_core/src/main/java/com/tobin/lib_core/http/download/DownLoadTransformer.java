@@ -9,13 +9,11 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import okhttp3.ResponseBody;
 
-
 public class DownLoadTransformer implements FlowableTransformer<ResponseBody, Object> {
 
-
-//    默认保存地址
+    // 默认保存地址
     private String mPath;
-//    文件名
+    // 文件名
     private String mFileName;
 
     public DownLoadTransformer(String mPath, String mFileName) {

@@ -12,11 +12,11 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.tobin.home.databinding.FragmentHomeBinding;
 import com.tobin.lib_resource.arouter.RouterHub;
-import com.tobin.lib_resource.base.BaseVMDBFragment;
+import com.tobin.lib_resource.mvvm.base.BaseFragment;
 import com.tobin.webview.WebActivity;
 
-//@Route(path = RouterHub.APP_HOME_FRAGMENT)
-public class HomeFragment extends BaseVMDBFragment<HomeViewModel, FragmentHomeBinding> {
+@Route(path = RouterHub.APP_HOME_FRAGMENT)
+public class HomeFragment extends BaseFragment<HomeViewModel, FragmentHomeBinding> {
     
 
     @Override

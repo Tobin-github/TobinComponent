@@ -2,32 +2,16 @@ package com.tobin.recipe.ui;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.tobin.lib_core.base.Box;
-import com.tobin.lib_core.http.exception.ApiException;
-import com.tobin.lib_core.http.observer.CommonObserver;
-import com.tobin.lib_core.utils.RxUtils;
 import com.tobin.lib_resource.arouter.RouterHub;
-import com.tobin.lib_resource.base.BaseDBActivity;
-import com.tobin.recipe.api.RecipeApi;
-import com.tobin.recipe.bean.RecipesClassBean;
+import com.tobin.lib_resource.mvvm.base.BaseActivity;
 import com.tobin.recipe.databinding.ActivityRecipeBinding;
 import com.tobin.recipe.R;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-
 @Route(path = RouterHub.RECIPE_RECIPE_ACTIVITY)
-public class RecipeActivity extends BaseDBActivity<ActivityRecipeBinding> {
+public class RecipeActivity extends BaseActivity<RecipeViewModel, ActivityRecipeBinding> {
 
     @Override
     protected int onCreate() {
@@ -67,6 +51,16 @@ public class RecipeActivity extends BaseDBActivity<ActivityRecipeBinding> {
 //
 //                    }
 //                });
+
+    }
+
+    @Override
+    protected RecipeViewModel initViewModel() {
+        return new ViewModelProvider(this).get(RecipeViewModel.class);
+    }
+
+    @Override
+    protected void showError(Object obj) {
 
     }
 }

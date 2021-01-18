@@ -7,4 +7,7 @@
     <!--控制各个控件被选中时的颜色-->
     <color name="colorAccent">@android:color/holo_blue_light</color>
 
+    <color name="text_normal_color">#333333</color>
+    <color name="background_gray_f8f8f8">#F8F8F8</color>
+
 </resources>

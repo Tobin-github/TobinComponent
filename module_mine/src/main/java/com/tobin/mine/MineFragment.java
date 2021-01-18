@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tobin.lib_resource.arouter.RouterHub;
-import com.tobin.lib_resource.base.BaseVMDBFragment;
+import com.tobin.lib_resource.mvvm.base.BaseFragment;
 import com.tobin.mine.databinding.FragmentMineBinding;
 
-//@Route(path = RouterHub.APP_MINE_FRAGMENT)
-public class MineFragment extends BaseVMDBFragment<MineViewModel, FragmentMineBinding> {
+@Route(path = RouterHub.APP_MINE_FRAGMENT)
+public class MineFragment extends BaseFragment<MineViewModel, FragmentMineBinding> {
 
     @Override
     protected int onCreate() {

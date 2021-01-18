@@ -7,17 +7,21 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <com.tobin.library.navigation.view.EasyNavigationBar
-            android:id="@+id/navigationBar"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/navigation_tab_bar"/>
 
-        </com.tobin.library.navigation.view.EasyNavigationBar>
+        <com.tobin.lib_resource.widget.NavigationTabBar
+            android:id="@+id/navigation_tab_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
