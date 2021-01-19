@@ -84,10 +84,13 @@ public class WebActivity extends AppCompatActivity {
             }
         });
         toolbar.setNavigationOnClickListener(v -> {
-            Timber.tag("WebActivity").w("setNavigationOnClickListener view "+ v.getId() + "home: " + android.R.id.home);
-            if (v.getId() == R.id.toolbar_back){
-                Timber.tag("WebActivity").w("onMenuItemClick toolbar_back");
+            Timber.tag("WebActivity").w("setNavigationOnClickListener view "+ v.getId());
+
+            Timber.tag("WebActivity").w("onMenuItemClick toolbar_back");
+            if (!webViewFragment.onBackPressed()) {
+                finish();
             }
+
         });
         toolbar.setOnClickListener(v -> {
             Timber.tag("WebActivity").w("setNavigationOnClickListener view%d", v.getId());
@@ -114,7 +117,7 @@ public class WebActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.web_view_fragment, webViewFragment).commit();
 
-//        WebViewProcessCommandsManager.getInstance().registerCommand(WebConstants.LEVEL_LOCAL, titleUpdateCommand);
+        WebViewProcessCommandsManager.getInstance().registerCommand(WebConstants.LEVEL_LOCAL, titleUpdateCommand);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeFragmentHomeBi
     protected void initView(View view) {
         dataBinding.testWebview.setOnClickListener(v -> {
             //            startActivity(new Intent(getContext(), WebActivity.class));
-            WebActivity.startCommonWeb(getActivity(),"js native","file:///android_asset/TestWebView.html");
+            WebActivity.startCommonWeb(getActivity(),"","file:///android_asset/TestWebView.html");
 //            WebActivity.startCommonWeb(getActivity(),"js native","https://blog.csdn.net/jinmie0193/article/details/80723724");
         });
 

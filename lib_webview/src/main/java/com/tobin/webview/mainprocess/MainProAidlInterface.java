@@ -29,6 +29,9 @@ public class MainProAidlInterface extends IWebAidlInterface.Stub {
         int pid = android.os.Process.myPid();
         Timber.tag("MainProAidlInterface").d(String.format(Locale.getDefault(), "进程ID（%d）， WebView请求(%s), 参数 （%s）", pid, actionName, jsonParams));
         try {
+//            Map params = new Gson().fromJson(jsonParams, Map.class);
+
+
             HashMap<String, Object> params = new Gson().fromJson(jsonParams, new TypeToken<HashMap<String, Object>>() {}.getType());
 
             handleRemoteAction(level, actionName, params, callback);

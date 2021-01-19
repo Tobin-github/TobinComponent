@@ -7,9 +7,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import java.util.List;
 import java.util.Map;
 
+import com.tobin.lib_core.base.Box;
 import com.tobin.lib_core.utils.ActivityUtils;
 import com.tobin.webview.command.base.Command;
 import com.tobin.webview.command.base.Commands;
@@ -53,9 +53,9 @@ public class LocalCommands extends Commands {
         @Override
         public void exec(Context context, Map params, ResultBack resultBack) {
             Timber.tag("Tobin").e("showToastCommand: %s", params.toString());
-//            Toast.makeText(context.getApplicationContext(), String.valueOf(params.get("message")), Toast.LENGTH_SHORT).show();
-//            params.put(WebConstants.NATIVE2WEB_CALLBACK, (String) params.get(WebConstants.WEB2NATIVE_CALLBACK));
-//            resultBack.onResult(WebConstants.SUCCESS, name(), params);
+            Toast.makeText(Box.getApp(), String.valueOf(params.get("message")), Toast.LENGTH_SHORT).show();
+            params.put(WebConstants.NATIVE2WEB_CALLBACK, (String) params.get(WebConstants.WEB2NATIVE_CALLBACK));
+            resultBack.onResult(WebConstants.SUCCESS, name(), params);
         }
     };
 
@@ -78,7 +78,10 @@ public class LocalCommands extends Commands {
                 if (params.get("canceledOutside") != null) {
                     canceledOutside = Boolean.parseBoolean(params.get("canceledOutside").toString());
                 }
-                List<Map<String, String>> buttons = (List<Map<String, String>>) params.get("buttons");
+                int buttons = Integer.parseInt(params.get("buttonCount").toString());
+
+                Timber.tag("Tobin").e("canceledOutside: " + canceledOutside + " buttonCount: " + buttons);
+//                List<Map<String, String>> buttons = (List<Map<String, String>>) params.get("buttons");
                 final String callbackName = (String) params.get(WebConstants.WEB2NATIVE_CALLBACK);
                 if (!TextUtils.isEmpty(content)) {
                     AlertDialog dialog = new AlertDialog.Builder(ActivityUtils.currentActivity())
@@ -86,18 +89,20 @@ public class LocalCommands extends Commands {
                             .setMessage(content)
                             .create();
                     dialog.setCanceledOnTouchOutside(canceledOutside);
-                    if (WebUtils.isNotNull(buttons)) {
-                        for (int i = 0; i < buttons.size(); i++) {
-                            final Map<String, String> button = buttons.get(i);
+//                    dialog.set
+
+                    if (buttons > 0) {
+                        for (int i = 0; i < buttons; i++) {
+
                             int buttonWhich = getDialogButtonWhich(i);
 
                             if (buttonWhich == 0) return;
 
-                            dialog.setButton(buttonWhich, button.get("title"), new DialogInterface.OnClickListener() {
+                            dialog.setButton(buttonWhich, "ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    button.put(WebConstants.NATIVE2WEB_CALLBACK, callbackName);
-                                    resultBack.onResult(WebConstants.SUCCESS, name(), button);
+                                    params.put(WebConstants.NATIVE2WEB_CALLBACK, callbackName);
+                                    resultBack.onResult(WebConstants.SUCCESS, name(), params);
                                 }
                             });
                         }

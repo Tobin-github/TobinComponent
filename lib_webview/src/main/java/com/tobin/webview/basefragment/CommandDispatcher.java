@@ -74,6 +74,7 @@ public class CommandDispatcher {
 
     private void execLocalCommand(final Context context, final int commandLevel, final String cmd, final String params,
                                   final WebView webView, final DispatcherCallBack dispatcherCallBack) throws Exception {
+        Timber.tag("Tobin").d("execLocalCommand params: %s", params);
         Map mapParams = gson.fromJson(params, Map.class);
         WebViewProcessCommandsManager.getInstance().findAndExecLocalCommand(
                 context, commandLevel, cmd, mapParams,
