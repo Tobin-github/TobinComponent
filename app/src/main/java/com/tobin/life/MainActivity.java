@@ -15,7 +15,6 @@ public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBindin
     public static final int Tag_Fragment_Mine = 2;
     public static final int Tag_Fragment_Service = 3;
 
-
     @Override
     protected int onCreate() {
         return R.layout.activity_main;

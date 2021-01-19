@@ -1,0 +1,130 @@
+project.beforeEvaluate {
+    if (isBuildModule.toBoolean()) {
+        apply plugin: 'com.android.application'
+    } else {
+        apply plugin: 'com.android.library'
+    }
+
+    android {
+        compileSdkVersion 30
+        defaultConfig {
+            minSdkVersion 21
+            targetSdkVersion 30
+            versionCode 1
+            versionName "1.0.0beta"
+            multiDexEnabled true
+
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+
+//            manifestPlaceholders = [
+//                BUGLY_APPID : "BUGLY_APPID"
+//            ]
+
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments = [AROUTER_MODULE_NAME: project.getName()]
+                }
+            }
+        }
+
+        signingConfigs {
+            sign {
+                keyAlias "tobin"
+                keyPassword "..!@tobin"
+                storePassword "..!@tobin"
+                storeFile rootProject.file("tobin_component.jks")
+            }
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                zipAlignEnabled true
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                signingConfig signingConfigs.sign
+            }
+
+            debug {
+                minifyEnabled false
+                zipAlignEnabled true
+                signingConfig signingConfigs.sign
+            }
+        }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        buildFeatures{
+            dataBinding = true
+            // for view binding :
+            // viewBinding = true
+        }
+
+        lintOptions {
+//            disable 'InvalidPackage'
+//            disable "ResourceType"
+            abortOnError false
+        }
+
+        sourceSets {
+            main {
+                if (isBuildModule.toBoolean()) {
+                    //debug模式下, 使用debug目录下的manifest
+                    def debugManifest = 'src/main/debug/AndroidManifest.xml'
+                    if (project.file(debugManifest).exists()){
+                        manifest.srcFile debugManifest
+                    }
+
+                    //debug模式下，如果存在src/main/debug/assets，则自动将其添加到assets源码目录
+                    if (project.file('src/main/debug/assets').exists()) {
+                        assets.srcDirs = ['src/main/assets', 'src/main/debug/assets']
+                    }
+                    //debug模式下，如果存在src/main/debug/java，则自动将其添加到java源码目录
+                    if (project.file('src/main/debug/java').exists()) {
+                        java.srcDirs = ['src/main/java', 'src/main/debug/java']
+                    }
+                    //debug模式下，如果存在src/main/debug/res，则自动将其添加到资源目录
+                    if (project.file('src/main/debug/res').exists()) {
+                        res.srcDirs = ['src/main/res', 'src/main/debug/res']
+                    }
+                }else {
+                    manifest.srcFile 'src/main/AndroidManifest.xml'
+                    //集成开发模式下自动排除debug文件夹中的所有Java文件
+                    // 可以将debug代码放在这个包内，例如：Application子类
+                    java {
+                        exclude 'debug/**'
+                    }
+                }
+
+            }
+        }
+
+
+    }
+
+    dependencies {
+        // test
+        testImplementation 'junit:junit:4.13.1'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+        // UI
+        implementation 'androidx.appcompat:appcompat:1.2.0'
+        implementation 'com.google.android.material:material:1.2.1'
+        implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+        // ARouter
+        api 'com.alibaba:arouter-api:1.5.1'
+        annotationProcessor 'com.alibaba:arouter-compiler:1.5.1'
+
+        implementation project(path: ':lib_resource')
+
+    }
+    
+}

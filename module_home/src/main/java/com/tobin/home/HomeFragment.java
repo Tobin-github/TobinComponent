@@ -10,13 +10,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.tobin.home.databinding.FragmentHomeBinding;
+import com.tobin.home.databinding.HomeFragmentHomeBinding;
 import com.tobin.lib_resource.arouter.RouterHub;
 import com.tobin.lib_resource.mvvm.base.BaseFragment;
 import com.tobin.webview.WebActivity;
 
 @Route(path = RouterHub.APP_HOME_FRAGMENT)
-public class HomeFragment extends BaseFragment<HomeViewModel, FragmentHomeBinding> {
+public class HomeFragment extends BaseFragment<HomeViewModel, HomeFragmentHomeBinding> {
     
 
     @Override
@@ -26,11 +26,11 @@ public class HomeFragment extends BaseFragment<HomeViewModel, FragmentHomeBindin
 
     @Override
     protected int onCreate() {
-        return R.layout.fragment_home;
+        return R.layout.home_fragment_home;
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
         dataBinding.testWebview.setOnClickListener(v -> {
             //            startActivity(new Intent(getContext(), WebActivity.class));
             WebActivity.startCommonWeb(getActivity(),"js native","file:///android_asset/TestWebView.html");
@@ -51,6 +51,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, FragmentHomeBindin
             @Override
             public void onChanged(@Nullable String s) {
                 dataBinding.textHome.setText(s);
+                showSuccess();
             }
         });
     }

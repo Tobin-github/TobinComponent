@@ -17,7 +17,7 @@ import com.tobin.lib_resource.loadsir.CustomCallback;
 import com.tobin.lib_resource.loadsir.ErrorCallback;
 import com.tobin.lib_resource.loadsir.LottieEmptyCallback;
 import com.tobin.lib_resource.loadsir.LottieLoadingCallback;
-import com.tobin.lib_resource.loadsir.TimeoutCallback;
+import com.tobin.lib_resource.loadsir.NetErrorCallback;
 import com.tencent.bugly.crashreport.CrashReport;
 
 public class AppStore implements AppLifecycle {
@@ -54,8 +54,8 @@ public class AppStore implements AppLifecycle {
                 .addCallback(new LottieEmptyCallback())
                 .addCallback(new LottieLoadingCallback())
                 .addCallback(new CustomCallback())
-                .addCallback(new TimeoutCallback())
-                .setDefaultCallback(LottieLoadingCallback.class)
+                .addCallback(new NetErrorCallback())
+//                .setDefaultCallback(LottieLoadingCallback.class)
                 .commit();
     }
 

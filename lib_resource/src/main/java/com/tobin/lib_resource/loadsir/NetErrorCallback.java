@@ -8,7 +8,7 @@ import com.kingja.loadsir.callback.Callback;
 
 import com.tobin.lib_resource.R;
 
-public class TimeoutCallback extends Callback {
+public class NetErrorCallback extends Callback {
 
     @Override
     protected int onCreateView() {

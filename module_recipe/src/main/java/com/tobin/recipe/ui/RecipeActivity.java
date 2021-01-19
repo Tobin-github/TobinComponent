@@ -7,15 +7,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tobin.lib_resource.arouter.RouterHub;
 import com.tobin.lib_resource.mvvm.base.BaseActivity;
-import com.tobin.recipe.databinding.ActivityRecipeBinding;
 import com.tobin.recipe.R;
+import com.tobin.recipe.databinding.RecipeActivityRecipeBinding;
 
 @Route(path = RouterHub.RECIPE_RECIPE_ACTIVITY)
-public class RecipeActivity extends BaseActivity<RecipeViewModel, ActivityRecipeBinding> {
+public class RecipeActivity extends BaseActivity<RecipeActivityViewModel, RecipeActivityRecipeBinding> {
 
     @Override
     protected int onCreate() {
-        return R.layout.activity_recipe;
+        return R.layout.recipe_activity_recipe;
     }
 
     @Override
@@ -55,8 +55,8 @@ public class RecipeActivity extends BaseActivity<RecipeViewModel, ActivityRecipe
     }
 
     @Override
-    protected RecipeViewModel initViewModel() {
-        return new ViewModelProvider(this).get(RecipeViewModel.class);
+    protected RecipeActivityViewModel initViewModel() {
+        return new ViewModelProvider(this).get(RecipeActivityViewModel.class);
     }
 
     @Override

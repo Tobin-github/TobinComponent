@@ -11,21 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
 import com.gyf.immersionbar.ImmersionBar;
+import com.gyf.immersionbar.components.SimpleImmersionFragment;
+
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
-import com.kingja.loadsir.core.Transport;
 import com.tobin.lib_core.http.exception.ApiException;
 import com.tobin.lib_core.http.exception.ErrorType;
 import com.tobin.lib_resource.lifecycle.BaseViewModel;
 import com.tobin.lib_resource.loadsir.ErrorCallback;
 import com.tobin.lib_resource.loadsir.LottieEmptyCallback;
 import com.tobin.lib_resource.loadsir.LottieLoadingCallback;
-import com.tobin.lib_resource.loadsir.TimeoutCallback;
+import com.tobin.lib_resource.loadsir.NetErrorCallback;
 
 import timber.log.Timber;
 
@@ -34,7 +34,7 @@ import timber.log.Timber;
  * Email: 616041023@qq.com
  * Description: mvvm Fragment基类
  */
-public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends Fragment {
+public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends SimpleImmersionFragment {
     protected VM viewModel;
     protected DB dataBinding;
     protected Activity activity;
@@ -46,37 +46,19 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = initViewModel();
-        initObserve();
+
         Timber.tag("Tobin").i("BaseFragment onViewCreated");
 
-//        loadService = LoadSir.getDefault().register(view, (Callback.OnReloadListener) v -> {
-//            Timber.tag("Tobin").w("BaseVMDBFragment loadService register");
-////            loadService.showCallback(LottieLoadingCallback.class);
-//            initData();
-//
-//        }).setCallBack(LottieEmptyCallback.class, (context, v) -> {
-//            Timber.tag("Tobin").w("BaseVMDBFragment loadService LottieEmptyCallback");
-//        }).setCallBack(ErrorCallback.class, (context, v) -> {
-//            Timber.tag("Tobin").w("BaseVMDBFragment loadService ErrorCallback");
-//        }).setCallBack(TimeoutCallback.class, (context, v) -> {
-//            Timber.tag("Tobin").w("BaseVMDBFragment loadService TimeoutCallback");
-//        }).setCallBack(LottieLoadingCallback.class, (context, v) -> {
-//            Timber.tag("Tobin").w("BaseVMDBFragment loadService LottieLoadingCallback");
-//        });
-//
-//        loadService.showSuccess();
-
-        initView();
+        initView(view);
         if (!isLazyLoad()){
             initData();
         }
-        initImmersionBar();
     }
 
     /**
      * 初始化视图
      */
-    protected abstract void initView();
+    protected abstract void initView(View view);
 
     /**
      * 初始化数据
@@ -96,7 +78,8 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
      * 初始化沉浸式
      * Init immersion bar.
      */
-    protected void initImmersionBar() {
+    @Override
+    public void initImmersionBar() {
         ImmersionBar.with(this).statusBarDarkFont(true).init();
     }
 
@@ -120,11 +103,32 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
         }
     }
 
+    protected void showSuccess() {
+        if (loadService != null) {
+            loadService.showSuccess();
+        }
+    }
+
+    public void showEmpty() {
+        if (loadService != null) {
+            loadService.showCallback(LottieEmptyCallback.class);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         dataBinding = initDataBinding(inflater, onCreate(), container);
-        return dataBinding.getRoot();
+        loadService = LoadSir.getDefault().register(dataBinding.getRoot(), new Callback.OnReloadListener() {
+            @Override
+            public void onReload(View v) {
+                // 重新加载逻辑
+                Timber.tag("Tobin").e("BaseFragment LoadSir --> getDefault: onReload");
+                loadService.showCallback(LottieLoadingCallback.class);
+                initData();
+            }
+        });
+        return loadService.getLoadLayout();
     }
 
     protected DB initDataBinding(LayoutInflater inflater, int layoutId, ViewGroup container) {
@@ -164,13 +168,16 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
             public void onChanged(Throwable throwable) {
                 if (throwable instanceof ApiException) {
                     ApiException exception = (ApiException) throwable;
-                    Timber.tag("Tobin").i("message" + exception.message + "code: " + exception.code);
-                    if (exception.code == ErrorType.NETWORD_ERROR){
-                        loadService.showCallback(TimeoutCallback.class);
-                    }else {
-                        showError(exception.getMessage());
+                    Timber.tag("Tobin").i("ApiException message: " + exception.message + " code: " + exception.code);
+                    if ((exception.code == ErrorType.NETWORD_ERROR) && loadService != null){
+                        loadService.showCallback(NetErrorCallback.class);
+                    }else{
+                        showError(exception.message);
+                        loadService.showCallback(ErrorCallback.class);
                     }
                 } else {
+                    showError(throwable.getMessage());
+                    loadService.showCallback(ErrorCallback.class);
                     Timber.tag("Tobin").e("throwable message: %s", throwable.getMessage());
                 }
             }
@@ -181,4 +188,6 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
      * ViewModel层发生了错误
      */
     protected abstract void showError(Object obj);
+
+
 }

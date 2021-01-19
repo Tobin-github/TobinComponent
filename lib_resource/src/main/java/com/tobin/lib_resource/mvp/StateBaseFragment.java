@@ -20,7 +20,7 @@ import com.tobin.lib_resource.dialog.FDialog;
 import com.tobin.lib_resource.loadsir.ErrorCallback;
 import com.tobin.lib_resource.loadsir.LottieEmptyCallback;
 import com.tobin.lib_resource.loadsir.LottieLoadingCallback;
-import com.tobin.lib_resource.loadsir.TimeoutCallback;
+import com.tobin.lib_resource.loadsir.NetErrorCallback;
 import com.tobin.lib_resource.mvp.base.BaseFragment;
 import com.tobin.lib_resource.mvp.base.IPresenter;
 
@@ -114,7 +114,7 @@ public abstract class StateBaseFragment<P extends IPresenter> extends BaseFragme
             public void order(Context context, View view) {
                 customLoadingPage(context, view);
             }
-        }).setCallBack(TimeoutCallback.class, new Transport() {
+        }).setCallBack(NetErrorCallback.class, new Transport() {
             @Override
             public void order(Context context, View view) {
                 customNetErrorPage(context, view);
@@ -183,7 +183,7 @@ public abstract class StateBaseFragment<P extends IPresenter> extends BaseFragme
 
     public void showNetError() {
         if (mStateView != null) {
-            mStateView.showCallback(TimeoutCallback.class);
+            mStateView.showCallback(NetErrorCallback.class);
         }
     }
 
