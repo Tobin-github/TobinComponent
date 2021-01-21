@@ -3,8 +3,7 @@ package com.tobin.lib_resource.mvp.base;
 import androidx.annotation.CallSuper;
 import androidx.lifecycle.LifecycleOwner;
 
-public abstract class BasePresenter<V extends IView>
-        implements IPresenter {
+public abstract class BasePresenter<V extends IView> implements IPresenter {
     protected V mView;
 
     protected LifecycleOwner mLifecycleOwner;

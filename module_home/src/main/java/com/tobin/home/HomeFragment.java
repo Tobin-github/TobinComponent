@@ -50,7 +50,6 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeFragmentHomeBi
         viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                dataBinding.textHome.setText(s);
                 showSuccess();
             }
         });

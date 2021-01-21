@@ -3,9 +3,8 @@
     package="com.tobin.recipe">
 
     <application>
-
-        
-        <activity android:name=".ui.RecipeActivity"/>
+        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.RecipeActivity" />
     </application>
 
 </manifest>

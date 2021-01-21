@@ -27,6 +27,9 @@ public abstract class BaseActivity<VM extends BaseViewModel, DB extends ViewData
     protected void onCreate(@androidx.annotation.Nullable android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int layoutId = onCreate();
+        if (isShowToolbar()){
+
+        }
         setContentView(layoutId);
 
         dataBinding = initDataBinding(layoutId);
@@ -37,6 +40,10 @@ public abstract class BaseActivity<VM extends BaseViewModel, DB extends ViewData
 
         viewModel = initViewModel();
         initObserve();
+    }
+
+    protected boolean isShowToolbar() {
+        return false;
     }
 
     /**

@@ -6,16 +6,16 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MineActivity">
+        tools:context=".ui.RecipeResultFragment">
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_recipe_result"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_height="0dp"
+            android:padding="10dp"/>
 
-    </LinearLayout>
+    </FrameLayout>
 </layout>

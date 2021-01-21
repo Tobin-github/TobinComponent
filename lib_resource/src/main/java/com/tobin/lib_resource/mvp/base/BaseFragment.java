@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public abstract class BaseFragment<P extends IPresenter>
-        extends Fragment implements IView {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView {
     protected View mView;
     protected Activity mActivity;
     protected Context mContext;
@@ -41,7 +40,7 @@ public abstract class BaseFragment<P extends IPresenter>
             mView = inflater.inflate(layoutId, container, false);
             initParams(getArguments());
             mPresenter = obtainPresenter();
-            if (mPresenter!=null){
+            if (mPresenter != null) {
                 getLifecycle().addObserver(mPresenter);
             }
             initView(mView);

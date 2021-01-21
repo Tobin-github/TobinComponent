@@ -6,9 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class BaseActivity<P extends IPresenter>
-        extends AppCompatActivity implements IView {
+public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IView {
     private P mPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -208,8 +208,6 @@ public abstract class StateBaseActivity<P extends IPresenter> extends BaseActivi
 
     /**
      * 重试
-     *
-     * @param view
      */
     public void reloadData(View view) {
 

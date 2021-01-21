@@ -54,9 +54,18 @@ public class RecipesClassBean implements Serializable {
 
         private String classid;
         private String name;
+
+        private boolean selected;
         private String parentid;
         private List<ListBean> list;
 
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
         public String getClassid() {
             return classid;
         }

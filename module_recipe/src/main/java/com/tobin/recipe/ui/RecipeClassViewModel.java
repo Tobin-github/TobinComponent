@@ -11,13 +11,13 @@ import com.tobin.recipe.bean.RecipesClassBean;
 
 import timber.log.Timber;
 
-public class RecipeViewModel extends BaseViewModel {
+public class RecipeClassViewModel extends BaseViewModel {
 
     private final MutableLiveData<RecipesBean> recipesLiveData;
     private final MutableLiveData<RecipesClassBean> recipesClassLiveData;
 
 
-    public RecipeViewModel() {
+    public RecipeClassViewModel() {
         recipesLiveData = new MutableLiveData<>();
         recipesClassLiveData = new MutableLiveData<>();
     }
@@ -32,7 +32,6 @@ public class RecipeViewModel extends BaseViewModel {
     }
 
     public void recipesClass() {
-
         addDisposable(Box.getRetrofit(RecipeApi.class)
                 .recipesClass()
                 .compose(RxUtils.httpResponseTransformer())

@@ -51,14 +51,11 @@ public abstract class StateBaseFragment<P extends IPresenter> extends BaseFragme
 //            if (rootView == null) {
 //                rootView = mView;
 //            }
-//            initStateView(rootView);
+            initStateView(mView);
             //初始化基本参数
             initParams(getArguments());
             //初始化Presenter
             mPresenter = obtainPresenter();
-//            if (mPresenter == null || !(mPresenter instanceof LifecycleObserver)) {
-//                throw new IllegalArgumentException("obtain a wrong presenter");
-//            }
             if (mPresenter != null) {
                 getLifecycle().addObserver(mPresenter);
             }
@@ -150,8 +147,7 @@ public abstract class StateBaseFragment<P extends IPresenter> extends BaseFragme
 
     /**
      * 重试
-     *
-     * @param view
+     * @param view View
      */
     public void reloadData(View view) {
 
@@ -189,7 +185,7 @@ public abstract class StateBaseFragment<P extends IPresenter> extends BaseFragme
 
     public void showProgressLoading() {
         progressLoadingDialog = FDialog.build()
-                .setSupportFM(getFragmentManager())
+                .setSupportFM(getParentFragmentManager())
                 .setLayoutId(R.layout.dialog_layout_loading)
                 .setDimAmount(1)
                 .show();
