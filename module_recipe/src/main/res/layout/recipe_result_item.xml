@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:textSize="18sp"
+        android:text="title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/iv_recipe_icon"/>
@@ -29,6 +30,7 @@
         android:layout_marginStart="6dp"
         android:lines="2"
         android:ellipsize="end"
+        android:text="content"
         app:layout_constraintTop_toBottomOf="@id/tv_recipe_title"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/iv_recipe_icon"/>

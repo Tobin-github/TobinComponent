@@ -1,11 +1,15 @@
 package com.tobin.recipe.adapter;
 
+import android.content.Intent;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.tobin.lib_resource.arouter.RouterHub;
 import com.tobin.recipe.R;
+import com.tobin.recipe.ui.RecipeActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,9 +44,12 @@ public class SecondNodeProvider extends BaseNodeProvider  {
     public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
         Timber.d("SecondNodeProvider onClick position: " + position + "\nview: " + view.getId());
         SecondNode secondNode = (SecondNode) data;
-//        Intent intent = new Intent(Box.getApp(), RecipeActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.putExtra(RecipeActivity.INTENT_DATA, secondNode.getData());
-//        Box.getApp().startActivity(intent);
+        Intent intent = new Intent(getContext(), RecipeActivity.class);
+        intent.putExtra(RecipeActivity.INTENT_DATA, secondNode.getData());
+        getContext().startActivity(intent);
+//        ARouter.getInstance().build(RouterHub.RECIPE_DETAIL_ACTIVITY)
+//                .withObject("class_id", secondNode.getData())
+//                .navigation(getContext());
+
     }
 }

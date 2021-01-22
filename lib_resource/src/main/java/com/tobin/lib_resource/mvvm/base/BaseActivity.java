@@ -32,13 +32,13 @@ public abstract class BaseActivity<VM extends BaseViewModel, DB extends ViewData
         }
         setContentView(layoutId);
 
+        viewModel = initViewModel();
         dataBinding = initDataBinding(layoutId);
+
         initView();
         initData();
 
         initImmersionBar();
-
-        viewModel = initViewModel();
         initObserve();
     }
 

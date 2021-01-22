@@ -47,8 +47,10 @@ public interface RouterHub {
      */
     String RECIPE_SERVICE_INFO = RECIPE + SERVICE + "/RecipeInfoService";
     String RECIPE_RECIPE_ACTIVITY = RECIPE + "/RecipeActivity";
-    String RECIPE_RECIPE_FRAGMENT = RECIPE + "/RecipeFragment";
-    String RECIPE_DETAIL_ACTIVITY = RECIPE + "/DetailActivity";
+    String RECIPE_RECIPE_FRAGMENT = RECIPE + "/RecipeClassFragment";
+    String RECIPE_RESULT_FRAGMENT = RECIPE + "/RecipeResultFragment";
+    String RECIPE_RESULT_SEARCH_FRAGMENT = RECIPE + "/RecipeSearchResultFragment";
+    String RECIPE_SEARCH_ACTIVITY = RECIPE + "/SearchActivity";
 
 
 }

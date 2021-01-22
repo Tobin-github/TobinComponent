@@ -38,15 +38,16 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeFragmentHomeBi
         });
 
 
-        dataBinding.recipeActivity.setOnClickListener(v -> {
+        dataBinding.btnRecipe.setOnClickListener(v -> {
             ARouter.getInstance()
-                    .build(RouterHub.RECIPE_RECIPE_ACTIVITY)
+                    .build(RouterHub.RECIPE_SEARCH_ACTIVITY)
                     .navigation(getActivity());
         });
     }
 
     @Override
     protected void initData() {
+        showLoading();
         viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

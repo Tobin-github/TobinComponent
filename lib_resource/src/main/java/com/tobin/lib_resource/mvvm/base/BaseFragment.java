@@ -50,7 +50,7 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
         Timber.tag("Tobin").i("BaseFragment onViewCreated");
 
         initView(view);
-        if (!isLazyLoad()){
+        if (!isLazyLoad()) {
             initData();
         }
     }
@@ -101,6 +101,10 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
         if (dataBinding != null) {
             dataBinding.unbind();
         }
+    }
+
+    protected void showLoading() {
+        loadService.showCallback(LottieLoadingCallback.class);
     }
 
     protected void showSuccess() {
@@ -154,7 +158,7 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
     /**
      * 懒加载，只有在Fragment第一次创建且第一次对用户可见
      */
-    protected boolean isLazyLoad(){
+    protected boolean isLazyLoad() {
         return true;
     }
 
@@ -169,9 +173,9 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
                 if (throwable instanceof ApiException) {
                     ApiException exception = (ApiException) throwable;
                     Timber.tag("Tobin").i("ApiException message: " + exception.message + " code: " + exception.code);
-                    if ((exception.code == ErrorType.NETWORD_ERROR) && loadService != null){
+                    if ((exception.code == ErrorType.NETWORD_ERROR) && loadService != null) {
                         loadService.showCallback(NetErrorCallback.class);
-                    }else{
+                    } else {
                         showError(exception.message);
                         loadService.showCallback(ErrorCallback.class);
                     }

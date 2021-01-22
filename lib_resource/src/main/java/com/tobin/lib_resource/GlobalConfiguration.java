@@ -50,7 +50,8 @@ public class GlobalConfiguration implements GlobalModule {
                 // 设置对副单位的支持
                 .autoSize(false, false, Subunits.PT)
                 // 配置是否Room数据库进行网络请求的缓存
-                .roomCache(true, CacheMode.REQUEST_FAILED_READ_CACHE, 60*60*24*30)
+//                .roomCache(true, CacheMode.REQUEST_FAILED_READ_CACHE, 60*60*24*30)
+                .roomCache(true, CacheMode.NO_CACHE, 60*60*24*30)
                 // OkHttpClient的拓展配置
                 .okhttpConfiguration(new OkhttpConfig() {
                     @Override

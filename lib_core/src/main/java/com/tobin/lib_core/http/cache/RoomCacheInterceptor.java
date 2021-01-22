@@ -1,6 +1,5 @@
 package com.tobin.lib_core.http.cache;
 
-import android.os.Looper;
 import android.text.TextUtils;
 
 import com.tobin.lib_core.base.App;

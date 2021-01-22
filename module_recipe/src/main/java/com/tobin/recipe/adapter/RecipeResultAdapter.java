@@ -9,7 +9,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.tobin.lib_core.base.Box;
 import com.tobin.recipe.R;
 import com.tobin.recipe.bean.RecipesBean;
 
@@ -43,7 +42,7 @@ public class RecipeResultAdapter extends BaseQuickAdapter<RecipesBean.ResultBean
                 .fallback(new ColorDrawable(Color.RED))
                 .override(300, 300);//采样率
 
-        Glide.with(Box.getApp())
+        Glide.with(getContext())
                 .load(listBean.getPic())
                 .apply(options)
                 .into((ImageView) helper.getView(R.id.iv_recipe_icon));

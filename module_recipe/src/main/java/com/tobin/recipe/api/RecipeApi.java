@@ -43,7 +43,7 @@ public interface RecipeApi {
      * @return RecipesBean
      */
     @Headers({"Domain-Name:wxjdcloud"})
-    @GET("/jisuapi/byclass?appkey" + appkey)
+    @GET("/jisuapi/byclass?appkey=" + appkey)
     Observable<HttpResult<RecipesBean>> byRecipesClass(@Query("classid") int classid,
                                                        @Query("start") int start,
                                                        @Query("num") int num);

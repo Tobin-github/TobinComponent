@@ -56,6 +56,7 @@ public class RecipeClassFragment extends BaseFragment<RecipeClassViewModel, Reci
 
     @Override
     protected void initData() {
+        showLoading();
         viewModel.getRecipesClassLiveData().observe(this, recipesClassBean -> {
             Timber.tag("Tobin").i("RecipeFragment initData");
             if (recipesClassBean != null) {

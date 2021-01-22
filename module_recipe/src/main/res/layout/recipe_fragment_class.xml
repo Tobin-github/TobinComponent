@@ -16,7 +16,7 @@
         tools:context=".ui.RecipeActivity">
 
         <RelativeLayout
-            android:id="@+id/rl_search"
+            android:id="@+id/rl_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
@@ -46,7 +46,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rl_search">
+            app:layout_constraintTop_toBottomOf="@id/rl_title">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_sort_left"
