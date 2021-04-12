@@ -81,6 +81,7 @@ public class Box implements AppLifecycle {
             retrofit = ObjectFactory.INSTANCE.getRetrofit(mApplication, App.getGlobalConfig());
         }
         return retrofit.create(serviceClazz);
+
     }
 
     /**

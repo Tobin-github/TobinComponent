@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="viewModel"
+            name="vm"
             type="com.tobin.mine.MineViewModel" />
+
+        <variable
+            name="click"
+            type="com.tobin.mine.MineFragment.ClickProxy" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

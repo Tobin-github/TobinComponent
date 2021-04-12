@@ -9,20 +9,17 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class RxUtils {
+
     static {
-        RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                throwable.printStackTrace();
-                Timber.tag("RxUtils").d("RxJavaPlugins throwable: %s", throwable.getMessage());
-            }
+        RxJavaPlugins.setErrorHandler(throwable -> {
+            throwable.printStackTrace();
+            Timber.tag("RxUtils").d("RxJavaPlugins throwable: %s", throwable.getMessage());
         });
     }
 

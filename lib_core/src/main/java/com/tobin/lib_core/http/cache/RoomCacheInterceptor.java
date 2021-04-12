@@ -270,6 +270,7 @@ public class RoomCacheInterceptor implements Interceptor {
                 Timber.tag("Tobin").i("roomCacheEntity start insertCache");
                 roomCacheDB.roomCacheDao().insertCache(roomCacheEntity);
                 roomCacheDB.close();
+
             }
         });
         if (isBuildNewResponse) {

@@ -4,7 +4,7 @@
 
     <application>
         <activity android:name=".ui.SearchActivity" />
-        <activity android:name=".ui.RecipeActivity" />
+        <activity android:name=".ui.main.RecipeActivity" />
     </application>
 
 </manifest>

@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.tobin.recipe.ui.SearchViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -16,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/hello_blank_fragment" />
+            android:text="Hello blank fragment" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

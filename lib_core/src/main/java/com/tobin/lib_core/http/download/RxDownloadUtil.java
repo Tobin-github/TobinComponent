@@ -13,6 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 public class RxDownloadUtil {
+
     /**
      * 下载文件
      */
@@ -48,4 +49,5 @@ public class RxDownloadUtil {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
 }

@@ -11,7 +11,7 @@ import com.tobin.recipe.bean.RecipesBean;
 import timber.log.Timber;
 
 public class RecipeResultViewModel extends BaseViewModel {
-    private MutableLiveData<RecipesBean> byClassIdLiveData;
+    public MutableLiveData<RecipesBean> byClassIdLiveData;
 
     public RecipeResultViewModel() {
         byClassIdLiveData = new MutableLiveData<>();

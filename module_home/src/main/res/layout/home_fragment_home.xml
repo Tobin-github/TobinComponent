@@ -5,7 +5,11 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="click"
+            type="com.tobin.home.HomeFragment.ClickProxy" />
+
+        <variable
+            name="vm"
             type="com.tobin.home.HomeViewModel" />
     </data>
 
@@ -18,18 +22,55 @@
             android:id="@+id/test_webview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:onClick="@{()->click.openWeb()}"
             android:text="WebView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+
 
         <Button
             android:id="@+id/btn_recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
             android:text="Recipe"
+            android:onClick="@{()->click.recipePage()}"
             app:layout_constraintTop_toBottomOf="@id/test_webview"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/down_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="文件下载"
+            android:onClick="@{()->click.downFile()}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/down_file_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="文件下载取消"
+            android:onClick="@{()->click.downFileCancel()}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+            android:id="@+id/gsy_video"
+            android:layout_height="300dp"
+            android:layout_width="match_parent">
+
+        </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
+
     </LinearLayout>
 </layout>

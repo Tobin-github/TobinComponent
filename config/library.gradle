@@ -1,7 +1,7 @@
 project.beforeEvaluate {
     apply plugin: 'com.android.library'
     apply plugin: 'kotlin-android'
-    apply plugin: 'kotlin-android-extensions'
+//    apply plugin: 'kotlin-android-extensions'
 
     android {
         compileSdkVersion 30
@@ -56,7 +56,8 @@ project.beforeEvaluate {
 
     }
 
-    dependencies { testImplementation 'junit:junit:4.13.1'
+    dependencies {
+        testImplementation 'junit:junit:4.13.1'
         androidTestImplementation 'androidx.test.ext:junit:1.1.2'
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
@@ -67,6 +68,7 @@ project.beforeEvaluate {
         api 'androidx.appcompat:appcompat:1.2.0'
         api 'com.google.android.material:material:1.2.1'
         api 'androidx.constraintlayout:constraintlayout:2.0.4'
+        api 'androidx.recyclerview:recyclerview:1.2.0-beta02'
 
         // kotlin
 //    api "org.jetbrains.kotlin:kotlin-android-extensions:1.4.10"
@@ -118,7 +120,7 @@ project.beforeEvaluate {
         // log
         api 'com.jakewharton.timber:timber:4.7.1'
 
-        // AutoSize 自动适配屏幕
+        // AutoSize 自动适配屏幕 https://github.com/JessYanCoding/AndroidAutoSize
         api 'me.jessyan:autosize:1.2.1'
         // 让 Retrofit 同时支持多个 BaseUrl 以及动态改变 BaseUrl
         // https://github.com/JessYanCoding/RetrofitUrlManager

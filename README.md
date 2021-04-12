@@ -1,6 +1,6 @@
 # 组件化开发
-
-MVVM 架构 （Rxjava2 + Retrofit2 + Okhttp3 + Room + ARouter + Jetpack）
+MVVM 模式
+(ARouter + Jetpack + Rxjava2 + Retrofit2 + Okhttp3 + Room)
 
 ## 网络
 

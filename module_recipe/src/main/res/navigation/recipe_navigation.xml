@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipe_navigation"
+    app:startDestination="@id/recipe_class_fragment">
+
+
+    <fragment
+        android:id="@+id/recipe_class_fragment"
+        android:name="com.tobin.recipe.ui.classify.RecipeClassFragment"
+        android:label="RecipeClassFragment" >
+        <action
+            android:id="@+id/recipe_action_recipe_class_fragment_to_recipe_result_fragment"
+            app:destination="@id/recipe_result_fragment" />
+        <action
+            android:id="@+id/recipe_action_recipe_class_fragment_to_recipe_search_history_fragment"
+            app:destination="@id/recipe_search_history_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recipe_result_fragment"
+        android:name="com.tobin.recipe.ui.RecipeResultFragment"
+        android:label="RecipeResultFragment" />
+
+    <fragment
+        android:id="@+id/recipe_search_history_fragment"
+        android:name="com.tobin.recipe.ui.RecipeSearchHistoryFragment"
+        android:label="RecipeSearchHistoryFragment" >
+        <action
+            android:id="@+id/recipe_action_recipe_search_history_fragment_to_recipe_result_fragment"
+            app:destination="@id/recipe_result_fragment" />
+    </fragment>
+
+
+</navigation>
+

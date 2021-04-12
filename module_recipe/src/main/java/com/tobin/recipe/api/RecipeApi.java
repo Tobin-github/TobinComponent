@@ -17,9 +17,11 @@ import com.tobin.recipe.bean.RecipesClassBean;
 public interface RecipeApi {
 
     String appkey = "2a5f3669118e8a082a1697c6b6f73f9a";
+//    String apiUrl = "https://way.jd.com/";
 
     /**
-     * 菜谱搜索
+     * 菜谱搜索.
+     *
      * @param keyword 关键字
      * @return RecipesBean
      */
@@ -29,6 +31,7 @@ public interface RecipeApi {
 
     /**
      * 菜谱分类
+     *
      * @return RecipesClassBean
      */
     @Headers({"Domain-Name:wxjdcloud"})
@@ -36,10 +39,11 @@ public interface RecipeApi {
     Observable<HttpResult<RecipesClassBean>> recipesClass();
 
     /**
-     * 按分类检索
+     * 按分类检索.
+     *
      * @param classid 分类ID
-     * @param start 起始条数
-     * @param num // 获取数量，最大为20
+     * @param start   起始条数
+     * @param num     获取数量，最大为20
      * @return RecipesBean
      */
     @Headers({"Domain-Name:wxjdcloud"})
@@ -49,7 +53,8 @@ public interface RecipeApi {
                                                        @Query("num") int num);
 
     /**
-     * 根据菜谱ID查询详情
+     * 根据菜谱ID查询详情.
+     *
      * @param id 菜谱ID
      * @return RecipesBean
      */

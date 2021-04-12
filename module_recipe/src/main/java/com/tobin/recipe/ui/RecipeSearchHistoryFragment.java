@@ -2,31 +2,16 @@ package com.tobin.recipe.ui;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tobin.lib_resource.arouter.RouterHub;
 import com.tobin.lib_resource.mvvm.base.BaseFragment;
+import com.tobin.lib_resource.mvvm.bingding.DataBindingConfig;
+import com.tobin.recipe.BR;
 import com.tobin.recipe.R;
-import com.tobin.recipe.databinding.RecipeFragmentSearchHistoryBinding;
-
 
 @Route(path = RouterHub.RECIPE_RESULT_SEARCH_FRAGMENT)
-public class RecipeSearchHistoryFragment extends BaseFragment<SearchViewModel, RecipeFragmentSearchHistoryBinding> {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class RecipeSearchHistoryFragment extends BaseFragment {
+    private SearchViewModel searchViewModel;
 
     public RecipeSearchHistoryFragment() {
         // Required empty public constructor
@@ -36,52 +21,25 @@ public class RecipeSearchHistoryFragment extends BaseFragment<SearchViewModel, R
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment RecipeSearchHistoryFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static RecipeSearchHistoryFragment newInstance(String param1, String param2) {
-        RecipeSearchHistoryFragment fragment = new RecipeSearchHistoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static RecipeSearchHistoryFragment newInstance() {
+        return new RecipeSearchHistoryFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    protected void initView(View view) {
-
+    protected DataBindingConfig getDataBindingConfig() {
+        return new DataBindingConfig(R.layout.recipe_fragment_search_history, BR.vm, searchViewModel);
     }
 
     @Override
-    protected void initData() {
-        showLoading();
-        showSuccess();
+    protected void initViewModel() {
+        searchViewModel = getFragmentScopeViewModel(SearchViewModel.class);
     }
 
-    @Override
-    protected int onCreate() {
-        return R.layout.recipe_fragment_search_history;
-    }
-
-    @Override
-    protected SearchViewModel initViewModel() {
-        return new ViewModelProvider(this).get(SearchViewModel.class);
-    }
-
-    @Override
-    protected void showError(Object obj) {
-
-    }
 }

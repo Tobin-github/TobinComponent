@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.multidex.MultiDex;
 
 import com.tobin.lib_core.BuildConfig;
@@ -20,7 +23,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class App extends Application {
+public class App extends Application implements ViewModelStoreOwner {
     private static final String TAG = "App";
     private AppLifecycle appLifecycle;
     private static Application instance;
@@ -51,6 +54,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        mAppViewModelStore = new ViewModelStore();
 
         // 初始化全局配置
         initGlobalConfig();
@@ -120,5 +125,13 @@ public class App extends Application {
             globalConfig = globalBuilder.build();
         }
         return globalConfig;
+    }
+
+
+    private ViewModelStore mAppViewModelStore;
+    @NonNull
+    @Override
+    public ViewModelStore getViewModelStore() {
+        return mAppViewModelStore;
     }
 }

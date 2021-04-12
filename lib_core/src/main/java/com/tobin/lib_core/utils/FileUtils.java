@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.core.content.FileProvider;
 
 import com.tobin.lib_core.base.App;
+import com.tobin.lib_core.base.Box;
 
 import java.io.Closeable;
 import java.io.File;
@@ -36,11 +37,11 @@ public class FileUtils {
      * 获得下载保存默认地址
      */
     public static String getDefaultDownLoadPath() {
-        if (checkSDStatus()) {
-//            return Environment.getDownloadCacheDirectory().getPath()+ File.separator;
-            return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator;
-        }
-        return "";
+//        if (checkSDStatus()) {
+////            return Environment.getDownloadCacheDirectory().getPath()+ File.separator;
+//            return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator;
+//        }
+        return Box.getApp().getFilesDir().getAbsolutePath();
     }
 
 
@@ -54,8 +55,6 @@ public class FileUtils {
         int nameStart = url.lastIndexOf('/') + 1;
         return url.substring(nameStart);
     }
-
-
 
 
     //----------------------------------------------------------------------------------------------

@@ -56,13 +56,9 @@ public class DownLoadOnSubscribe implements FlowableOnSubscribe<Object> {
 
     private void init(ResponseBody responseBody) throws IOException {
         mSumLength = responseBody.contentLength();
-
         mSource = responseBody.source();
-
         mProgressSource = getProgressSource(mSource);
-
         mSink = Okio.buffer(Okio.sink(new File(mPath + mFileName)));
-
     }
 
     public void onRead(long read) {

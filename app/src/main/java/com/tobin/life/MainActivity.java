@@ -1,26 +1,35 @@
 package com.tobin.life;
 
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.tobin.lib_resource.app.AppStore;
 import com.tobin.lib_resource.arouter.RouterHub;
-import com.tobin.lib_resource.mvvm.base.BaseActivity;
-import com.tobin.life.databinding.ActivityMainBinding;
 
-public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBinding> {
+import com.tobin.lib_resource.mvvm.base.BaseActivity;
+import com.tobin.lib_resource.mvvm.bingding.DataBindingConfig;
+import com.tobin.life.databinding.ActivityMainBinding;
+import com.tobin.recipe.BR;
+
+public class MainActivity extends BaseActivity {
     public static final int Tag_Fragment_Home = 0;
     public static final int Tag_Fragment_Recipe = 1;
     public static final int Tag_Fragment_Mine = 2;
     public static final int Tag_Fragment_Test = 3;
+    private ActivityMainBinding dataBinding;
+    private MainViewModel mainViewModel;
 
     @Override
-    protected int onCreate() {
-        return R.layout.activity_main;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dataBinding = (ActivityMainBinding) getBinding();
+        initView();
+        initData();
     }
 
-    @Override
     protected void initView() {
         dataBinding.navigationTabBar
                 .setIdContainer(R.id.container)
@@ -36,7 +45,6 @@ public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBindin
         dataBinding.navigationTabBar.init();
     }
 
-    @Override
     protected void initData() {
         AppStore.mine.observe(this, integer -> {
             dataBinding.navigationTabBar.getNavigationItem(Tag_Fragment_Mine).setRedpotViewVisible(true);
@@ -48,17 +56,17 @@ public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBindin
      * 创建路由Fragment
      */
     public Fragment createFragmentWithRouter(String path) {
-        Fragment fragment =  (Fragment) ARouter.getInstance().build(path).navigation();
-        return fragment;
+        return (Fragment) ARouter.getInstance().build(path).navigation();
     }
 
     @Override
-    protected MainViewModel initViewModel() {
-        return new ViewModelProvider(this).get(MainViewModel.class);
+    protected void initViewModel() {
+        mainViewModel = getActivityScopeViewModel(MainViewModel.class);
     }
 
     @Override
-    protected void showError(Object obj) {
-
+    protected DataBindingConfig getDataBindingConfig() {
+        return new DataBindingConfig(R.layout.activity_main, BR.vm, mainViewModel);
     }
+
 }

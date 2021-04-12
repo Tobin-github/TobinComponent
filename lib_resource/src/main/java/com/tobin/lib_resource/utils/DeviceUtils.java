@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.provider.Settings;
 
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import androidx.core.app.ActivityCompat;
 
@@ -27,14 +28,18 @@ public class DeviceUtils {
      * <p>需与{@link #isPhone(Context)}一起使用</p>
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_PHONE_STATE"/>}</p>
      *
-     * @return IMEI
+     * @return 设备ID (优先IMEI获取不到返回AndroidId)
      */
-    public static String getIMEI() {
+    public static String getDeviceId() {
         String deviceId;
         if (isPhone(getApplication())) {
-            deviceId = getDeviceIdIMEI(getApplication());
+            deviceId = getDeviceIdIMEI();
         } else {
             deviceId = getAndroidId();
+        }
+
+        if (TextUtils.isEmpty(deviceId)){
+            deviceId= "57aad8ea59dd";
         }
         return deviceId;
     }
@@ -52,28 +57,23 @@ public class DeviceUtils {
 
     /**
      * 获取设备的IMEI
-     *
      */
     @SuppressLint({"HardwareIds", "MissingPermission"})
-    public static String getDeviceIdIMEI(Context context) {
-        String id;
+    public static String getDeviceIdIMEI() {
+        String id = null;
         //android.telephony.TelephonyManager
-        TelephonyManager mTelephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        TelephonyManager mTelephony = (TelephonyManager) getApplication().getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return null;
         }
         if (mTelephony.getDeviceId() != null) {
             id = mTelephony.getDeviceId();
-        } else {
-            //android.provider.Settings;
-            id = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         }
         return id;
     }
 
     /**
      * 获取ANDROID ID
-     *
      */
     @SuppressLint("HardwareIds")
     public static String getAndroidId() {

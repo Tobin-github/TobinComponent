@@ -1,6 +1,5 @@
 package com.tobin.lib_resource.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -9,6 +8,9 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.tobin.lib_core.base.App;
+import com.tobin.lib_core.base.Box;
+
+import timber.log.Timber;
 
 public class ScreenUtils {
     /**
@@ -48,8 +50,7 @@ public class ScreenUtils {
 
     /**
      * 将sp值转换为px值
-     * @param spValue
-     * @return
+     * @param spValue float
      */
     public static int sp2px( float spValue) {
         final float fontScale = App.getApp().getResources().getDisplayMetrics().scaledDensity;
@@ -57,8 +58,6 @@ public class ScreenUtils {
     }
     /**
      * 获取屏幕的宽度
-     *
-     * @return
      */
     public static int getScreenW() {
         DisplayMetrics displayMetrics = App.getApp().getResources().getDisplayMetrics();
@@ -67,8 +66,6 @@ public class ScreenUtils {
 
     /**
      * 获取屏幕的高度
-     *
-     * @return
      */
     public static int getScreenH() {
         DisplayMetrics displayMetrics = App.getApp().getResources().getDisplayMetrics();
@@ -81,38 +78,76 @@ public class ScreenUtils {
     public static float getScreenDensity() {
         return App.getApp().getResources().getDisplayMetrics().density;
     }
+
+
+    public static void getScreenRelatedInformation(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (windowManager != null) {
+            DisplayMetrics outMetrics = new DisplayMetrics();
+            windowManager.getDefaultDisplay().getMetrics(outMetrics);
+            int widthPixels = outMetrics.widthPixels;
+            int heightPixels = outMetrics.heightPixels;
+            int densityDpi = outMetrics.densityDpi;
+            float density = outMetrics.density;
+            float scaledDensity = outMetrics.scaledDensity;
+
+            Timber.d("widthPixels = " + widthPixels + ",heightPixels = " + heightPixels + "\n" +
+                    ",densityDpi = " + densityDpi + "\n" +
+                    ",density = " + density + ",scaledDensity = " + scaledDensity);
+        }
+    }
+
+    public static void getRealScreenRelatedInformation(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (windowManager != null) {
+            DisplayMetrics outMetrics = new DisplayMetrics();
+            windowManager.getDefaultDisplay().getRealMetrics(outMetrics);
+            int widthPixels = outMetrics.widthPixels;
+            int heightPixels = outMetrics.heightPixels;
+            int densityDpi = outMetrics.densityDpi;
+            float density = outMetrics.density;
+            float scaledDensity = outMetrics.scaledDensity;
+            //可用显示大小的绝对宽度（以像素为单位）。
+            //可用显示大小的绝对高度（以像素为单位）。
+            //屏幕密度表示为每英寸点数。
+            //显示器的逻辑密度。
+            //显示屏上显示的字体缩放系数。
+            Timber.d("widthPixels = " + widthPixels + ",heightPixels = " + heightPixels + "\n" +
+                    ",densityDpi = " + densityDpi + "\n" +
+                    ",density = " + density + ",scaledDensity = " + scaledDensity);
+        }
+    }
+
+
     /**
      * 获取屏幕内容的实际高度
      *
-     * @param activity
-     * @return
      */
-    public static int getScreenRealHeight(Activity activity) {
+    public static int getScreenRealHeight() {
         int heightPixels;
-        WindowManager w = activity.getWindowManager();
+        WindowManager w = (WindowManager) Box.getApp().getSystemService(Context.WINDOW_SERVICE);
         Display d = w.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         d.getMetrics(metrics);
         // since SDK_INT = 1;
         heightPixels = metrics.heightPixels;
         // includes window decorations (statusbar bar/navigation bar)
-        if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17)
+        if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17) {
             try {
-                heightPixels = (Integer) Display.class
-                        .getMethod("getRawHeight").invoke(d);
+                heightPixels = (Integer) Display.class.getMethod("getRawHeight").invoke(d);
             } catch (Exception ignored) {
+                ignored.printStackTrace();
             }
-            // includes window decorations (statusbar bar/navigation bar)
-        else if (Build.VERSION.SDK_INT >= 17)
+        } else if (Build.VERSION.SDK_INT >= 17) // includes window decorations (statusbar bar/navigation bar)
             try {
                 android.graphics.Point realSize = new android.graphics.Point();
-                Display.class.getMethod("getRealSize",
-                        android.graphics.Point.class).invoke(d, realSize);
+                Display.class.getMethod("getRealSize", android.graphics.Point.class).invoke(d, realSize);
                 heightPixels = realSize.y;
             } catch (Exception ignored) {
             }
         return heightPixels;
     }
+
     public static boolean isScreenLandscape(){
         Configuration configuration =App.getApp().getResources().getConfiguration();
         return configuration.orientation == Configuration.ORIENTATION_LANDSCAPE;

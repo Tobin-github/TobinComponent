@@ -1,197 +1,86 @@
 package com.tobin.lib_resource.mvvm.base;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.Application;
+import android.os.Handler;
+import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.gyf.immersionbar.ImmersionBar;
-import com.gyf.immersionbar.components.SimpleImmersionFragment;
+import com.tobin.lib_core.base.App;
+import com.tobin.lib_resource.mvvm.bingding.DataBindingFragment;
 
-import com.kingja.loadsir.callback.Callback;
-import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
-import com.tobin.lib_core.http.exception.ApiException;
-import com.tobin.lib_core.http.exception.ErrorType;
-import com.tobin.lib_resource.lifecycle.BaseViewModel;
-import com.tobin.lib_resource.loadsir.ErrorCallback;
-import com.tobin.lib_resource.loadsir.LottieEmptyCallback;
-import com.tobin.lib_resource.loadsir.LottieLoadingCallback;
-import com.tobin.lib_resource.loadsir.NetErrorCallback;
+public abstract class BaseFragment extends DataBindingFragment {
 
-import timber.log.Timber;
+    private ViewModelProvider mFragmentProvider;
+    private ViewModelProvider mActivityProvider;
+    private ViewModelProvider mApplicationProvider;
 
-/**
- * Created by Tobin on 2020/12/22
- * Email: 616041023@qq.com
- * Description: mvvm Fragment基类
- */
-public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewDataBinding> extends SimpleImmersionFragment {
-    protected VM viewModel;
-    protected DB dataBinding;
-    protected Activity activity;
+    private static final Handler HANDLER = new Handler();
+    protected boolean mAnimationLoaded;
 
-    protected LoadService loadService;
-    private boolean visibleToUser;
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        viewModel = initViewModel();
-
-        Timber.tag("Tobin").i("BaseFragment onViewCreated");
-
-        initView(view);
-        if (!isLazyLoad()) {
-            initData();
+    protected <T extends ViewModel> T getFragmentScopeViewModel(@NonNull Class<T> modelClass) {
+        if (mFragmentProvider == null) {
+            mFragmentProvider = new ViewModelProvider(this);
         }
+        return mFragmentProvider.get(modelClass);
     }
 
-    /**
-     * 初始化视图
-     */
-    protected abstract void initView(View view);
-
-    /**
-     * 初始化数据
-     */
-    protected abstract void initData();
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!visibleToUser && isLazyLoad()) {
-            visibleToUser = true;
-            initData();
+    protected <T extends ViewModel> T getActivityScopeViewModel(@NonNull Class<T> modelClass) {
+        if (mActivityProvider == null) {
+            mActivityProvider = new ViewModelProvider(mActivity);
         }
+        return mActivityProvider.get(modelClass);
     }
 
-    /**
-     * 初始化沉浸式
-     * Init immersion bar.
-     */
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(this).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.activity = (Activity) context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        activity = null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (dataBinding != null) {
-            dataBinding.unbind();
+    protected <T extends ViewModel> T getApplicationScopeViewModel(@NonNull Class<T> modelClass) {
+        if (mApplicationProvider == null) {
+            mApplicationProvider = new ViewModelProvider((App) mActivity.getApplicationContext(), getApplicationFactory(mActivity));
         }
+        return mApplicationProvider.get(modelClass);
     }
 
-    protected void showLoading() {
-        loadService.showCallback(LottieLoadingCallback.class);
+    private ViewModelProvider.Factory getApplicationFactory(Activity activity) {
+        checkActivity(this);
+        Application application = checkApplication(activity);
+        return ViewModelProvider.AndroidViewModelFactory.getInstance(application);
     }
 
-    protected void showSuccess() {
-        if (loadService != null) {
-            loadService.showSuccess();
+    private Application checkApplication(Activity activity) {
+        Application application = activity.getApplication();
+        if (application == null) {
+            throw new IllegalStateException("Your activity/fragment is not yet attached to "
+                    + "Application. You can't request ViewModel before onCreate call.");
         }
+        return application;
     }
 
-    public void showEmpty() {
-        if (loadService != null) {
-            loadService.showCallback(LottieEmptyCallback.class);
+    private void checkActivity(Fragment fragment) {
+        Activity activity = fragment.getActivity();
+        if (activity == null) {
+            throw new IllegalStateException("Can't create ViewModelProvider for detached fragment");
         }
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dataBinding = initDataBinding(inflater, onCreate(), container);
-        loadService = LoadSir.getDefault().register(dataBinding.getRoot(), new Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) {
-                // 重新加载逻辑
-                Timber.tag("Tobin").e("BaseFragment LoadSir --> getDefault: onReload");
-                loadService.showCallback(LottieLoadingCallback.class);
-                initData();
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        //TODO 错开动画转场与 UI 刷新的时机，避免掉帧卡顿的现象
+        HANDLER.postDelayed(() -> {
+            if (!mAnimationLoaded) {
+                mAnimationLoaded = true;
+                loadInitData();
             }
-        });
-        return loadService.getLoadLayout();
+        }, 280);
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
 
-    protected DB initDataBinding(LayoutInflater inflater, int layoutId, ViewGroup container) {
-        DB db = DataBindingUtil.inflate(inflater, layoutId, container, false);
-        /**
-         * 将这两个初始化函数插在{@link BaseFragment#initDataBinding}
-         */
-        viewModel = initViewModel();
-        initObserve();
-        return db;
+    protected void loadInitData() {
+
     }
-
-    /**
-     * 初始化要加载的布局资源ID
-     */
-    protected abstract int onCreate();
-
-    /**
-     * 初始化ViewModel
-     */
-    protected abstract VM initViewModel();
-
-    /**
-     * 懒加载，只有在Fragment第一次创建且第一次对用户可见
-     */
-    protected boolean isLazyLoad() {
-        return true;
-    }
-
-    /**
-     * 监听当前ViewModel中 showDialog和error的值
-     */
-    private void initObserve() {
-        if (viewModel == null) return;
-        viewModel.getError(this, new Observer<Throwable>() {
-            @Override
-            public void onChanged(Throwable throwable) {
-                if (throwable instanceof ApiException) {
-                    ApiException exception = (ApiException) throwable;
-                    Timber.tag("Tobin").i("ApiException message: " + exception.message + " code: " + exception.code);
-                    if ((exception.code == ErrorType.NETWORD_ERROR) && loadService != null) {
-                        loadService.showCallback(NetErrorCallback.class);
-                    } else {
-                        showError(exception.message);
-                        loadService.showCallback(ErrorCallback.class);
-                    }
-                } else {
-                    showError(throwable.getMessage());
-                    loadService.showCallback(ErrorCallback.class);
-                    Timber.tag("Tobin").e("throwable message: %s", throwable.getMessage());
-                }
-            }
-        });
-    }
-
-    /**
-     * ViewModel层发生了错误
-     */
-    protected abstract void showError(Object obj);
-
 
 }

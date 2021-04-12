@@ -1,115 +1,52 @@
 package com.tobin.lib_resource.mvvm.base;
 
-import androidx.annotation.LayoutRes;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Observer;
+import android.app.Activity;
+import android.app.Application;
+import android.os.Bundle;
 
-import com.gyf.immersionbar.ImmersionBar;
-import com.tobin.lib_core.http.exception.ApiException;
-import com.tobin.lib_resource.R;
-import com.tobin.lib_resource.lifecycle.BaseViewModel;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
-import timber.log.Timber;
+import com.tobin.lib_core.base.App;
+import com.tobin.lib_resource.mvvm.bingding.DataBindingActivity;
 
-/**
- * Created by Tobin on 2020/12/22
- * Email: 616041023@qq.com
- * Description:
- */
-public abstract class BaseActivity<VM extends BaseViewModel, DB extends ViewDataBinding> extends AppCompatActivity {
+public abstract class BaseActivity extends DataBindingActivity {
 
-    protected VM viewModel;
-    protected DB dataBinding;
+    private ViewModelProvider mActivityProvider;
+    private ViewModelProvider mApplicationProvider;
 
     @Override
-    protected void onCreate(@androidx.annotation.Nullable android.os.Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int layoutId = onCreate();
-        if (isShowToolbar()){
+    }
 
+    protected <T extends ViewModel> T getActivityScopeViewModel(@NonNull Class<T> modelClass) {
+        if (mActivityProvider == null) {
+            mActivityProvider = new ViewModelProvider(this);
         }
-        setContentView(layoutId);
-
-        viewModel = initViewModel();
-        dataBinding = initDataBinding(layoutId);
-
-        initView();
-        initData();
-
-        initImmersionBar();
-        initObserve();
+        return mActivityProvider.get(modelClass);
     }
 
-    protected boolean isShowToolbar() {
-        return false;
-    }
-
-    /**
-     * 初始化沉浸式
-     * Init immersion bar.
-     */
-    protected void initImmersionBar() {
-        ImmersionBar.with(this).titleBar(R.id.toolbar_layout).statusBarDarkFont(true).init();
-    }
-
-    /**
-     * 初始化要加载的布局资源ID
-     * 此函数优先执行于onCreate()可以做window操作
-     */
-    protected abstract int onCreate();
-
-    /**
-     * 初始化DataBinding
-     */
-    protected DB initDataBinding(@LayoutRes int layoutId) {
-        return DataBindingUtil.setContentView(this, layoutId);
-    }
-
-    /**
-     * 初始化视图
-     */
-    protected abstract void initView();
-
-    /**
-     * 初始化数据
-     */
-    protected abstract void initData();
-
-    @Override
-    protected void onDestroy() {
-        if (dataBinding != null) {
-            dataBinding.unbind();
+    protected <T extends ViewModel> T getApplicationScopeViewModel(@NonNull Class<T> modelClass) {
+        if (mApplicationProvider == null) {
+            mApplicationProvider = new ViewModelProvider((App) this.getApplicationContext(), getAppFactory(this));
         }
-        super.onDestroy();
+        return mApplicationProvider.get(modelClass);
     }
 
-    /**
-     * 初始化ViewModel
-     */
-    protected abstract VM initViewModel();
-
-    /**
-     * 监听当前ViewModel中变量
-     */
-    private void initObserve() {
-        if (viewModel == null) return;
-        viewModel.getError(this, new Observer<Throwable>() {
-            @Override
-            public void onChanged(Throwable throwable) {
-                if (throwable instanceof ApiException) {
-                    ApiException exception = (ApiException) throwable;
-                    showError(exception.getMessage());
-                } else {
-                    Timber.tag("BaseVMDBActivity").e("throwable message: %s", throwable.getMessage());
-                }
-            }
-        });
+    private ViewModelProvider.Factory getAppFactory(Activity activity) {
+        Application application = checkApplication(activity);
+        return ViewModelProvider.AndroidViewModelFactory.getInstance(application);
     }
 
-    /**
-     * ViewModel层发生了错误
-     */
-    protected abstract void showError(Object obj);
+    private Application checkApplication(Activity activity) {
+        Application application = activity.getApplication();
+        if (application == null) {
+            throw new IllegalStateException("Your activity/fragment is not yet attached to "
+                    + "Application. You can't request ViewModel before onCreate call.");
+        }
+        return application;
+    }
 }
