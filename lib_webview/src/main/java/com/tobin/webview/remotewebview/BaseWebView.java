@@ -1,5 +1,6 @@
 package com.tobin.webview.remotewebview;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
@@ -74,7 +75,7 @@ public class BaseWebView extends WebView implements CustomWebViewClient.WebviewT
         this.context = ctx.getApplicationContext();
         WebviewDefaultSetting.getInstance().toSetting(this);
 
-        /**
+        /*
          * Web Native交互触发
          */
         if (remoteInterface == null) {
@@ -266,12 +267,11 @@ public class BaseWebView extends WebView implements CustomWebViewClient.WebviewT
         mTouchByUser = false;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mTouchByUser = true;
-                break;
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            mTouchByUser = true;
         }
         return super.onTouchEvent(event);
     }

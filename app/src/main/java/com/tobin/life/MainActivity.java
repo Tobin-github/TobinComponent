@@ -18,7 +18,7 @@ public class MainActivity extends BaseActivity {
     public static final int Tag_Fragment_Home = 0;
     public static final int Tag_Fragment_Recipe = 1;
     public static final int Tag_Fragment_Mine = 2;
-    public static final int Tag_Fragment_Test = 3;
+    public static final int Tag_Fragment_Video = 3;
     private ActivityMainBinding dataBinding;
     private MainViewModel mainViewModel;
 
@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
                 .addNavigationItem(R.drawable.ic_home_black_24dp, R.drawable.ic_home_black_24dp,
                         createFragmentWithRouter(RouterHub.APP_HOME_FRAGMENT), Tag_Fragment_Home, "首页")
                 .addNavigationItem(R.drawable.ic_dashboard_black_24dp, R.drawable.ic_dashboard_black_24dp,
-                        createFragmentWithRouter(RouterHub.RECIPE_RECIPE_FRAGMENT), Tag_Fragment_Recipe, "发现")
+                        createFragmentWithRouter(RouterHub.APP_VIDEO_FRAGMENT), Tag_Fragment_Video, "发现")
                 .addNavigationItem(R.drawable.ic_notifications_black_24dp, R.drawable.ic_notifications_black_24dp,
                         createFragmentWithRouter(RouterHub.APP_MINE_FRAGMENT), Tag_Fragment_Mine, "我的");
         dataBinding.navigationTabBar.init();

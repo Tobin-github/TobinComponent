@@ -5,7 +5,6 @@ import java.util.Map;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -30,33 +29,33 @@ public class CustomWebViewClient extends WebViewClient {
 
     private static final String TAG = "CustomWebViewCallBack";
     public static final String SCHEME_SMS = "sms:";
-    private WebViewCallBack webViewCallBack;
-    private WebView webView;
+    private final WebViewCallBack webViewCallBack;
+    private final WebView webView;
     boolean isReady;
     private boolean isError;
-    private Map<String, String> mHeaders;
-    private WebviewTouch mWebViewTouch;
+    private final Map<String, String> mHeaders;
+    private final WebviewTouch mWebViewTouch;
 
-    public CustomWebViewClient(WebView webView, WebViewCallBack webViewCallBack, Map<String, String> headers, WebviewTouch touch){
+    public CustomWebViewClient(WebView webView, WebViewCallBack webViewCallBack, Map<String, String> headers, WebviewTouch touch) {
         this.webViewCallBack = webViewCallBack;
         this.webView = webView;
         this.mHeaders = headers;
         this.mWebViewTouch = touch;
     }
 
-    public boolean isReady(){
+    public boolean isReady() {
         return this.isReady;
     }
 
-    public interface WebviewTouch{
+    public interface WebviewTouch {
         boolean isTouchByUser();
     }
 
     /**
-     * url重定向会执行此方法以及点击页面某些链接也会执行此方法
+     * url重定向会执行此方法以及点击页面某些链接也会执行此方法.
      *
-     * @return true:表示当前url已经加载完成，即使url还会重定向都不会再进行加载 false 表示此url默认由系统处理，
-     * 该重定向还是重定向，直到加载完成
+     * @return true: 表示当前url已经加载完成，即使url还会重定向都不会再进行加载,
+     *     false: 表示此url默认由系统处理，该重定向还是重定向，直到加载完成
      */
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -168,44 +167,30 @@ public class CustomWebViewClient extends WebViewClient {
 
     @Override
     public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
-        String channel = view.getUrl();
-        if (!TextUtils.isEmpty(channel) && channel.equals("play.google.com")) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(webView.getContext());
-            String message = webView.getContext().getString(R.string.ssl_error);
-            switch (error.getPrimaryError()) {
-                case SslError.SSL_UNTRUSTED:
-                    message = webView.getContext().getString(R.string.ssl_error_not_trust);
-                    break;
-                case SslError.SSL_EXPIRED:
-                    message = webView.getContext().getString(R.string.ssl_error_expired);
-                    break;
-                case SslError.SSL_IDMISMATCH:
-                    message = webView.getContext().getString(R.string.ssl_error_mismatch);
-                    break;
-                case SslError.SSL_NOTYETVALID:
-                    message = webView.getContext().getString(R.string.ssl_error_not_valid);
-                    break;
-            }
-            message += webView.getContext().getString(R.string.ssl_error_continue_open);
-
-            builder.setTitle(R.string.ssl_error);
-            builder.setMessage(message);
-            builder.setPositiveButton(R.string.continue_open, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    handler.proceed();
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    handler.cancel();
-                }
-            });
-            final AlertDialog dialog = builder.create();
-            dialog.show();
-        } else {
-            handler.proceed();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(webView.getContext());
+        String message = webView.getContext().getString(R.string.ssl_error);
+        switch (error.getPrimaryError()) {
+            case SslError.SSL_UNTRUSTED:
+                message = webView.getContext().getString(R.string.ssl_error_not_trust);
+                break;
+            case SslError.SSL_EXPIRED:
+                message = webView.getContext().getString(R.string.ssl_error_expired);
+                break;
+            case SslError.SSL_IDMISMATCH:
+                message = webView.getContext().getString(R.string.ssl_error_mismatch);
+                break;
+            case SslError.SSL_NOTYETVALID:
+                message = webView.getContext().getString(R.string.ssl_error_not_valid);
+                break;
         }
+        message += webView.getContext().getString(R.string.ssl_error_continue_open);
+
+        builder.setTitle(R.string.ssl_error);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.continue_open, (dialog, which) -> handler.proceed());
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> handler.cancel());
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 }

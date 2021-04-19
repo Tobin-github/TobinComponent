@@ -2,6 +2,7 @@ package com.tobin.webview.remotewebview.javascriptinterface;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.webkit.JavascriptInterface;
 
 import timber.log.Timber;
@@ -14,7 +15,7 @@ import timber.log.Timber;
 public final class WebViewJavascriptInterface {
 
     private final Context mContext;
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.myLooper());
     private JavascriptCommand javascriptCommand;
 
     public WebViewJavascriptInterface(Context context) {
@@ -23,17 +24,14 @@ public final class WebViewJavascriptInterface {
 
     @JavascriptInterface
     public void post(final String cmd, final String param) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (javascriptCommand != null) {
-                        Timber.tag("JavascriptInterface").e("cmd: " + cmd + "\nparam" + param);
-                        javascriptCommand.exec(mContext, cmd, param);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+        mHandler.post(() -> {
+            try {
+                if (javascriptCommand != null) {
+                    Timber.tag("JavascriptInterface").e("cmd: " + cmd + "\nparam" + param);
+                    javascriptCommand.exec(mContext, cmd, param);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

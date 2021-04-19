@@ -123,7 +123,7 @@ public class WebProgressBar extends FrameLayout implements BaseProgressSpec {
         int h = MeasureSpec.getSize(heightMeasureSpec);
 
         if (wMode == MeasureSpec.AT_MOST) {
-            w = w <= getContext().getResources().getDisplayMetrics().widthPixels ? w : getContext().getResources().getDisplayMetrics().widthPixels;
+            w = Math.min(w, getContext().getResources().getDisplayMetrics().widthPixels);
         }
         if (hMode == MeasureSpec.AT_MOST) {
             h = WEB_PROGRESS_DEFAULT_HEIGHT;
@@ -141,7 +141,11 @@ public class WebProgressBar extends FrameLayout implements BaseProgressSpec {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        canvas.drawRect(0, 0, currentProgress / 100 * Float.valueOf(this.getWidth()), this.getHeight(), mPaint);
+        canvas.drawRect(0,
+                0,
+                currentProgress / 100 * (float) this.getWidth(),
+                this.getHeight(),
+                mPaint);
     }
 
     public void show() {
@@ -162,7 +166,7 @@ public class WebProgressBar extends FrameLayout implements BaseProgressSpec {
             CURRENT_MAX_UNIFORM_SPEED_DURATION = MAX_UNIFORM_SPEED_DURATION;
         } else {
             //取比值
-            float rate = this.mTargetWidth / Float.valueOf(screenWidth);
+            float rate = this.mTargetWidth / (float) screenWidth;
             CURRENT_MAX_UNIFORM_SPEED_DURATION = (int) (MAX_UNIFORM_SPEED_DURATION * rate);
             CURRENT_MAX_DECELERATE_SPEED_DURATION = (int) (MAX_DECELERATE_SPEED_DURATION * rate);
 
@@ -244,17 +248,12 @@ public class WebProgressBar extends FrameLayout implements BaseProgressSpec {
 
     }
 
-    private ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
-        @Override
-        public void onAnimationUpdate(ValueAnimator animation) {
-            float t = (float) animation.getAnimatedValue();
-            WebProgressBar.this.currentProgress = t;
-            WebProgressBar.this.invalidate();
-
-        }
+    private final ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = animation -> {
+        WebProgressBar.this.currentProgress = (float) animation.getAnimatedValue();
+        WebProgressBar.this.invalidate();
     };
 
-    private AnimatorListenerAdapter mAnimatorListenerAdapter = new AnimatorListenerAdapter() {
+    private final AnimatorListenerAdapter mAnimatorListenerAdapter = new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(Animator animation) {
             doEnd();
@@ -265,7 +264,7 @@ public class WebProgressBar extends FrameLayout implements BaseProgressSpec {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        /**
+        /*
          * animator cause leak , if not cancel;
          */
         if (mAnimator != null && mAnimator.isStarted()) {
@@ -286,8 +285,9 @@ public class WebProgressBar extends FrameLayout implements BaseProgressSpec {
     @Override
     public void reset() {
         currentProgress = 0;
-        if (mAnimator != null && mAnimator.isStarted())
+        if (mAnimator != null && mAnimator.isStarted()) {
             mAnimator.cancel();
+        }
     }
 
     @Override

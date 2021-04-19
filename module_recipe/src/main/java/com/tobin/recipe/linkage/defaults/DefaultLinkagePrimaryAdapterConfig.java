@@ -32,7 +32,7 @@ public class DefaultLinkagePrimaryAdapterConfig implements ILinkagePrimaryAdapte
 
     @Override
     public int getLayoutId() {
-        return R.layout.default_adapter_linkage_primary;
+        return R.layout.recipe_adapter_linkage_primary;
     }
 
     @Override

@@ -54,7 +54,7 @@ public class ProgressWebView extends BaseWebView {
     private void init() {
         WebProgressBar progressBar = new WebProgressBar(context);
         progressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        progressBar.setVisibility(GONE);
+        // progressBar.setVisibility(GONE);
         addView(progressBar);
         indicatorHandler = IndicatorHandler.getInstance().injectProgressView(progressBar);
         setWebChromeClient(new ProgressWebChromeClient(handler));

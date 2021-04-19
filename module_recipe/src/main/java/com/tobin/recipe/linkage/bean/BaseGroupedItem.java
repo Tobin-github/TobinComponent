@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * items which support grouped
  */
-public abstract class BaseGroupedItem<T extends BaseGroupedItem.ItemInfo> implements Serializable {
+public class BaseGroupedItem<T extends BaseGroupedItem.ItemInfo> implements Serializable {
     public boolean isHeader;
     public T info;
     public String header;
@@ -24,19 +24,19 @@ public abstract class BaseGroupedItem<T extends BaseGroupedItem.ItemInfo> implem
 
     public static class ItemInfo implements Serializable {
         private String group;
-        private String title;
+        private String content;
 
-        public ItemInfo(String title, String group) {
-            this.title = title;
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public ItemInfo(String content, String group) {
             this.group = group;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
+            this.content = content;
         }
 
         public String getGroup() {
@@ -46,5 +46,22 @@ public abstract class BaseGroupedItem<T extends BaseGroupedItem.ItemInfo> implem
         public void setGroup(String group) {
             this.group = group;
         }
+
+        @Override
+        public String toString() {
+            return "ItemInfo{" +
+                    "group='" + group + '\'' +
+                    ", content='" + content + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "BaseGroupedItem{" +
+                "isHeader=" + isHeader +
+                ", info=" + info +
+                ", header='" + header + '\'' +
+                '}';
     }
 }

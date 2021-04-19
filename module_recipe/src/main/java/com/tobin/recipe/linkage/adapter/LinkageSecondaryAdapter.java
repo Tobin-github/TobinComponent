@@ -68,7 +68,7 @@ public class LinkageSecondaryAdapter<T extends BaseGroupedItem.ItemInfo>
     public int getItemViewType(int position) {
         if (mItems.get(position).isHeader) {
             return IS_HEADER;
-        } else if (TextUtils.isEmpty(mItems.get(position).info.getTitle()) &&
+        } else if (TextUtils.isEmpty(mItems.get(position).info.getContent()) &&
                 !TextUtils.isEmpty(mItems.get(position).info.getGroup())) {
             return IS_FOOTER;
         } else if (isGridMode()) {
@@ -88,7 +88,7 @@ public class LinkageSecondaryAdapter<T extends BaseGroupedItem.ItemInfo>
             return new LinkageSecondaryHeaderViewHolder(view);
         } else if (viewType == IS_FOOTER) {
             int footerLayout = mConfig.getFooterLayoutId() == 0
-                    ? R.layout.default_adapter_linkage_secondary_footer
+                    ? R.layout.recipe_adapter_linkage_secondary_footer
                     : mConfig.getFooterLayoutId();
             View view = LayoutInflater.from(mContext).inflate(footerLayout, parent, false);
             return new LinkageSecondaryFooterViewHolder(view);

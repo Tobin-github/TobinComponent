@@ -29,7 +29,7 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = (HomeFragmentHomeBinding) getBinding();
-        binding.gsyVideo.setUp("rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov",
+        binding.gsyVideo.setUp("bilibili://video/760074277?player_height=1080\\u0026player_rotate=0\\u0026player_width=1920",
                 true, "test");
     }
 
@@ -81,13 +81,13 @@ public class HomeFragment extends BaseFragment {
         }
 
         public void openWeb() {
-            WebActivity.startCommonWeb(getActivity(), "", "file:///android_asset/TestWebView.html");
-//            WebActivity.startCommonWeb(getActivity(),"js native","https://blog.csdn.net/jinmie0193/article/details/80723724");
+//            WebActivity.startCommonWeb(getActivity(), "", "file:///android_asset/TestWebView.html");
+            WebActivity.startCommonWeb(getActivity(),"js native","https://blog.csdn.net/jinmie0193/article/details/80723724");
         }
 
         public void recipePage() {
             ARouter.getInstance()
-                    .build(RouterHub.RECIPE_SEARCH_ACTIVITY)
+                    .build(RouterHub.RECIPE_RECIPE_ACTIVITY)
                     .navigation(getActivity());
         }
 

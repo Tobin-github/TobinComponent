@@ -9,15 +9,16 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <application>
-        <activity
-            android:name=".WebActivity"
-            android:theme="@style/Web_Activity_Theme"
-            android:launchMode="singleTask"/>
 
         <service android:name=".mainprocess.MainProHandleRemoteService" />
         <service
             android:name=".remoteprocessservice.OptimizationService"
             android:process=":remoteweb" />
+        <activity
+            android:name="com.tobin.webview.WebActivity"
+            android:theme="@style/Web_Activity_Theme"
+            android:hardwareAccelerated="true"
+            android:process=":remoteweb"/>
     </application>
 
 </manifest>

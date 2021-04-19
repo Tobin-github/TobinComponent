@@ -53,7 +53,7 @@ public class LocalCommands extends Commands {
         @Override
         public void exec(Context context, Map params, ResultBack resultBack) {
             Timber.tag("Tobin").e("showToastCommand: %s", params.toString());
-            Toast.makeText(Box.getApp(), String.valueOf(params.get("message")), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(Box.getApp(), String.valueOf(params.get("message")), Toast.LENGTH_SHORT).show();
             params.put(WebConstants.NATIVE2WEB_CALLBACK, (String) params.get(WebConstants.WEB2NATIVE_CALLBACK));
             resultBack.onResult(WebConstants.SUCCESS, name(), params);
         }
@@ -89,7 +89,6 @@ public class LocalCommands extends Commands {
                             .setMessage(content)
                             .create();
                     dialog.setCanceledOnTouchOutside(canceledOutside);
-//                    dialog.set
 
                     if (buttons > 0) {
                         for (int i = 0; i < buttons; i++) {

@@ -24,7 +24,6 @@ import com.tobin.recipe.linkage.adapter.LinkagePrimaryAdapter;
 import com.tobin.recipe.linkage.adapter.LinkageSecondaryAdapter;
 import com.tobin.recipe.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
 import com.tobin.recipe.linkage.bean.BaseGroupedItem;
-import com.tobin.recipe.linkage.bean.DefaultGroupedItem;
 import com.tobin.recipe.linkage.contract.ILinkagePrimaryAdapterConfig;
 import com.tobin.recipe.linkage.contract.ILinkageSecondaryAdapterConfig;
 import com.tobin.recipe.linkage.defaults.DefaultLinkagePrimaryAdapterConfig;
@@ -271,8 +270,8 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
             }
         }
 
-        DefaultGroupedItem.ItemInfo info = new DefaultGroupedItem.ItemInfo(null, lastGroupName);
-        BaseGroupedItem<T> footerItem = (BaseGroupedItem<T>) new DefaultGroupedItem(info);
+        BaseGroupedItem.ItemInfo info = new BaseGroupedItem.ItemInfo(null, lastGroupName);
+        BaseGroupedItem<T> footerItem = (BaseGroupedItem<T>) new BaseGroupedItem(info);
         mInitItems.add(footerItem);
 
         this.mInitGroupNames = groupNames;

@@ -8,10 +8,11 @@ import com.tobin.recipe.linkage.adapter.viewholder.LinkageSecondaryFooterViewHol
 import com.tobin.recipe.linkage.adapter.viewholder.LinkageSecondaryHeaderViewHolder;
 import com.tobin.recipe.linkage.adapter.viewholder.LinkageSecondaryViewHolder;
 import com.tobin.recipe.linkage.bean.BaseGroupedItem;
-import com.tobin.recipe.linkage.bean.DefaultGroupedItem;
 import com.tobin.recipe.linkage.contract.ILinkageSecondaryAdapterConfig;
 
-public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAdapterConfig<DefaultGroupedItem.ItemInfo> {
+import timber.log.Timber;
+
+public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAdapterConfig<BaseGroupedItem.ItemInfo> {
 
     private Context mContext;
     private OnSecondaryItemBindListener mItemBindListener;
@@ -34,22 +35,22 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
 
     @Override
     public int getGridLayoutId() {
-        return R.layout.default_adapter_linkage_secondary_grid;
+        return R.layout.recipe_adapter_linkage_secondary_grid;
     }
 
     @Override
     public int getLinearLayoutId() {
-        return R.layout.default_adapter_linkage_secondary_linear;
+        return R.layout.recipe_adapter_linkage_secondary_linear;
     }
 
     @Override
     public int getHeaderLayoutId() {
-        return R.layout.default_adapter_linkage_secondary_header;
+        return R.layout.recipe_adapter_linkage_secondary_header;
     }
 
     @Override
     public int getFooterLayoutId() {
-        return R.layout.default_adapter_linkage_secondary_footer;
+        return R.layout.recipe_adapter_linkage_secondary_footer;
     }
 
     @Override
@@ -64,11 +65,15 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
 
     @Override
     public void onBindViewHolder(LinkageSecondaryViewHolder holder,
-                                 BaseGroupedItem<DefaultGroupedItem.ItemInfo> item) {
+                                 BaseGroupedItem<BaseGroupedItem.ItemInfo> item) {
 
-        ((TextView) holder.getView(R.id.level_2_title)).setText(item.info.getTitle());
         ((TextView) holder.getView(R.id.level_2_content)).setText(item.info.getContent());
-
+        ((TextView) holder.getView(R.id.level_2_content)).setOnClickListener(v -> {
+            Timber.tag("Tobin").e("LinkageSecondaryViewHolder: %s",holder.getItemId());
+            Timber.tag("Tobin").e("LinkageSecondaryViewHolder getBindingAdapterPosition: %s",
+                    holder.getBindingAdapterPosition());
+            Timber.tag("Tobin").e("LinkageSecondaryViewHolder item: %s",item.info);
+        });
         if (mItemBindListener != null) {
             mItemBindListener.onBindViewHolder(holder, item);
         }
@@ -76,7 +81,7 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
 
     @Override
     public void onBindHeaderViewHolder(LinkageSecondaryHeaderViewHolder holder,
-                                       BaseGroupedItem<DefaultGroupedItem.ItemInfo> item) {
+                                       BaseGroupedItem<BaseGroupedItem.ItemInfo> item) {
 
         ((TextView) holder.getView(R.id.secondary_header)).setText(item.header);
 
@@ -87,7 +92,7 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
 
     @Override
     public void onBindFooterViewHolder(LinkageSecondaryFooterViewHolder holder,
-                                       BaseGroupedItem<DefaultGroupedItem.ItemInfo> item) {
+                                       BaseGroupedItem<BaseGroupedItem.ItemInfo> item) {
         ((TextView) holder.getView(R.id.tv_secondary_footer)).setText("End");
         if (mFooterBindListener != null) {
             mFooterBindListener.onBindFooterViewHolder(holder, item);
@@ -102,7 +107,7 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
          * @param item BaseGroupedItem
          */
         void onBindViewHolder(LinkageSecondaryViewHolder secondaryHolder,
-                              BaseGroupedItem<DefaultGroupedItem.ItemInfo> item);
+                              BaseGroupedItem<BaseGroupedItem.ItemInfo> item);
     }
 
     public interface OnSecondaryHeaderBindListener {
@@ -113,7 +118,7 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
          * @param item BaseGroupedItem
          */
         void onBindHeaderViewHolder(LinkageSecondaryHeaderViewHolder headerHolder,
-                                    BaseGroupedItem<DefaultGroupedItem.ItemInfo> item);
+                                    BaseGroupedItem<BaseGroupedItem.ItemInfo> item);
     }
 
     public interface OnSecondaryFooterBindListener {
@@ -124,6 +129,6 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
          * @param item BaseGroupedItem
          */
         void onBindFooterViewHolder(LinkageSecondaryFooterViewHolder footerHolder,
-                                    BaseGroupedItem<DefaultGroupedItem.ItemInfo> item);
+                                    BaseGroupedItem<BaseGroupedItem.ItemInfo> item);
     }
 }

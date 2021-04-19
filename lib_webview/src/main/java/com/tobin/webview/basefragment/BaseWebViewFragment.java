@@ -13,18 +13,11 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.tobin.lib_resource.loadsir.ErrorCallback;
-import com.tobin.lib_resource.loadsir.LottieLoadingCallback;
-
 import timber.log.Timber;
 import com.tobin.webview.R;
 import com.tobin.webview.remotewebview.BaseWebView;
 import com.tobin.webview.remotewebview.callback.WebViewCallBack;
 import com.tobin.webview.utils.WebConstants;
-
-import com.kingja.loadsir.callback.Callback;
-import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,8 +29,6 @@ public abstract class BaseWebViewFragment extends BaseFragment implements WebVie
     private BaseWebView webView;
     private HashMap<String, String> accountInfoHeaders;
     private String webUrl;
-    private LoadService loadService;
-
     @LayoutRes
     protected abstract int getLayoutRes();
 
@@ -62,12 +53,13 @@ public abstract class BaseWebViewFragment extends BaseFragment implements WebVie
             webView.setHeaders(accountInfoHeaders);
         }
 
-        loadService = LoadSir.getDefault().register(webView, (Callback.OnReloadListener) v -> {
-            Timber.tag("BaseWebViewFragment").w("onReload ");
-            loadService.showCallback(LottieLoadingCallback.class);
-            // your retry logic
-            loadUrl();
-        });
+//        loadService = LoadSir.getDefault().register(webView, (Callback.OnReloadListener) v -> {
+//            Timber.tag("BaseWebViewFragment").w("onReload ");
+//            loadService.showCallback(LottieLoadingCallback.class);
+//            // your retry logic
+//
+//        });
+//        loadUrl();
         return view;
     }
 
@@ -118,12 +110,12 @@ public abstract class BaseWebViewFragment extends BaseFragment implements WebVie
 
     @Override
     public void pageStarted(String url) {
-        loadService.showCallback(LottieLoadingCallback.class);
+
     }
 
     @Override
     public void pageFinished(String url) {
-        loadService.showSuccess();
+
     }
 
     @Override
@@ -133,7 +125,7 @@ public abstract class BaseWebViewFragment extends BaseFragment implements WebVie
 
     @Override
     public void onError(String description) {
-        loadService.showCallback(ErrorCallback.class);
+
     }
 
     @Override

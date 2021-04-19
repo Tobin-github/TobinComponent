@@ -45,6 +45,15 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/iv_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:paddingEnd="10dp"
+                android:visibility="gone"
+                android:src="@mipmap/ic_empty_pic" />
+
         </RelativeLayout>
 
         <com.tobin.recipe.linkage.LinkageRecyclerView
