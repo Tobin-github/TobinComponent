@@ -1,4 +1,4 @@
-package com.tobin.recipe.ui.adapter;
+package com.tobin.recipe.ui.result;
 
 import android.content.Context;
 import android.graphics.Color;

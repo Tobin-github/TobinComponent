@@ -10,8 +10,6 @@ import com.tobin.recipe.linkage.adapter.viewholder.LinkageSecondaryViewHolder;
 import com.tobin.recipe.linkage.bean.BaseGroupedItem;
 import com.tobin.recipe.linkage.contract.ILinkageSecondaryAdapterConfig;
 
-import timber.log.Timber;
-
 public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAdapterConfig<BaseGroupedItem.ItemInfo> {
 
     private Context mContext;
@@ -68,12 +66,6 @@ public class DefaultLinkageSecondaryAdapterConfig implements ILinkageSecondaryAd
                                  BaseGroupedItem<BaseGroupedItem.ItemInfo> item) {
 
         ((TextView) holder.getView(R.id.level_2_content)).setText(item.info.getContent());
-        ((TextView) holder.getView(R.id.level_2_content)).setOnClickListener(v -> {
-            Timber.tag("Tobin").e("LinkageSecondaryViewHolder: %s",holder.getItemId());
-            Timber.tag("Tobin").e("LinkageSecondaryViewHolder getBindingAdapterPosition: %s",
-                    holder.getBindingAdapterPosition());
-            Timber.tag("Tobin").e("LinkageSecondaryViewHolder item: %s",item.info);
-        });
         if (mItemBindListener != null) {
             mItemBindListener.onBindViewHolder(holder, item);
         }

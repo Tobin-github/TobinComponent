@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -28,34 +29,40 @@ public class ScreenUtils {
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
-    public static int dip2px(float dpValue) {
-        final float scale = App.getApp().getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    public static int dp2px(float dpValue) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue,
+                App.getApp().getResources().getDisplayMetrics()));
     }
 
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
-    public static int px2dip(float pxValue) {
-        final float scale =App.getApp().getResources().getDisplayMetrics().density;
+    public static int px2dp(float pxValue) {
+        final float scale = App.getApp().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+//        final float scale = App.getApp().getResources().getDisplayMetrics().density;
+//        return (pxValue / scale);
+
     }
+
     /**
-     *   将px值转换为sp值
+     * 将px值转换为sp值
      */
     public static int px2sp(float pxValue) {
-        final float fontScale =App.getApp().getResources().getDisplayMetrics().scaledDensity;
+        final float fontScale = App.getApp().getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
 
     /**
      * 将sp值转换为px值
+     *
      * @param spValue float
      */
-    public static int sp2px( float spValue) {
-        final float fontScale = App.getApp().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
+    public static int sp2px(float spValue) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue,
+                App.getApp().getResources().getDisplayMetrics()));
     }
+
     /**
      * 获取屏幕的宽度
      */
@@ -121,7 +128,6 @@ public class ScreenUtils {
 
     /**
      * 获取屏幕内容的实际高度
-     *
      */
     public static int getScreenRealHeight() {
         int heightPixels;
@@ -129,27 +135,20 @@ public class ScreenUtils {
         Display d = w.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         d.getMetrics(metrics);
-        // since SDK_INT = 1;
         heightPixels = metrics.heightPixels;
         // includes window decorations (statusbar bar/navigation bar)
-        if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17) {
-            try {
-                heightPixels = (Integer) Display.class.getMethod("getRawHeight").invoke(d);
-            } catch (Exception ignored) {
-                ignored.printStackTrace();
-            }
-        } else if (Build.VERSION.SDK_INT >= 17) // includes window decorations (statusbar bar/navigation bar)
-            try {
-                android.graphics.Point realSize = new android.graphics.Point();
-                Display.class.getMethod("getRealSize", android.graphics.Point.class).invoke(d, realSize);
-                heightPixels = realSize.y;
-            } catch (Exception ignored) {
-            }
+        try {
+            android.graphics.Point realSize = new android.graphics.Point();
+            Display.class.getMethod("getRealSize", android.graphics.Point.class).invoke(d, realSize);
+            heightPixels = realSize.y;
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
         return heightPixels;
     }
 
-    public static boolean isScreenLandscape(){
-        Configuration configuration =App.getApp().getResources().getConfiguration();
+    public static boolean isScreenLandscape() {
+        Configuration configuration = App.getApp().getResources().getConfiguration();
         return configuration.orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

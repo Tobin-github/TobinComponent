@@ -202,7 +202,7 @@ public class NavigationTabBar extends LinearLayout {
             this.fragmentTab = fragmentTab;
             this.title = title;
 
-            int imageViewPx = ScreenUtils.dip2px(25);
+            int imageViewPx = ScreenUtils.dp2px(25);
 
             ImageView imageView = new ImageView(getContext());
             LayoutParams layoutParams = new LayoutParams(imageViewPx, imageViewPx);
@@ -228,11 +228,11 @@ public class NavigationTabBar extends LinearLayout {
             layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             relativeLayout.setLayoutParams(layoutParams);
             View view = new View(getContext());
-            RelativeLayout.LayoutParams layoutParamsRelative = new RelativeLayout.LayoutParams(ScreenUtils.dip2px(10), ScreenUtils.dip2px(10));
+            RelativeLayout.LayoutParams layoutParamsRelative = new RelativeLayout.LayoutParams(ScreenUtils.dp2px(10), ScreenUtils.dp2px(10));
             layoutParamsRelative.addRule(RelativeLayout.CENTER_HORIZONTAL);
             layoutParamsRelative.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            layoutParams.topMargin = ScreenUtils.dip2px(5);
-            layoutParams.leftMargin = ScreenUtils.dip2px(15);
+            layoutParams.topMargin = ScreenUtils.dp2px(5);
+            layoutParams.leftMargin = ScreenUtils.dp2px(15);
             view.setLayoutParams(layoutParamsRelative);
             view.setBackgroundResource(R.drawable.bg_unread_msg_bubble);
             relativeLayout.addView(view);

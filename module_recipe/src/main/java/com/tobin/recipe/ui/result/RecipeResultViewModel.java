@@ -1,4 +1,4 @@
-package com.tobin.recipe.ui;
+package com.tobin.recipe.ui.result;
 
 import androidx.lifecycle.MutableLiveData;
 

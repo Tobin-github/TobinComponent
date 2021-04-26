@@ -8,29 +8,28 @@
 
         <variable
             name="vm"
-            type="com.tobin.recipe.ui.RecipeResultViewModel" />
+            type="com.tobin.recipe.ui.result.RecipeResultViewModel" />
 
         <variable
             name="click"
-            type="com.tobin.recipe.ui.RecipeResultFragment.ClickProxy" />
+            type="com.tobin.recipe.ui.result.RecipeResultFragment.ClickProxy" />
 
         <variable
             name="adapter"
-            type="com.tobin.recipe.ui.adapter.RecipeResultAdapter" />
+            type="com.tobin.recipe.ui.result.RecipeResultAdapter" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.SearchActivity">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_recipe_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
             android:clipToPadding="false"
+            android:padding="10dp"
             app:layoutManager="com.tobin.lib_resource.mvvm.binding_recyclerview.layout_manager.WrapContentLinearLayoutManager"
             bind:setAdapter="@{adapter}"
             bind:submitList="@{vm.byClassIdLiveData.result.list}"

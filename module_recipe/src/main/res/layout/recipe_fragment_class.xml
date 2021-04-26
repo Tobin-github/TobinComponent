@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
+            android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -46,13 +47,22 @@
                 android:textSize="18sp" />
 
             <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toStartOf="@id/iv_grid"
+                android:onClick="@{()->click.clickSearch()}"
+                android:paddingEnd="20dp"
+                android:src="@mipmap/search" />
+
+            <ImageView
                 android:id="@+id/iv_grid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
+                android:onClick="@{()->click.categoryType()}"
                 android:paddingEnd="10dp"
-                android:visibility="gone"
-                android:src="@mipmap/ic_empty_pic" />
+                android:src="@mipmap/category" />
 
         </RelativeLayout>
 

@@ -24,7 +24,6 @@ import java.util.List;
 import timber.log.Timber;
 
 public class App extends Application implements ViewModelStoreOwner {
-    private static final String TAG = "App";
     private AppLifecycle appLifecycle;
     private static Application instance;
     private static GlobalConfig globalConfig;
@@ -33,6 +32,7 @@ public class App extends Application implements ViewModelStoreOwner {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+
         //初始化分包插件
         MultiDex.install(base);
 
@@ -42,19 +42,20 @@ public class App extends Application implements ViewModelStoreOwner {
             Timber.plant(new CrashReportingTree());
         }
 
+        Timber.tag("Tobin").i("App attachBaseContext");
+
         if (appLifecycle == null) {
             appLifecycle = new AppDelegate(base);
         }
 
         appLifecycle.attachBaseContext(base);
-        Timber.tag(TAG).i("attachBaseContext: ");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-
+        Timber.tag("Tobin").i("App onCreate");
         mAppViewModelStore = new ViewModelStore();
 
         // 初始化全局配置
@@ -76,8 +77,6 @@ public class App extends Application implements ViewModelStoreOwner {
 
         appLifecycle.onCreate(instance);
 
-        Timber.tag(TAG).i("onCreate");
-
     }
 
     private void initGlobalConfig() {
@@ -97,20 +96,20 @@ public class App extends Application implements ViewModelStoreOwner {
     @Override
     public void onTerminate() {
         super.onTerminate();
+        Timber.tag("Tobin").i("App onTerminate: ");
         appLifecycle.onTerminate(instance);
         ObjectFactory.INSTANCE.clear();
         appLifecycle = null;
         instance = null;
         globalConfig = null;
         globalBuilder = null;
-        Timber.i("onTerminate: ");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         appLifecycle.onConfigurationChanged(newConfig);
         super.onConfigurationChanged(newConfig);
-        Timber.tag(TAG).i("onConfigurationChanged:");
+        Timber.tag("Tobin").i("onConfigurationChanged:");
     }
 
     /**

@@ -1,14 +1,12 @@
-package com.tobin.video
+package com.tobin.video.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.tobin.lib_resource.arouter.RouterHub
 import com.tobin.lib_resource.mvvm.base.BaseFragment
 import com.tobin.lib_resource.mvvm.bingding.DataBindingConfig
+import com.tobin.video.BR
+import com.tobin.video.R
 
 @Route(path = RouterHub.APP_VIDEO_FRAGMENT)
 class VideoFragment : BaseFragment() {
@@ -24,6 +22,11 @@ class VideoFragment : BaseFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getTopList()
+    }
+
     override fun initViewModel() {
         viewModel = getFragmentScopeViewModel(VideoViewModel::class.java)
     }
@@ -33,8 +36,7 @@ class VideoFragment : BaseFragment() {
                 .addBindingParam(BR.click, ClickProxy())
     }
 
-
-    class ClickProxy {
+    inner class ClickProxy {
 
     }
 }

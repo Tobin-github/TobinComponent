@@ -2,4 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tobin.video">
 
+    <application>
+
+        <meta-data
+            android:name="com.tobin.video.app.AppVideo"
+            android:value="AppLifecycle" />
+
+    </application>
+
 </manifest>

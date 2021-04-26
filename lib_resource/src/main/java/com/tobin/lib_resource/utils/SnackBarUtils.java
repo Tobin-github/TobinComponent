@@ -407,7 +407,7 @@ public class SnackBarUtils {
      * 计算单行的SnackBar的高度值(单位 pix)
      */
     private int calculateSnackBarHeight() {
-        int snackBarHeight = ScreenUtils.dip2px(28) + ScreenUtils.sp2px(14);
+        int snackBarHeight = ScreenUtils.dp2px(28) + ScreenUtils.sp2px(14);
         Timber.e("直接获取MessageView高度:%s", mSnackBar.getView().findViewById(R.id.snackbar_text).getHeight());
         return snackBarHeight;
     }

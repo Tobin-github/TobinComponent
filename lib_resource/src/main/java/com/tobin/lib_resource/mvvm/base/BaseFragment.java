@@ -3,6 +3,7 @@ package com.tobin.lib_resource.mvvm.base;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,7 @@ public abstract class BaseFragment extends DataBindingFragment {
     private ViewModelProvider mActivityProvider;
     private ViewModelProvider mApplicationProvider;
 
-    private static final Handler HANDLER = new Handler();
+    private static final Handler HANDLER = new Handler(Looper.myLooper());
     protected boolean mAnimationLoaded;
 
     protected <T extends ViewModel> T getFragmentScopeViewModel(@NonNull Class<T> modelClass) {

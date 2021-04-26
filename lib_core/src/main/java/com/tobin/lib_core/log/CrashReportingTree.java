@@ -23,6 +23,8 @@ public class CrashReportingTree extends Timber.Tree {
         }
     }
 
+
+
     public static final class FakeCrashLibrary {
         public static void log(int priority, String tag, String message) {
             // TODO add log entry to circular buffer.

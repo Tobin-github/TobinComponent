@@ -1,4 +1,4 @@
-package com.tobin.recipe.ui;
+package com.tobin.recipe.ui.search;
 
 import android.os.Bundle;
 
@@ -11,21 +11,7 @@ import com.tobin.recipe.R;
 
 @Route(path = RouterHub.RECIPE_RESULT_SEARCH_FRAGMENT)
 public class RecipeSearchHistoryFragment extends BaseFragment {
-    private SearchViewModel searchViewModel;
-
-    public RecipeSearchHistoryFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment RecipeSearchHistoryFragment.
-     */
-    public static RecipeSearchHistoryFragment newInstance() {
-        return new RecipeSearchHistoryFragment();
-    }
+    private RecipeSearchViewModel searchViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,12 +20,19 @@ public class RecipeSearchHistoryFragment extends BaseFragment {
 
     @Override
     protected DataBindingConfig getDataBindingConfig() {
-        return new DataBindingConfig(R.layout.recipe_fragment_search_history, BR.vm, searchViewModel);
+        return new DataBindingConfig(R.layout.recipe_fragment_search_history, BR.vm, searchViewModel)
+                .addBindingParam(BR.click, new ClickProxy());
     }
 
     @Override
     protected void initViewModel() {
-        searchViewModel = getFragmentScopeViewModel(SearchViewModel.class);
+        searchViewModel = getFragmentScopeViewModel(RecipeSearchViewModel.class);
+    }
+
+    public class ClickProxy {
+
+
+
     }
 
 }

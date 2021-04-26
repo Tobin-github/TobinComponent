@@ -5,17 +5,17 @@
     <data>
         <variable
             name="click"
-            type="com.tobin.video.VideoFragment.ClickProxy" />
+            type="com.tobin.video.ui.VideoFragment.ClickProxy" />
 
         <variable
             name="vm"
-            type="com.tobin.video.VideoViewModel" />
+            type="com.tobin.video.ui.VideoViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".VideoFragment">
+        tools:context=".ui.VideoFragment">
 
         <TextView
             android:layout_width="match_parent"

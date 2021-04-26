@@ -1,4 +1,4 @@
-package com.tobin.recipe.ui;
+package com.tobin.recipe.ui.search;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -15,10 +15,10 @@ import timber.log.Timber;
  * Email: 616041023@qq.com
  * Description:
  */
-public class SearchViewModel extends BaseViewModel {
+public class RecipeSearchViewModel extends BaseViewModel {
     private MutableLiveData<RecipesBean> recipesSearchLiveData;
 
-    public SearchViewModel() {
+    public RecipeSearchViewModel() {
         recipesSearchLiveData = new MutableLiveData<>();
     }
 

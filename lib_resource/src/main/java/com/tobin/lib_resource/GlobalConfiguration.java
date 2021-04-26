@@ -33,11 +33,10 @@ import tech.linjiang.pandora.Pandora;
 import timber.log.Timber;
 
 public class GlobalConfiguration implements GlobalModule {
-    private static final String TAG = "GlobalConfiguration";
 
     @Override
     public void applyOptions(Context context, GlobalConfig.Builder builder) {
-        Timber.i("GlobalConfiguration---->applyOptions");
+        Timber.tag("Tobin").i("GlobalConfiguration---->applyOptions");
         builder
                 // 全局BaseUrl
                 .baseurl(BuildConfig.SERVER_ADDRESS)
@@ -86,15 +85,17 @@ public class GlobalConfiguration implements GlobalModule {
                 .roomDatabaseConfiguration(new RoomDatabaseConfig() {
                     @Override
                     public void room(Context context, RoomDatabase.Builder builder) {
-                        Timber.i("roomDatabaseConfiguration");
+                        Timber.tag("Tobin").i("roomDatabaseConfiguration");
                     }
                 })
                 // Retrofit拓展配置
                 .retrofitConfiguration(new RetrofitConfig() {
                     @Override
                     public void retrofit(Context context, Retrofit.Builder builder) {
-                        Timber.i("retrofitConfiguration");
+                        Timber.tag("Tobin").i("retrofitConfiguration");
                         RetrofitUrlManager.getInstance().putDomain("wxjdcloud", BuildConfig.API_WX_JDCLOUD);
+                        RetrofitUrlManager.getInstance().putDomain("music163", "https://music.163.com/");
+
                     }
                 })
                 // 崩溃信息拦截器拓展配置

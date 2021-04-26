@@ -20,6 +20,7 @@ import com.tobin.lib_resource.loadsir.LottieLoadingCallback;
 import com.tobin.lib_resource.loadsir.NetErrorCallback;
 import com.tencent.bugly.crashreport.CrashReport;
 
+
 public class AppStore implements AppLifecycle {
     private static final String TAG = "AppStore";
     private static final String BUGLY_APPID = "";

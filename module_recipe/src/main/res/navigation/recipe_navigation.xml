@@ -3,34 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recipe_navigation"
-    app:startDestination="@id/recipe_class_fragment">
-
+    app:startDestination="@id/recipeClassFragment">
 
     <fragment
-        android:id="@+id/recipe_class_fragment"
+        android:id="@+id/recipeClassFragment"
         android:name="com.tobin.recipe.ui.classify.RecipeClassFragment"
-        android:label="RecipeClassFragment" >
+        android:label="RecipeClassFragment"
+        tools:layout="@layout/recipe_fragment_class">
+
         <action
-            android:id="@+id/recipe_action_recipe_class_fragment_to_recipe_result_fragment"
-            app:destination="@id/recipe_result_fragment" />
+            android:id="@+id/recipe_action_recipeclassfragment_to_recipesearchfragment"
+            app:destination="@id/recipeSearchFragment" />
         <action
-            android:id="@+id/recipe_action_recipe_class_fragment_to_recipe_search_history_fragment"
-            app:destination="@id/recipe_search_history_fragment" />
+            android:id="@+id/recipe_action_recipeclassfragment_to_recipe_result_navigation"
+            app:destination="@id/recipe_result_navigation" />
     </fragment>
 
-    <fragment
-        android:id="@+id/recipe_result_fragment"
-        android:name="com.tobin.recipe.ui.RecipeResultFragment"
-        android:label="RecipeResultFragment" />
 
     <fragment
-        android:id="@+id/recipe_search_history_fragment"
-        android:name="com.tobin.recipe.ui.RecipeSearchHistoryFragment"
-        android:label="RecipeSearchHistoryFragment" >
+        android:id="@+id/recipeSearchFragment"
+        android:name="com.tobin.recipe.ui.search.RecipeSearchFragment"
+        android:label="RecipeSearchFragment"
+        tools:layout="@layout/recipe_fragment_search">
         <action
-            android:id="@+id/recipe_action_recipe_search_history_fragment_to_recipe_result_fragment"
-            app:destination="@id/recipe_result_fragment" />
+            android:id="@+id/recipe_action_recipesearchfragment_to_recipe_result_navigation"
+            app:destination="@id/recipe_result_navigation" />
     </fragment>
+
+
+    <include app:graph="@navigation/recipe_reuslt_navigation" />
 
 
 </navigation>

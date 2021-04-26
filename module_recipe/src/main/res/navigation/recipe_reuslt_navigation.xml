@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipe_result_navigation"
+    app:startDestination="@id/recipeResultFragment">
+
+    <fragment
+        android:id="@+id/recipeResultFragment"
+        android:name="com.tobin.recipe.ui.result.RecipeResultFragment"
+        android:label="RecipeResultFragment"
+        tools:layout="@layout/recipe_fragment_result">
+
+        <action
+            android:id="@+id/recipe_action_reciperesultfragment_to_recipe_detail_navigation"
+            app:destination="@id/recipe_detail_navigation" />
+    </fragment>
+
+    <include app:graph="@navigation/recipe_detail_navigation" />
+</navigation>
+

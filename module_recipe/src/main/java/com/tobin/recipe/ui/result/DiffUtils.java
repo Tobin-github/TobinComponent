@@ -1,4 +1,4 @@
-package com.tobin.recipe.ui.adapter;
+package com.tobin.recipe.ui.result;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;

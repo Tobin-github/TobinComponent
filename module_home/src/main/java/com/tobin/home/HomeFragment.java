@@ -29,8 +29,11 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = (HomeFragmentHomeBinding) getBinding();
-        binding.gsyVideo.setUp("bilibili://video/760074277?player_height=1080\\u0026player_rotate=0\\u0026player_width=1920",
-                true, "test");
+//        binding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8",
+//                true, "CCTV-3");
+
+        binding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8",
+                true, "CCTV-6");
     }
 
     protected void initData() {
