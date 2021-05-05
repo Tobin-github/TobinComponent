@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 /**
  * Created by Tobin on 2021/4/20
- * Email: lijunb@szlanyou.com
+ * Email: 616041023@qq.com
  * Description:
  */
 interface MusicApi {
