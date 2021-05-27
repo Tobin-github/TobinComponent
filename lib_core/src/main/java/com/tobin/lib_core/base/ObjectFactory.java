@@ -10,7 +10,6 @@ import androidx.room.RoomDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tobin.lib_core.BuildConfig;
-import com.tobin.lib_core.R;
 import com.tobin.lib_core.base.config.CrashManagerConfig;
 import com.tobin.lib_core.base.config.GsonConfig;
 import com.tobin.lib_core.base.config.OkhttpConfig;
@@ -182,13 +181,15 @@ enum ObjectFactory {
                 .trackActivities(true) //default: false
                 //定义应用程序崩溃之间的最短时间，以确定我们不在崩溃循环中。比如：在规定的时间内再次崩溃，框架将不处理，让系统处理！
                 .minTimeBetweenCrashesMs(2000) //default: 3000
-                .errorDrawable(R.mipmap.error); //default: bug image
-
+                //.errorDrawable(R.mipmap.error) //default: bug image
+                //.restartActivity(XXLaunchActivity.class) //default: null (your app's launch activity)
+                //.errorActivity(XXErrorActivity.class) //default: null (default error activity)
+                //.eventListener(new XXEventListener()) //default: null
+        ;
         CrashManagerConfig crashManagerConfig = globalConfig.getCrashManagerConfig();
         if (crashManagerConfig != null) {
             crashManagerConfig.crash(context, crashBuilder);
         }
-
         crashBuilder.apply();
     }
 

@@ -15,7 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
-public abstract class DataBindingFragment extends Fragment {
+public abstract class DataBindingFragment<BD> extends Fragment {
 
     protected AppCompatActivity mActivity;
     private ViewDataBinding mBinding;

@@ -30,7 +30,7 @@ public class FDialog extends DialogFragment {
     private static final String ANIM = "anim_style";
     private static final String LAYOUT = "layout_id";
     private static final String CONVERT_LISTENER = "convert_listener";
-    private int margin=200;//左右边距
+    private int margin = 200;//左右边距
     private int width;//宽度
     private int height;//高度
     private float dimAmount = 0.5f;//灰度深浅
@@ -72,7 +72,8 @@ public class FDialog extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(layoutId, container, false);
         if (convertListener != null) {
             convertListener.convertView(DialogViewHolder.create(view), this);
@@ -147,7 +148,7 @@ public class FDialog extends DialogFragment {
     }
 
 
-    /*==========================================================================================华丽的分割线===================================================*/
+    /*===================================华丽的分割线==================================*/
 
     public FDialog setLayoutId(@LayoutRes int layoutId) {
         this.layoutId = layoutId;
@@ -217,7 +218,7 @@ public class FDialog extends DialogFragment {
         return this;
     }
 
-    /*======================================再来一条华丽的分割线===================================================================*/
+    /*================================再来一条华丽的分割线======================================*/
     private ConfirmDialog confirmDialog;
 
     public static FDialog build() {

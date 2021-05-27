@@ -15,11 +15,11 @@ class VideoViewModel : BaseViewModel() {
         addDisposable(Box.getRetrofit(MusicApi::class.java)
                 .getTopList()
                 .compose<Any>(RxUtils.httpResponseTransformer())
-                .subscribe(Consumer<Any> { result: Any ->
+                .subscribe({ result: Any ->
                     Timber.tag("Tobin").i("VideoViewModel --> getMsg: %s", result.toString())
-                }, Consumer { throwable: Throwable ->
+                }, { throwable: Throwable ->
                     Timber.tag("Tobin").i("VideoViewModel throwable message: %s", throwable.message)
                     error.postValue(throwable)
-                }, Action { Timber.tag("Tobin").e("VideoViewModel topList onComplete") }))
+                }, { Timber.tag("Tobin").e("VideoViewModel topList onComplete") }))
     }
 }

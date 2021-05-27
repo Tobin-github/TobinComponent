@@ -19,7 +19,6 @@ public final class KVUtils {
         MMKV.initialize(application.getApplicationContext());
     }
 
-
     public static boolean put(String key, Object value) {
         return put(null, key, value);
     }

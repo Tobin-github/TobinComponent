@@ -27,6 +27,7 @@ dependencies {
     api 'com.kingja.loadsir:loadsir:1.3.8'
 
     // Pandora 是一款无需ROOT、可以直接在应用内查看和修改包括网络、数据库、UI等的工具箱
+    // https://github.com/whataa/pandora
     debugImplementation 'com.github.whataa:pandora:androidx_v2.1.0'
     releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
 

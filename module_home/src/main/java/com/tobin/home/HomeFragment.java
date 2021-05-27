@@ -29,11 +29,6 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = (HomeFragmentHomeBinding) getBinding();
-//        binding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8",
-//                true, "CCTV-3");
-
-        binding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8",
-                true, "CCTV-6");
     }
 
     protected void initData() {
@@ -84,8 +79,9 @@ public class HomeFragment extends BaseFragment {
         }
 
         public void openWeb() {
-//            WebActivity.startCommonWeb(getActivity(), "", "file:///android_asset/TestWebView.html");
-            WebActivity.startCommonWeb(getActivity(),"js native","https://blog.csdn.net/jinmie0193/article/details/80723724");
+//            WebActivity.startCommonWeb(getActivity(), "js native", "file:///android_asset/TestWebView.html");
+            String url = "https://blog.csdn.net/jinmie0193/article/details/80723724";
+            WebActivity.startCommonWeb(getActivity(), "Blog", url);
         }
 
         public void recipePage() {
@@ -100,18 +96,16 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        binding.gsyVideo.onVideoResume();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        binding.gsyVideo.onVideoPause();
     }
 
     @Override
     public void onDestroyView() {
-        binding.gsyVideo.release();
         super.onDestroyView();
     }
 

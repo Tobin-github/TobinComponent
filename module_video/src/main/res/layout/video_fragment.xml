@@ -17,10 +17,12 @@
         android:layout_height="match_parent"
         tools:context=".ui.VideoFragment">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+            android:id="@+id/gsy_video"
+            android:layout_height="280dp"
+            android:layout_width="match_parent">
+
+        </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
 
     </FrameLayout>
 </layout>

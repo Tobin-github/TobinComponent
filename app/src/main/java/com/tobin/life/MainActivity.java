@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.tobin.lib_resource.app.AppStore;
 import com.tobin.lib_resource.arouter.RouterHub;
@@ -14,6 +15,7 @@ import com.tobin.lib_resource.mvvm.bingding.DataBindingConfig;
 import com.tobin.life.databinding.ActivityMainBinding;
 import com.tobin.recipe.BR;
 
+@Route(path = RouterHub.APP_MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity {
     public static final int Tag_Fragment_Home = 0;
     public static final int Tag_Fragment_Recipe = 1;

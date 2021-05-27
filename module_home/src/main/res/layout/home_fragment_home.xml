@@ -31,14 +31,13 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-
         <Button
             android:id="@+id/btn_recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
-            android:text="Recipe"
+            android:text="菜谱应用"
             android:onClick="@{()->click.recipePage()}"
             app:layout_constraintTop_toBottomOf="@id/test_webview"
             app:layout_constraintStart_toStartOf="parent" />
@@ -65,12 +64,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-            android:id="@+id/gsy_video"
-            android:layout_height="280dp"
-            android:layout_width="match_parent">
-
-        </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
 
     </LinearLayout>
 </layout>

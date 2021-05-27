@@ -1,6 +1,5 @@
 package com.tobin.lib_core.base;
 
-
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;

@@ -1,5 +1,5 @@
 android {
-    resourcePrefix "video_" //给 Module 内的资源名增加前缀, 避免资源名冲突
+   // resourcePrefix "video_" //给 Module 内的资源名增加前缀, 避免资源名冲突
 
     defaultConfig {
         javaCompileOptions {
@@ -17,6 +17,7 @@ dependencies {
 
     implementation project(path: ':lib_webview')
 
+    // https://github.com/CarGuo/GSYVideoPlayer
     implementation 'com.shuyu:gsyVideoPlayer-java:8.1.0'
     //是否需要 ExoPlayer 模式
     implementation 'com.shuyu:GSYVideoPlayer-exo2:8.1.0'
@@ -36,5 +37,5 @@ dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
 }
