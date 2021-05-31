@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tobin.video">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application>
+        <activity android:name=".ui.VideoActivity" />
 
         <meta-data
             android:name="com.tobin.video.app.AppVideo"
             android:value="AppLifecycle" />
 
+        <service android:name="com.tobin.video.notification.PlayerService" />
+
+        <receiver android:name="com.tobin.video.notification.PlayerReceiver"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="com.tobin.audio.close" />
+                <action android:name="com.tobin.audio.pause" />
+                <action android:name="com.tobin.audio.next" />
+                <action android:name="com.tobin.audio.play" />
+                <action android:name="com.tobin.audio.previous" />
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

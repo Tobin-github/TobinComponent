@@ -15,6 +15,8 @@ import com.tobin.lib_resource.mvvm.bingding.DataBindingConfig;
 import com.tobin.life.databinding.ActivityMainBinding;
 import com.tobin.recipe.BR;
 
+import timber.log.Timber;
+
 @Route(path = RouterHub.APP_MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity {
     public static final int Tag_Fragment_Home = 0;
@@ -58,7 +60,9 @@ public class MainActivity extends BaseActivity {
      * 创建路由Fragment
      */
     public Fragment createFragmentWithRouter(String path) {
-        return (Fragment) ARouter.getInstance().build(path).navigation();
+        Fragment fragment = (Fragment) ARouter.getInstance().build(path).navigation();
+        Timber.tag("Tobin").e("createFragmentWithRouter %s", String.valueOf(fragment));
+        return fragment;
     }
 
     @Override

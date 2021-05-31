@@ -1,5 +1,5 @@
 android {
-   // resourcePrefix "video_" //给 Module 内的资源名增加前缀, 避免资源名冲突
+   resourcePrefix "video_" //给 Module 内的资源名增加前缀, 避免资源名冲突
 
     defaultConfig {
         javaCompileOptions {
@@ -18,22 +18,11 @@ dependencies {
     implementation project(path: ':lib_webview')
 
     // https://github.com/CarGuo/GSYVideoPlayer
-    implementation 'com.shuyu:gsyVideoPlayer-java:8.1.0'
-    //是否需要 ExoPlayer 模式
-    implementation 'com.shuyu:GSYVideoPlayer-exo2:8.1.0'
-    //根据你的需求 ijk 模式的 so
-//    implementation 'com.shuyu:gsyVideoPlayer-armv5:8.1.0'
-//    implementation 'com.shuyu:gsyVideoPlayer-armv7a:8.1.0'
-//    implementation 'com.shuyu:gsyVideoPlayer-arm64:8.1.0'
-//    implementation 'com.shuyu:gsyVideoPlayer-x64:8.1.0'
-//    implementation 'com.shuyu:gsyVideoPlayer-x86:8.1.0'
-    // 更多ijk的编码支持
-    implementation 'com.shuyu:gsyVideoPlayer-ex_so:8.1.0'
+    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer:v8.1.3-jitpack'
 
-    implementation 'androidx.navigation:navigation-fragment:2.3.4'
-    implementation 'androidx.navigation:navigation-ui:2.3.4'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
