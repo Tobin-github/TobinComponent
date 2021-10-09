@@ -22,7 +22,6 @@ import java.util.List;
 public class LinkageSecondaryAdapter<T extends BaseGroupedItem.ItemInfo>
         extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
     private List<BaseGroupedItem<T>> mItems;
     private static final int IS_HEADER = 0;
     private static final int IS_LINEAR = 1;
@@ -30,9 +29,9 @@ public class LinkageSecondaryAdapter<T extends BaseGroupedItem.ItemInfo>
     private static final int IS_FOOTER = 3;
     private boolean mIsGridMode;
 
-    private ILinkageSecondaryAdapterConfig mConfig;
+    private final ILinkageSecondaryAdapterConfig<T> mConfig;
 
-    public ILinkageSecondaryAdapterConfig getConfig() {
+    public ILinkageSecondaryAdapterConfig<T> getConfig() {
         return mConfig;
     }
 
@@ -48,7 +47,7 @@ public class LinkageSecondaryAdapter<T extends BaseGroupedItem.ItemInfo>
         mIsGridMode = isGridMode;
     }
 
-    public LinkageSecondaryAdapter(List<BaseGroupedItem<T>> items, ILinkageSecondaryAdapterConfig config) {
+    public LinkageSecondaryAdapter(List<BaseGroupedItem<T>> items, ILinkageSecondaryAdapterConfig<T> config) {
         mItems = items;
         if (mItems == null) {
             mItems = new ArrayList<>();
@@ -81,7 +80,7 @@ public class LinkageSecondaryAdapter<T extends BaseGroupedItem.ItemInfo>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
+        Context mContext = parent.getContext();
         mConfig.setContext(mContext);
         if (viewType == IS_HEADER) {
             View view = LayoutInflater.from(mContext).inflate(mConfig.getHeaderLayoutId(), parent, false);

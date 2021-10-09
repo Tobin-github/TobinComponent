@@ -18,6 +18,8 @@ import com.tobin.recipe.R;
 import com.tobin.recipe.databinding.RecipeFragmentResultBinding;
 import com.tobin.recipe.ui.ShareViewModel;
 
+import timber.log.Timber;
+
 @Route(path = RouterHub.RECIPE_RESULT_FRAGMENT)
 public class RecipeResultFragment extends BaseFragment {
 
@@ -48,6 +50,7 @@ public class RecipeResultFragment extends BaseFragment {
 
     protected void initData() {
         shareViewModel.classid.observe(getViewLifecycleOwner(), s -> {
+            Timber.tag("Tobin").d("shareViewModel classid observe %s", s);
             viewModel.byRecipesClass(Integer.parseInt(s), 0, 20);
         });
 

@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class RecyclerViewBindingAdapter {
 
     @BindingAdapter(value = {"bind:setAdapter"}, requireAll = false)
@@ -16,6 +18,7 @@ public class RecyclerViewBindingAdapter {
     @BindingAdapter(value = {"bind:submitList"}, requireAll = false)
     public static void submitList(RecyclerView recyclerView, List list) {
         if (recyclerView.getAdapter() != null) {
+            Timber.d("bind:submitList");
             ListAdapter adapter = (ListAdapter) recyclerView.getAdapter();
             adapter.submitList(list);
         }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -12,7 +13,7 @@
             type="com.tobin.video.ui.VideoViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.VideoFragment">
@@ -20,9 +21,19 @@
         <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
             android:id="@+id/gsy_video"
             android:layout_height="280dp"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/go_tiktok_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> click.goTiktok()}"
+            android:text="仿抖音界面"
+            app:layout_constraintTop_toBottomOf="@id/gsy_video"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

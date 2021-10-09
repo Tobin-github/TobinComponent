@@ -17,12 +17,10 @@ import java.util.List;
 public class LinkagePrimaryAdapter extends RecyclerView.Adapter<LinkagePrimaryViewHolder> {
 
     private List<String> mStrings;
-    private Context mContext;
-    private View mView;
     private int mSelectedPosition;
 
-    private ILinkagePrimaryAdapterConfig mConfig;
-    private OnLinkageListener mLinkageListener;
+    private final ILinkagePrimaryAdapterConfig mConfig;
+    private final OnLinkageListener mLinkageListener;
 
     public List<String> getStrings() {
         return mStrings;
@@ -62,9 +60,9 @@ public class LinkagePrimaryAdapter extends RecyclerView.Adapter<LinkagePrimaryVi
     @NonNull
     @Override
     public LinkagePrimaryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
+        Context mContext = parent.getContext();
         mConfig.setContext(mContext);
-        mView = LayoutInflater.from(mContext).inflate(mConfig.getLayoutId(), parent, false);
+        View mView = LayoutInflater.from(mContext).inflate(mConfig.getLayoutId(), parent, false);
         return new LinkagePrimaryViewHolder(mView, mConfig);
     }
 

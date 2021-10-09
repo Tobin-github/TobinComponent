@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tobin.recipe.R;
 import com.tobin.recipe.linkage.adapter.LinkagePrimaryAdapter;
 import com.tobin.recipe.linkage.adapter.LinkageSecondaryAdapter;
-import com.tobin.recipe.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
 import com.tobin.recipe.linkage.bean.BaseGroupedItem;
 import com.tobin.recipe.linkage.contract.ILinkagePrimaryAdapterConfig;
 import com.tobin.recipe.linkage.contract.ILinkageSecondaryAdapterConfig;
@@ -47,7 +46,7 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     private RecyclerView mRvSecondary;
 
     private LinkagePrimaryAdapter mPrimaryAdapter;
-    private LinkageSecondaryAdapter mSecondaryAdapter;
+    private LinkageSecondaryAdapter<T> mSecondaryAdapter;
     private TextView mTvHeader;
     private FrameLayout mHeaderContainer;
     private View mHeaderLayout;
@@ -80,9 +79,9 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     private void initView(Context context, @Nullable AttributeSet attrs) {
         this.mContext = context;
         mView = LayoutInflater.from(context).inflate(R.layout.recipe_linkage_view, this);
-        mRvPrimary = (RecyclerView) mView.findViewById(R.id.rv_primary);
-        mRvSecondary = (RecyclerView) mView.findViewById(R.id.rv_secondary);
-        mHeaderContainer = (FrameLayout) mView.findViewById(R.id.header_container);
+        mRvPrimary = mView.findViewById(R.id.rv_primary);
+        mRvSecondary = mView.findViewById(R.id.rv_secondary);
+        mHeaderContainer = mView.findViewById(R.id.header_container);
     }
 
     private void setLevel2LayoutManager() {
@@ -106,23 +105,20 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     }
 
     private void initRecyclerView(ILinkagePrimaryAdapterConfig primaryAdapterConfig,
-                                  ILinkageSecondaryAdapterConfig secondaryAdapterConfig) {
+                                  ILinkageSecondaryAdapterConfig<T> secondaryAdapterConfig) {
 
         mPrimaryAdapter = new LinkagePrimaryAdapter(mInitGroupNames, primaryAdapterConfig,
-                new LinkagePrimaryAdapter.OnLinkageListener() {
-                    @Override
-                    public void onLinkageClick(LinkagePrimaryViewHolder holder, String title) {
-                        if (isScrollSmoothly()) {
-                            RecyclerViewScrollHelper.smoothScrollToPosition(mRvSecondary,
-                                    LinearSmoothScroller.SNAP_TO_START,
-                                    mHeaderPositions.get(holder.getBindingAdapterPosition()));
-                        } else {
-                            mSecondaryLayoutManager.scrollToPositionWithOffset(
-                                    mHeaderPositions.get(holder.getBindingAdapterPosition()), SCROLL_OFFSET);
-                        }
-                        mPrimaryAdapter.setSelectedPosition(holder.getBindingAdapterPosition());
-                        mPrimaryClicked = true;
+                (holder, title) -> {
+                    if (isScrollSmoothly()) {
+                        RecyclerViewScrollHelper.smoothScrollToPosition(mRvSecondary,
+                                LinearSmoothScroller.SNAP_TO_START,
+                                mHeaderPositions.get(holder.getBindingAdapterPosition()));
+                    } else {
+                        mSecondaryLayoutManager.scrollToPositionWithOffset(
+                                mHeaderPositions.get(holder.getBindingAdapterPosition()), SCROLL_OFFSET);
                     }
+                    mPrimaryAdapter.setSelectedPosition(holder.getBindingAdapterPosition());
+                    mPrimaryClicked = true;
                 });
 
         mPrimaryLayoutManager = new LinearLayoutManager(mContext);
@@ -137,7 +133,6 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     private void initLinkageSecondary() {
 
         // Note: headerLayout is shared by both SecondaryAdapter's header and HeaderView
-
         if (mTvHeader == null && mSecondaryAdapter.getConfig() != null) {
             ILinkageSecondaryAdapterConfig config = mSecondaryAdapter.getConfig();
             int layout = config.getHeaderLayoutId();
@@ -239,9 +234,9 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     /**
      * init LinkageRV by items and configs
      *
-     * @param linkageItems
-     * @param primaryAdapterConfig
-     * @param secondaryAdapterConfig
+     * @param linkageItems List
+     * @param primaryAdapterConfig ILinkagePrimaryAdapterConfig
+     * @param secondaryAdapterConfig ILinkageSecondaryAdapterConfig
      */
     public void init(List<BaseGroupedItem<T>> linkageItems,
                      ILinkagePrimaryAdapterConfig primaryAdapterConfig,
@@ -283,7 +278,7 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     /**
      * simplify init by only items and default configs
      *
-     * @param linkageItems
+     * @param linkageItems List
      */
     public void init(List<BaseGroupedItem<T>> linkageItems) {
         init(linkageItems, new DefaultLinkagePrimaryAdapterConfig(), new DefaultLinkageSecondaryAdapterConfig());
@@ -292,8 +287,8 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     /**
      * bind listeners for primary or secondary adapter
      *
-     * @param primaryItemClickListener OnPrimaryItemClickListner
-     * @param primaryItemBindListener OnPrimaryItemClickListner
+     * @param primaryItemClickListener OnPrimaryItemClickListener
+     * @param primaryItemBindListener OnPrimaryItemClickListener
      * @param secondaryItemBindListener OnSecondaryItemBindListener
      * @param headerBindListener OnSecondaryHeaderBindListener
      * @param footerBindListener OnSecondaryFooterBindListener
@@ -369,7 +364,6 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     /**
      * custom if is hope to scroll smoothly while click primary item to linkage secondary list
      *
-     * @return
      */
     public void setScrollSmoothly(boolean scrollSmoothly) {
         this.mScrollSmoothly = scrollSmoothly;
@@ -390,7 +384,7 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     /**
      * set percent of primary list and secondary list width
      *
-     * @param percent
+     * @param percent float
      */
     public void setPercent(float percent) {
         Guideline guideline = (Guideline) mView.findViewById(R.id.guideline);
@@ -412,8 +406,8 @@ public class LinkageRecyclerView<T extends BaseGroupedItem.ItemInfo> extends Con
     /**
      * addItemDecoration for Primary or Secondary RecyclerView
      *
-     * @param forPrimaryOrSecondary
-     * @param decoration
+     * @param forPrimaryOrSecondary int
+     * @param decoration ItemDecoration
      */
     public void addItemDecoration(int forPrimaryOrSecondary, RecyclerView.ItemDecoration decoration) {
         switch (forPrimaryOrSecondary) {

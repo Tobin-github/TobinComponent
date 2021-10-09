@@ -46,8 +46,7 @@ public class DataBindingConfig {
         return bindingParams;
     }
 
-    public DataBindingConfig addBindingParam(@NonNull Integer variableId,
-                                             @NonNull Object object) {
+    public DataBindingConfig addBindingParam(@NonNull Integer variableId, @NonNull Object object) {
         if (bindingParams.get(variableId) == null) {
             bindingParams.put(variableId, object);
         }

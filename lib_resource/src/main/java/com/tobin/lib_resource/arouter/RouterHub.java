@@ -46,7 +46,8 @@ public interface RouterHub {
     /**
      * 音视频
      */
-    String APP_VIDEO_ACTIVITY = VIDEO + "/VideoActivity";
+    String APP_VIDEO_TIKTOK_ACTIVITY = VIDEO + "/TikTokVideoActivity";
+    String APP_VIDEO_TIKTOK_FRAGMENT = VIDEO + "/TikTokVideoActivity";
     String APP_VIDEO_FRAGMENT = VIDEO + "/VideoFragment";
 
 

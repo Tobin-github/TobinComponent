@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application>
-        <activity android:name=".ui.VideoActivity" />
+        <activity android:name=".tiktok.TikTokVideoActivity" />
 
         <meta-data
             android:name="com.tobin.video.app.AppVideo"

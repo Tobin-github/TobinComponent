@@ -38,7 +38,7 @@ public class RecipeClassFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = (RecipeFragmentClassBinding) getBinding();
+        binding = getBinding();
         init();
     }
 
@@ -110,12 +110,8 @@ public class RecipeClassFragment extends BaseFragment {
     public class ClickProxy {
 
         public void categoryType() {
-            if (isGrid) {
-                binding.linkageView.setGridMode(false);
-            } else {
-                binding.linkageView.setGridMode(true);
-            }
             isGrid = !isGrid;
+            binding.linkageView.setGridMode(isGrid);
         }
 
         public void clickSearch() {

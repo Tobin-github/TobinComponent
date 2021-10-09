@@ -1,8 +1,5 @@
 package com.tobin.mine;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tobin.lib_resource.arouter.RouterHub;
 
@@ -16,11 +13,8 @@ public class MineFragment extends BaseFragment {
     private MineViewModel mineViewModel;
 
     protected void initData() {
-        mineViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
+        mineViewModel.getText().observe(getViewLifecycleOwner(), s -> {
 
-            }
         });
     }
 

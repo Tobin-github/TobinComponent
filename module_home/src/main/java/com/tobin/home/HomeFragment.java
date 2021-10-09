@@ -28,7 +28,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = (HomeFragmentHomeBinding) getBinding();
+        binding = getBinding();
     }
 
     protected void initData() {
@@ -96,7 +96,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override

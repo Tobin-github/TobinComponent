@@ -8,7 +8,7 @@ import retrofit2.http.Url;
 
 /**
  * Created by Tobin on 2021/3/15
- * Email: lijunb@szlanyou.com
+ * Email: 616041023@qq.com
  * Description:
  */
 public interface UploadService {

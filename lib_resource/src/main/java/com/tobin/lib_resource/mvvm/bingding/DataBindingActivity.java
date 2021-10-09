@@ -18,7 +18,7 @@ public abstract class DataBindingActivity extends AppCompatActivity {
     protected abstract DataBindingConfig getDataBindingConfig();
 
     /**
-     * TODO tip: 警惕使用。非必要情况下，尽可能不在子类中拿到 binding 实例乃至获取 view 实例.
+     * 非必要情况下，尽可能不在子类中拿到 binding 实例乃至获取 view 实例.
      *
      * @return binding
      */
@@ -33,11 +33,7 @@ public abstract class DataBindingActivity extends AppCompatActivity {
         initViewModel();
         DataBindingConfig dataBindingConfig = getDataBindingConfig();
 
-        // TODO tip: DataBinding 严格模式：
         // 将 DataBinding 实例限制于 base 页面中，默认不向子类暴露，
-        // 通过这样的方式，来解决 视图调用的一致性问题，
-        // 如此，视图调用的安全性将和基于函数式编程思想的 Jetpack Compose 持平。
-
         ViewDataBinding binding = DataBindingUtil.setContentView(this, dataBindingConfig.getLayout());
         binding.setLifecycleOwner(this);
         binding.setVariable(dataBindingConfig.getVmVariableId(), dataBindingConfig.getStateViewModel());

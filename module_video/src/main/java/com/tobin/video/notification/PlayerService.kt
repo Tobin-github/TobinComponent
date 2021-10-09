@@ -9,7 +9,6 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tobin.video.R
-import com.tobin.video.ui.VideoActivity
 import timber.log.Timber
 
 /**

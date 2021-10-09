@@ -7,7 +7,7 @@ import com.tobin.recipe.bean.RecipesBean;
 
 /**
  * Created by Tobin on 2021/4/21
- * Email: lijunb@szlanyou.com
+ * Email: 616041023@qq.com
  * Description:
  */
 public class ShareViewModel extends BaseViewModel {

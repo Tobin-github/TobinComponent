@@ -15,7 +15,6 @@ import com.tobin.lib_core.base.delegate.AppLifecycle;
 import com.tobin.lib_core.base.delegate.GlobalModule;
 import com.tobin.lib_core.base.delegate.MetaValue;
 import com.tobin.lib_core.log.CrashReportingTree;
-import com.tobin.lib_core.utils.DataStoreUtils;
 import com.tobin.lib_core.utils.KVUtils;
 import com.tobin.lib_core.utils.ManifestParser;
 
@@ -66,8 +65,6 @@ public class App extends Application implements ViewModelStoreOwner {
 
         // 初始化KVUtil
         KVUtils.init(this);
-        // 初始化 DataStore
-        DataStoreUtils.INSTANCE.init(this);
 
         // 用户信息管理器
         ObjectFactory.INSTANCE.initSessionManager(this, getGlobalConfig());

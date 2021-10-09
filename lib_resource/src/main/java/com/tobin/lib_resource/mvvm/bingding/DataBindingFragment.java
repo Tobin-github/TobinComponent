@@ -15,7 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
-public abstract class DataBindingFragment<BD> extends Fragment {
+public abstract class DataBindingFragment extends Fragment {
 
     protected AppCompatActivity mActivity;
     private ViewDataBinding mBinding;
@@ -47,8 +47,8 @@ public abstract class DataBindingFragment<BD> extends Fragment {
      *
      * @return binding
      */
-    protected ViewDataBinding getBinding() {
-        return mBinding;
+    protected  <T extends ViewDataBinding> T getBinding() {
+        return (T) mBinding;
     }
 
     @Nullable

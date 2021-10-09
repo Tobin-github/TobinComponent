@@ -12,6 +12,7 @@ import com.tobin.video.BR
 import com.tobin.video.R
 import com.tobin.video.databinding.VideoFragmentBinding
 import com.tobin.video.notification.PlayerService
+import com.tobin.video.tiktok.TikTokVideoActivity
 
 /**
  * Created by Tobin on 2021/4/20
@@ -30,20 +31,27 @@ class VideoFragment : BaseFragment() {
 
     private lateinit var viewModel: VideoViewModel
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         val intent = Intent(context, PlayerService::class.java)
         context?.startService(intent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding = binding as VideoFragmentBinding
-//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8",
-//                true, "CCTV-3");
+        mBinding = getBinding() as VideoFragmentBinding
 
-        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8",
-                true, "CCTV-6")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8", true, "CCTV-3");
+        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8", true, "CCTV-6")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/hunanhd.m3u8", false, "湖南卫视")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/szhd.m3u8", false, "深圳卫视")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/hbhd.m3u8", false, "湖北卫视")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/dftv.m3u8", false, "东方卫视")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/btv10.m3u8", false, "北京10少儿")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/tjhd.m3u8", false, "天津卫视")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/sdhd.m3u8", false, "山东卫视")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/jshd.m3u8", false, "江苏卫视")
+//        mBinding.gsyVideo.setUp("http://ivi.bupt.edu.cn/hls/chchd.m3u8", false, "CHC高清电影")
     }
 
     override fun onResume() {
@@ -55,6 +63,7 @@ class VideoFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         mBinding.gsyVideo.onVideoPause()
+
     }
 
     override fun onDestroyView() {
@@ -63,7 +72,7 @@ class VideoFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        viewModel = getFragmentScopeViewModel(VideoViewModel::class.java) as VideoViewModel
+        viewModel = getFragmentScopeViewModel(VideoViewModel::class.java)
     }
 
     override fun getDataBindingConfig(): DataBindingConfig {
@@ -72,6 +81,8 @@ class VideoFragment : BaseFragment() {
     }
 
     inner class ClickProxy {
-
+        fun goTiktok() {
+            startActivity(Intent(context, TikTokVideoActivity::class.java))
+        }
     }
 }
