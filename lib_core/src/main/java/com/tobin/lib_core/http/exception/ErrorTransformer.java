@@ -41,6 +41,11 @@ public class ErrorTransformer<T> implements ObservableTransformer<BaseModel<T>, 
 //                if (httpResult.getCode() != ErrorType.SUCCESS) {
 //                    throw new ServerException(httpResult.getMessage(), httpResult.getCode());
 //                }
+
+                if (httpResult.getData() == null) {
+                    throw new ServerException(httpResult.getMessage(), httpResult.getCode());
+                }
+
                 return httpResult.getData();
             }
         }).onErrorResumeNext(new Function<Throwable, ObservableSource<? extends T>>() {

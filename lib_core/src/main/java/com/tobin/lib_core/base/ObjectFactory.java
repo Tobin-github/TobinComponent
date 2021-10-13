@@ -201,7 +201,7 @@ enum ObjectFactory {
 
     public HttpLoggingInterceptor getLoggingInterceptor() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.level(HttpLoggingInterceptor.Level.BASIC);
+        logging.level(HttpLoggingInterceptor.Level.BODY);
         return logging;
     }
 

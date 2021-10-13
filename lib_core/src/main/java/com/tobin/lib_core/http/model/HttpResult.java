@@ -9,9 +9,11 @@ public class HttpResult<T> implements BaseModel<T> {
 
     @SerializedName("tag")
     private boolean tag;
-    @SerializedName(value = "code")
+
+    @SerializedName(value = "code", alternate = {"errorCode"})
     private int code;
-    @SerializedName(value = "message", alternate = {"status", "msg"})
+
+    @SerializedName(value = "message", alternate = {"status", "msg","errorMsg"})
     private String message;
 
     @Override
