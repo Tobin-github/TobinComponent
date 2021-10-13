@@ -51,13 +51,6 @@ public class NavigationTabBar extends LinearLayout {
         return this;
     }
 
-//    public NavigationTabBar addNavigationItem(List<Fragment> fragmentList){
-//        for (Fragment fragment: fragmentList){
-//            navigationItemList.addAll(new NavigationItem(selectId, noSelectId, fragment, fragmentTab, title));
-//        }
-//        return this;
-//    }
-
     public NavigationTabBar setFragmentManager(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
         return this;

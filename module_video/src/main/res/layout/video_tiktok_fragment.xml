@@ -13,10 +13,10 @@
         android:layout_height="match_parent"
         tools:context=".tiktok.TikTokFragment">
 
-        <TextView
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+            android:layout_height="match_parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -74,6 +74,8 @@ public abstract class SessionManager {
      */
     @Nullable
     public abstract <T> T getUser();
+    
+    public abstract <T> T getUser(Class<T> cls);
 
     /**
      * 设置当前用户信息

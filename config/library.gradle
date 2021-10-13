@@ -8,6 +8,7 @@ project.beforeEvaluate {
         compileSdkVersion 30
         defaultConfig {
             minSdkVersion 19
+            //noinspection OldTargetApi
             targetSdkVersion 30
             versionCode 1
             versionName "1.0"
@@ -17,17 +18,19 @@ project.beforeEvaluate {
             ndk {
                 abiFilters "armeabi-v7a"
             }
-            javaCompileOptions {
-                annotationProcessorOptions {
-                    arguments = [AROUTER_MODULE_NAME: project.getName()]
+            kapt {
+                arguments {
+                    arg("AROUTER_MODULE_NAME", project.getName())
                 }
             }
         }
+
         sourceSets {
             main {
                 jniLibs.srcDirs = ['libs']
             }
         }
+
         buildTypes {
             release {
                 minifyEnabled false
@@ -48,6 +51,7 @@ project.beforeEvaluate {
             jvmTarget = "1.8"
 //            useIR = true
         }
+
         lintOptions {
 //            disable 'InvalidPackage'
 //            disable "ResourceType"
@@ -59,7 +63,6 @@ project.beforeEvaluate {
             // for view binding :
             // viewBinding = true
         }
-        kapt.includeCompileClasspath = false
     }
 
     dependencies {
@@ -85,10 +88,6 @@ project.beforeEvaluate {
 
         // multidex
         api 'com.android.support:multidex:2.0.0'
-
-        // DataStore
-        implementation "androidx.datastore:datastore-preferences:1.0.0-alpha08"
-        implementation "androidx.datastore:datastore-core:1.0.0-alpha08"
 
         // rxjava2
         api 'io.reactivex.rxjava2:rxjava:2.2.21'
@@ -125,7 +124,8 @@ project.beforeEvaluate {
 
         // https://github.com/bumptech/glide
         api 'com.github.bumptech.glide:glide:4.12.0'
-        annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+        //annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+        kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
         // log
         api 'com.jakewharton.timber:timber:4.7.1'
@@ -142,6 +142,10 @@ project.beforeEvaluate {
 
         // Bugly
         api 'com.tencent.bugly:crashreport:3.3.92'
+
+        // ARouter
+        api 'com.alibaba:arouter-api:1.5.1'
+        kapt 'com.alibaba:arouter-compiler:1.5.1'
 
     }
 

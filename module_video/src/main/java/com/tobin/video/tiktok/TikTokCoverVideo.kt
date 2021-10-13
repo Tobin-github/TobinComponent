@@ -15,7 +15,7 @@ import android.widget.ImageView
 import com.shuyu.gsyvideoplayer.utils.Debuger
 import android.widget.SeekBar
 
-class SampleCoverVideo : StandardGSYVideoPlayer {
+class TikTokCoverVideo : StandardGSYVideoPlayer {
     private lateinit var mCoverImage: ImageView
     private var mCoverOriginUrl: String? = null
     private var mCoverOriginId = 0
@@ -66,7 +66,7 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
         statusBar: Boolean
     ): GSYBaseVideoPlayer {
         val gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar)
-        val sampleCoverVideo = gsyBaseVideoPlayer as SampleCoverVideo
+        val sampleCoverVideo = gsyBaseVideoPlayer as TikTokCoverVideo
         if (mCoverOriginUrl != null) {
             sampleCoverVideo.loadCoverImage(mCoverOriginUrl, mDefaultRes)
         } else if (mCoverOriginId != 0) {
@@ -81,7 +81,7 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
         statusBar: Boolean
     ): GSYBaseVideoPlayer {
         //下面这里替换成你自己的强制转化
-        val sampleCoverVideo = super.showSmallVideo(size, actionBar, statusBar) as SampleCoverVideo
+        val sampleCoverVideo = super.showSmallVideo(size, actionBar, statusBar) as TikTokCoverVideo
         sampleCoverVideo.mStartButton.visibility = GONE
         sampleCoverVideo.mStartButton = null
         return sampleCoverVideo
@@ -89,9 +89,13 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
 
     override fun cloneParams(from: GSYBaseVideoPlayer, to: GSYBaseVideoPlayer) {
         super.cloneParams(from, to)
-        val sf = from as SampleCoverVideo
-        val st = to as SampleCoverVideo
+        val sf = from as TikTokCoverVideo
+        val st = to as TikTokCoverVideo
         st.mShowFullAnimation = sf.mShowFullAnimation
+    }
+
+    override fun isShowNetConfirm(): Boolean {
+        return false
     }
 
     /**
@@ -119,7 +123,7 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
         val oldF = vp.findViewById<View>(fullId)
         if (oldF != null) {
             //此处fix bug#265，推出全屏的时候，虚拟按键问题
-            val gsyVideoPlayer = oldF as SampleCoverVideo
+            val gsyVideoPlayer = oldF as TikTokCoverVideo
             gsyVideoPlayer.mIfCurrentIsFullscreen = false
         }
         if (delay == 0) {

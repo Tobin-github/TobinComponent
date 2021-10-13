@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="mine_register">注册</string>
+    <string name="mine_password_hint">密码</string>
+    <string name="mine_re_password_hint">再次输入密码</string>
+    <string name="mine_user_name_hint">用户名</string>
+</resources>

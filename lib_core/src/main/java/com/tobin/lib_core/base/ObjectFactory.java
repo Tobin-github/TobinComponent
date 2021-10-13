@@ -18,6 +18,8 @@ import com.tobin.lib_core.base.config.RoomDatabaseConfig;
 import com.tobin.lib_core.base.config.SessionManagerConfig;
 import com.tobin.lib_core.constant.Constants;
 import com.tobin.lib_core.http.cache.RoomCacheInterceptor;
+import com.tobin.lib_core.http.cookies.ReadCookiesInterceptor;
+import com.tobin.lib_core.http.cookies.SaveCookiesInterceptor;
 import com.tobin.lib_core.session.MmkvSessionManager;
 import com.tobin.lib_core.session.SessionConfig;
 import com.tobin.lib_core.session.SessionManager;
@@ -75,6 +77,10 @@ enum ObjectFactory {
         if (BuildConfig.DEBUG) {
             okhttpBuilder.addInterceptor(getLoggingInterceptor());
         }
+
+        // Cookies
+        okhttpBuilder.addInterceptor(new SaveCookiesInterceptor());
+        okhttpBuilder.addInterceptor(new ReadCookiesInterceptor());
 
         // Room 缓存，放在RetrofitUrlManager后面才可以获取替换后的URL
         if (globalConfig.isRoomCache()) {

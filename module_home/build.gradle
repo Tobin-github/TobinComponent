@@ -6,5 +6,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation project(path: ':lib_webview')
+    implementation project(path: ':lib_resource')
 
 }

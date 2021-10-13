@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2017.
- */
-
 package com.tobin.lib_core.session;
 
 /**

@@ -1,20 +1,19 @@
-package com.tobin.mine;
+package com.tobin.mine
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.databinding.ObservableField
+import com.tobin.lib_resource.lifecycle.BaseViewModel
+import androidx.lifecycle.MutableLiveData
 
-import com.tobin.lib_resource.lifecycle.BaseViewModel;
+class MineViewModel : BaseViewModel() {
+    var isLogin = MutableLiveData<Boolean>()
 
-public class MineViewModel extends BaseViewModel {
+    private val mText: ObservableField<String> = ObservableField()
+    val text: ObservableField<String>
+        get() = mText
 
-    private MutableLiveData<String> mText;
-
-    public MineViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is mine fragment");
+    init {
+        mText.set("This is mine fragment")
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
+
 }

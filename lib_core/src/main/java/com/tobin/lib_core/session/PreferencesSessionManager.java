@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import com.tobin.lib_core.base.Box;
 import com.tobin.lib_core.constant.Constants;
+import com.tobin.lib_core.utils.KVUtils;
 import com.tobin.lib_core.utils.SPUtil;
 
 /**
@@ -58,6 +59,21 @@ public class PreferencesSessionManager extends SessionManager {
             mGson = Box.getGson();
             if (mGson == null) mGson = new Gson();
             return (T) mGson.fromJson(json, sConfig.getUserClass());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public <T> T getUser(Class<T> cls) {
+        if (cls == null) return null;
+        try {
+            String json = (String) KVUtils.get(Constants.KEY_SESSION_USER, "");
+            if (TextUtils.isEmpty(json)) return null;
+            mGson = Box.getGson();
+            if (mGson == null) mGson = new Gson();
+            return (T) mGson.fromJson(json, cls);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -119,12 +119,14 @@ public final class KVUtils {
         put(key, Box.getGson().toJson(object));
     }
 
-
     public static Set<String> getStringSet(String key, @NonNull Set<String> defaultStringSet) {
         if (TextUtils.isEmpty(key)) {
             return null;
         }
         MMKV mmkv = MMKV.defaultMMKV();
+        if (mmkv == null) {
+            return defaultStringSet;
+        }
         return mmkv.decodeStringSet(key, defaultStringSet);
     }
 

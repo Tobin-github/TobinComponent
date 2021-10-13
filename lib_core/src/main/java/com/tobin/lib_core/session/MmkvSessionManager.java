@@ -60,6 +60,22 @@ public class MmkvSessionManager extends SessionManager {
         return null;
     }
 
+    @Nullable
+    @Override
+    public <T> T getUser(Class<T> cls) {
+        if (cls == null) return null;
+        try {
+            String json = (String) KVUtils.get(Constants.KEY_SESSION_USER, "");
+            if (TextUtils.isEmpty(json)) return null;
+            mGson = Box.getGson();
+            if (mGson == null) mGson = new Gson();
+            return (T) mGson.fromJson(json, cls);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public <T> void setUser(T user) {
         if (user == null) return;

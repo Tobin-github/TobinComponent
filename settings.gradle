@@ -2,6 +2,8 @@ include ':module_video'
 include ':module_home'
 include ':module_mine'
 include ':module_recipe'
+include ':module_discover'
+
 include ':app'
 include ':lib_resource'
 include ':lib_core'

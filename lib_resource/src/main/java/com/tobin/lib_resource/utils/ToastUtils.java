@@ -133,6 +133,7 @@ public class ToastUtils {
             if (!hasReflectException) initTN();
         }
 
+        @SuppressLint("SoonBlockedPrivateApi")
         private void initTN() {
             Field mTN;
             Object mObj;

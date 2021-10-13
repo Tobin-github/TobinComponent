@@ -2,6 +2,8 @@ package com.tobin.lib_core.http.cache;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.tobin.lib_core.base.App;
 import com.tobin.lib_core.base.Box;
 import com.tobin.lib_core.base.GlobalConfig;
@@ -26,13 +28,13 @@ import timber.log.Timber;
 public class RoomCacheInterceptor implements Interceptor {
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json;charset=UTF-8");
 
+    @NonNull
     @Override
     public Response intercept(final Chain chain) throws IOException {
-
         final Request request = chain.request();
         GlobalConfig globalConfig = App.getGlobalConfig();
         String roomHeader = request.header("Room-Cache");
-        long roomCacheTime = TextUtils.isEmpty(roomHeader) ? globalConfig.getGlobalCacheSecond() * 1000 : Integer.parseInt(roomHeader) * 1000;
+        long roomCacheTime = TextUtils.isEmpty(roomHeader) ? globalConfig.getGlobalCacheSecond() * 1000 : Integer.parseInt(roomHeader) * 1000L;
         String okhttpHeader = request.header("OkHttp-Cache");
         long okhttpCacheTime = TextUtils.isEmpty(okhttpHeader) ? globalConfig.getGlobalCacheSecond() : Integer.parseInt(okhttpHeader);
         String cacheMode = request.header("Cache-Mode");
@@ -230,13 +232,12 @@ public class RoomCacheInterceptor implements Interceptor {
 
     private Response readRoomCacheWithFirstCacheThenRequestNotNet(Request request, long time) throws IOException {
         String key = request.url().url().toString() + ">" + request.method();
-        Timber.i("RoomCache-Key(get):" + key);
+        Timber.i("RoomCache-Key(get):%s", key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
         roomCacheDB.close();
         if (roomCacheEntity == null)
-            return get400Response(request, null,
-                    CacheMode.FIRST_CACHE_THEN_REQUEST, roomCacheEntity.getProtocol());
+            return get400Response(request, null, CacheMode.FIRST_CACHE_THEN_REQUEST, Protocol.HTTP_1_1.toString());
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.FIRST_CACHE_THEN_REQUEST, time, System.currentTimeMillis());
         Timber.i(key + ">>>>>isExpire(" + isExpire + ")");
         if (isExpire) {
@@ -281,7 +282,7 @@ public class RoomCacheInterceptor implements Interceptor {
         return response;
     }
 
-    private Response get200RoomResponse(Request request, RoomCacheEntity roomCacheEntity, String cacheMode) throws IOException {
+    private Response get200RoomResponse(Request request, @NonNull RoomCacheEntity roomCacheEntity, String cacheMode) throws IOException {
         return new Response.Builder()
                 .code(200)
                 .request(request)

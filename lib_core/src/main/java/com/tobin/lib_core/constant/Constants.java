@@ -13,6 +13,11 @@ public interface Constants {
      * {@link com.tobin.lib_core.session.MmkvSessionManager}
      */
     String KEY_SESSION_TOKEN = "session_token";
+
+    /**
+     * 存放 cookies
+     */
+    String KEY_COOKIES_TOKEN = "cookies_token";
     /**
      * room数据库默认的名字
      * {@link com.tobin.lib_core.base.Box#getRoomDataBase(Class)}

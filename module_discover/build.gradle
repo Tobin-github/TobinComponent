@@ -1,0 +1,14 @@
+
+android {
+    resourcePrefix "discover_"
+
+}
+
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation project(path: ':lib_resource')
+    implementation project(path: ':module_recipe')
+
+}

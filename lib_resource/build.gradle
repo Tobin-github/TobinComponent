@@ -1,3 +1,4 @@
+
 android {
 
 //    resourcePrefix getName()
@@ -6,9 +7,14 @@ android {
         // 京东万象接口
         buildConfigField("String", "API_WX_JDCLOUD", "\"https://way.jd.com/\"")
         //  base URL
-        buildConfigField("String", "SERVER_ADDRESS", "\"http://tobin.top/\"")
+        buildConfigField("String", "SERVER_ADDRESS", "\"https://wanandroid.com/\"")
     }
 
+    buildFeatures{
+        dataBinding = true
+        // for view binding :
+        // viewBinding = true
+    }
 }
 
 dependencies {

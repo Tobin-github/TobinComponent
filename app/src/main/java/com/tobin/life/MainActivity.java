@@ -20,9 +20,9 @@ import timber.log.Timber;
 @Route(path = RouterHub.APP_MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity {
     public static final int Tag_Fragment_Home = 0;
-    public static final int Tag_Fragment_Recipe = 1;
-    public static final int Tag_Fragment_Mine = 2;
-    public static final int Tag_Fragment_Video = 3;
+    public static final int Tag_Fragment_Video = 1;
+    public static final int Tag_Fragment_Discover = 2;
+    public static final int Tag_Fragment_Mine = 3;
     private ActivityMainBinding dataBinding;
     private MainViewModel mainViewModel;
 
@@ -37,23 +37,23 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         dataBinding.navigationTabBar
                 .setIdContainer(R.id.container)
-                .setFragmentManager(getSupportFragmentManager());
-
-        dataBinding.navigationTabBar
-                .addNavigationItem(R.drawable.ic_home_black_24dp, R.drawable.ic_home_black_24dp,
+                .setFragmentManager(getSupportFragmentManager())
+                .addNavigationItem(R.mipmap.ic_home, R.mipmap.ic_home,
                         createFragmentWithRouter(RouterHub.APP_HOME_FRAGMENT), Tag_Fragment_Home, "首页")
-                .addNavigationItem(R.drawable.ic_dashboard_black_24dp, R.drawable.ic_dashboard_black_24dp,
-                        createFragmentWithRouter(RouterHub.APP_VIDEO_FRAGMENT), Tag_Fragment_Video, "发现")
-                .addNavigationItem(R.drawable.ic_notifications_black_24dp, R.drawable.ic_notifications_black_24dp,
-                        createFragmentWithRouter(RouterHub.APP_MINE_FRAGMENT), Tag_Fragment_Mine, "我的");
-        dataBinding.navigationTabBar.init();
+                .addNavigationItem(R.mipmap.ic_video, R.mipmap.ic_video,
+                        createFragmentWithRouter(RouterHub.APP_VIDEO_TIKTOK_FRAGMENT), Tag_Fragment_Video, "小视频")
+                .addNavigationItem(R.mipmap.ic_discovery, R.mipmap.ic_discovery,
+                        createFragmentWithRouter(RouterHub.APP_DISCOVER_FRAGMENT), Tag_Fragment_Discover, "发现")
+                .addNavigationItem(R.mipmap.ic_mine, R.mipmap.ic_mine,
+                        createFragmentWithRouter(RouterHub.APP_MINE_FRAGMENT), Tag_Fragment_Mine, "我的")
+                .init();
     }
 
     protected void initData() {
         AppStore.mine.observe(this, integer -> {
+            Timber.tag("Tobin").d("integer: %s", integer);
             dataBinding.navigationTabBar.getNavigationItem(Tag_Fragment_Mine).setRedpotViewVisible(true);
         });
-        dataBinding.navigationTabBar.getNavigationItem(Tag_Fragment_Mine).setRedpotViewVisible(true);
     }
 
     /**
